@@ -52,14 +52,14 @@ void Sensor::updateDirtLevel()
 //revealArea: reveal to the screen the area(= 4 directions) near the robot position.
 void Sensor::revealArea()
 {
-	Point neibhor;
+	Point neighbor;
 	char charToDraw;
 
 	for (int dir = 0; dir < 4; dir++)
 	{
-		neibhor = robotPosition.next((Direction)dir);
-		charToDraw = house->getValueFromPoint(neibhor);
-		neibhor.drawToScreenWhenDockingOn(house->getDockingPosition(), charToDraw);
+		neighbor = robotPosition.next((Direction)dir);
+		charToDraw = house->getValueFromPoint(neighbor);
+		neighbor.drawToScreenWhenDockingOn(house->getDockingPosition(), charToDraw);
 	}
 
 }

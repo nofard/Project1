@@ -31,7 +31,6 @@ void Simulator::init()
 void Simulator::resetSimulatorData()
 {
 	stepNumber = 0;
-	//currHouse.setHouse(originalHouse.getHouse());
 }
 
 //updateDirtLevel: Update dirtLevel at a specifiec point, and reduce overall dirt level in the house
@@ -136,7 +135,7 @@ bool Simulator::endGame() {
 	}
 	if (stepNumber >= (int)configuration::MaxSteps)
 	{
-		robotScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+		robotScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
 		cout << "You have passed " << (int)configuration::MaxSteps << " steps, dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel()

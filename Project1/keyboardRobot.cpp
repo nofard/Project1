@@ -84,7 +84,10 @@ Direction KeyboardRobot::step()
 void KeyboardRobot::reduceBatteryLevel()
 {
 	if (!((direction == Direction::STAY) && (!isOnDirt())))
-		batteryLevel -= int(configuration::BatteryConsumptionRate);
+		if (batteryLevel <= int(configuration::BatteryConsumptionRate))
+			batteryLevel = 0;
+		else
+			batteryLevel -= int(configuration::BatteryConsumptionRate);
 }
 
 //isOnDirt: return true if the robot is currently positioned on dirt.
