@@ -1,5 +1,6 @@
 #include "Score.h"
 
+//calculateScore: calculate the score respectively to the requested formula.
 int Score::calculateScore() {
 	int tempScore = 2000;
 
@@ -9,7 +10,4 @@ int Score::calculateScore() {
 	tempScore += (is_back_in_docking ? 50 : -200);
 
 	return (0 > tempScore ? 0 : tempScore);
-}
-void Score::setPosition(int newPosition) {
-	position_in_copmetition = newPosition;
 }

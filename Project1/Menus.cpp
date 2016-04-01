@@ -2,17 +2,19 @@
 #include <iostream>
 using namespace std;
 
-
+//printFirstMenu: prints to the screen the initial menu.
 void Menus::printFirstMenu() {
 	system("cls");
 	cout << "(1) Start game (8) Show instructions (9) Quit game" << endl;
 }
 
+//printMidMenu: prints to the screen the "middle" menu, when game is paused(esc pressed).
 void Menus::printMidMenu() {
 	//system("cls");
 	cout << "(1) Continue game (2) Restart game (3) Quit to main menu (9) Quit game" << endl;
 }
 
+//executeUserChoice: execute the initial menu option that was chosen by the user.
 void Menus::executeUserChoice(Simulator &sim) {
 	int choise;
 	cin >> choise;
@@ -34,6 +36,8 @@ void Menus::executeUserChoice(Simulator &sim) {
 		break;
 	}
 }
+
+//executeUserChoiceMidMenu: execute the middle menu option that was chosen by the user.
 void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 	int choice;
 	cin >> choice;
@@ -66,10 +70,11 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 
 }
 
+//showInstructions: prints the instructions of the simulation.
 void Menus::showInstructions(Simulator &sim) {
 	int choise;
 	system("cls");
-	cout << "Please use the following key \"waxds\" arrows to move the robot around the house"<<endl;
+	cout << "Please use the following key \"waxds\" arrows to move the robot around the house" << endl;
 	cout << "(0) To go back (9) To Quit game" << endl;
 
 	cin >> choise;
@@ -81,7 +86,6 @@ void Menus::showInstructions(Simulator &sim) {
 		executeUserChoice(sim);
 		break;
 	case 9:
-		//sim.endGame = true;
 		exit(0);
 		break;
 	default:

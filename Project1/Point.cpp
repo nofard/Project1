@@ -1,12 +1,14 @@
 #include "Point.h"
 
-void Point::draw(char ch) 
+//draw: draw a character at (x,y).
+void Point::draw(char ch)
 {
 	gotoxy(x, y);
 	cout << ch;
 	cout.flush();
 }
 
+//next: return the next point according to the recieved direction.
 Point Point::next(Direction direction)
 {
 	Point next = *this;
@@ -14,39 +16,30 @@ Point Point::next(Direction direction)
 	return next;
 }
 
+//move: increase/decrease x and y by one according to the recieved direction.
 void Point::move(Direction dir)
 {
 	switch (dir)
 	{
 	case Direction::UP:
 		--y;
-		//		if (y < 1) {
-		//			y = 24;
-		//		}
 		break;
 	case Direction::RIGHT:
 		++x;
-		//		if (x > 79) {
-		//			x = 1;
-		//		}
 		break;
 	case Direction::DOWN:
 		++y;
-		//		if (y > 24) {
-		//			y = 1;
-		//		}
 		break;
 	case Direction::LEFT:
 		--x;
-		//		if (x < 1) {
-		//			x = 79;
-		//		}
 		break;
 	case Direction::STAY:
 		break;
 	}
 }
 
+//drawToScreenWhenDockingOn: draw to the screen "this" point when docking station is shifted to the middle of the screen.
+//if the point is out of bounds of the screen, it will be reflected from the opposite side.
 void Point::drawToScreenWhenDockingOn(Point docking, char ch)
 {
 	int newX, newY;
@@ -60,8 +53,13 @@ void Point::drawToScreenWhenDockingOn(Point docking, char ch)
 
 	if (newX >= MAX_X)
 		newX = newX - MAX_X;
+	if (newX < 0)
+		newX = newX + MAX_X;
+
 	if (newY >= MAX_Y)
 		newY = newY - MAX_Y;
+	if (newY < 0)
+		newY = newY + MAX_Y;
 
 	gotoxy(newX, newY);
 	cout << ch;

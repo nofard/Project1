@@ -1,37 +1,41 @@
 #include "KeyboardRobot.h"
 
+//setSensor: Set sensor data member.
 void KeyboardRobot::setSensor(const Sensor& _sensor)
 {
 	sensor = &_sensor;
 }
 
+//setPosition: set robotPosition with a specifiec point.
 void KeyboardRobot::setPosition(Point p)
 {
 	robotPosition = p;
 }
-
+//setPosition: set robotPosition with a specifiec x and y coordinates.
 void KeyboardRobot::setPosition(int x, int y)
 {
 	robotPosition.setPoint(x, y);
 }
 
-
-
+//getPosition: return robotPosition.
 Point KeyboardRobot::getPosition()
 {
 	return robotPosition;
 }
+
+//move: set the new X and Y of the robot according to the current direction.
 void KeyboardRobot::move()
 {
 	robotPosition.move(direction);
-	//robotPosition.draw('@');
 }
 
+//setDirection: set direction data member.
 void KeyboardRobot::setDirection(Direction dir)
 {
 	direction = dir;
 }
 
+//getDirection: return direction according to the key. if the key isn't a direction one, function will return -1.
 int KeyboardRobot::getDirection(char key)
 {
 	for (int i = 0; i < NUM_OF_KEYS; i++)
@@ -42,6 +46,7 @@ int KeyboardRobot::getDirection(char key)
 	return -1;
 }
 
+//setArrowKeys: set arrowKeys array.
 void KeyboardRobot::setArrowKeys(const char* keys)
 {
 	arrowKeys[0] = keys[0];
@@ -51,6 +56,8 @@ void KeyboardRobot::setArrowKeys(const char* keys)
 	arrowKeys[4] = keys[4];
 }
 
+//step: get input from the user, set and return the new direction of the robot.
+//if there is a wall in the next step of the robot, robot will change to "stay" direction.
 Direction KeyboardRobot::step()
 {
 	char keyPressed = 0;
@@ -63,7 +70,6 @@ Direction KeyboardRobot::step()
 		if (keyPressed == 27)
 			wasEscPressed = true;
 		if ((dir = getDirection(keyPressed)) != -1)
-			//setDirection((Direction)dir);
 			direction = (Direction)dir;
 	}
 
@@ -74,12 +80,14 @@ Direction KeyboardRobot::step()
 	return (Direction)(direction);
 }
 
-void KeyboardRobot::reduceBatteryLevel() 
+//reduceBatteryLevel: reduce battery level according to BatteryConsumptionRate in the configuration file.
+void KeyboardRobot::reduceBatteryLevel()
 {
 	if (!((direction == Direction::STAY) && (!isOnDirt())))
 		batteryLevel -= int(configuration::BatteryConsumptionRate);
 }
 
+//isOnDirt: return true if the robot is currently positioned on dirt.
 bool KeyboardRobot::isOnDirt() {
 	SensorInformation currSensorInfo;
 	currSensorInfo = sensor->sense();
@@ -90,12 +98,18 @@ bool KeyboardRobot::isOnDirt() {
 		return false;
 
 }
+
+//getBatteryLevel: return battery level data member.
 int KeyboardRobot::getBatteryLevel() {
 	return batteryLevel;
 }
+
+//increaseBatteryLevel: increase battery level according to BatteryRachargeRate in the configuration file.
 void KeyboardRobot::increaseBatteryLevel() {
 	batteryLevel += (int)configuration::BatteryRachargeRate;
 }
+
+//setBatteryLevel: set batteryLevel.
 void KeyboardRobot::setBatteryLevel(int batteryNewLevel) {
 	batteryLevel = batteryNewLevel;
 }

@@ -14,21 +14,21 @@ void Simulator::init()
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
 
-	 //for all house printing, for debugging
+	//for all house printing, for debugging
 	/*for (int i = 0; i < 24; i++)
 	{
-		for (int j = 0; j < 80; j++)
-		{
-			//(j, i);
-			//cout << currHouse.getValueFromPoint(j, i);
-			//cout.flush();
-			Point p; p.setPoint(j, i);
-			p.drawToScreenWhenDockingOn(originalHouse.getDockingPosition(), currHouse.getValueFromPoint(j, i));
-		}
+	for (int j = 0; j < 80; j++)
+	{
+	//(j, i);
+	//cout << currHouse.getValueFromPoint(j, i);
+	//cout.flush();
+	Point p; p.setPoint(j, i);
+	p.drawToScreenWhenDockingOn(originalHouse.getDockingPosition(), currHouse.getValueFromPoint(j, i));
+	}
 	}*/
 }
 
-void Simulator::resetSimulatorData() 
+void Simulator::resetSimulatorData()
 {
 	stepNumber = 0;
 	//currHouse.setHouse(originalHouse.getHouse());
@@ -48,7 +48,7 @@ void Simulator::updateDirtLevel(Point p)
 //chargeRobot: Check if the robot is in the docking station and charge it respectively to configuration data.
 void Simulator::chargeRobot(Point p)
 {
-	
+
 	if (p.isSame(originalHouse.getDockingPosition())) {
 		if (robot.getBatteryLevel() < 380) {
 			robot.increaseBatteryLevel();
@@ -113,16 +113,16 @@ void Simulator::run()
 
 }
 
-//endGame: Return true if one of the "end simulator situations" appears.
+//endGame: Return true if one of the "end simulator situations" appears, and prints a suitable message to the screen.
 bool Simulator::endGame() {
 
 	Score robotScore;
-	if (currHouse.getOverallDirtLevel() == 0 && (robot.getPosition()).isSame(originalHouse.getDockingPosition())) 
+	if (currHouse.getOverallDirtLevel() == 0 && (robot.getPosition()).isSame(originalHouse.getDockingPosition()))
 	{
 		robotScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
-		cout << "Congratulations! You have cleared all dust in " << stepNumber <<" steps!!!"<< endl;
+		cout << "Congratulations! You have cleared all dust in " << stepNumber << " steps!!!" << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		return true;
 	}
@@ -130,11 +130,10 @@ bool Simulator::endGame() {
 	{
 		robotScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
-		//robotScore.setPosition(10);
-		cout << "The battery is low! Ending game." << endl;
+		cout << "Robot is ran out of battery power! Ending game." << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		return true;
-	} 
+	}
 	if (stepNumber >= (int)configuration::MaxSteps)
 	{
 		robotScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),

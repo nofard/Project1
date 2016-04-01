@@ -22,7 +22,6 @@ public:
 	
 	}
 	int calculateScore();
-	void setPosition(int);
 };
 
 #endif
