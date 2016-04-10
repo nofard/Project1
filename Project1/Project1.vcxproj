@@ -83,6 +83,7 @@
     <ClInclude Include="Direction.h" />
     <ClInclude Include="exampleHouse.h" />
     <ClInclude Include="House.h" />
+    <ClInclude Include="HouseFiles.h" />
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="KeyboardRobot.h" />
     <ClInclude Include="Menus.h" />
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="House.cpp" />
+    <ClCompile Include="HouseFiles.cpp" />
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menus.cpp" />

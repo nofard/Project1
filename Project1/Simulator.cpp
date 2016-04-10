@@ -1,10 +1,38 @@
 #include "Simulator.h"
 
+
 //init: initilize simulator data members;
 void Simulator::init()
 {
 	originalHouse.setHouse(house_example, 20, 79);
 	currHouse.setHouse(house_example, 20, 79);
+
+	Sensor* theRobotSensor = new Sensor();
+	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
+	robot.setSensor(*theRobotSensor);
+	sensor = theRobotSensor;
+
+	robot.setPosition(originalHouse.getDockingPosition());
+	robot.setArrowKeys("wdxas");
+
+	//for all house printing, for debugging
+	/*for (int i = 0; i < 24; i++)
+	{
+	for (int j = 0; j < 80; j++)
+	{
+	//(j, i);
+	//cout << currHouse.getValueFromPoint(j, i);
+	//cout.flush();
+	Point p; p.setPoint(j, i);
+	p.drawToScreenWhenDockingOn(originalHouse.getDockingPosition(), currHouse.getValueFromPoint(j, i));
+	}
+	}*/
+}
+
+void Simulator::init(char** house_array, int rows, int cols)
+{
+	originalHouse.setHouse(house_array, rows, cols);
+	currHouse.setHouse(house_array, rows, cols);
 
 	Sensor* theRobotSensor = new Sensor();
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());

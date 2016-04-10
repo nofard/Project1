@@ -19,6 +19,7 @@ class Simulator
 
 public:
 	void init();
+	void init(char** house_array, int rows, int cols);
 	void run();
 	void Simulator::updateDirtLevel(Point p);
 	void printSimulationData();

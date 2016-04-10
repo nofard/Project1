@@ -5,25 +5,49 @@ using namespace std;
 //printFirstMenu: prints to the screen the initial menu.
 void Menus::printFirstMenu() {
 	system("cls");
-	cout << "(1) Start game (8) Show instructions (9) Quit game" << endl;
+	cout << "(1) Start game (2) Start game from specific house (3) Continue from save game (8) Show instructions (9) Quit game" << endl;
+
+
 }
 
 //printMidMenu: prints to the screen the "middle" menu, when game is paused(esc pressed).
 void Menus::printMidMenu() {
 	//system("cls");
-	cout << "(1) Continue game (2) Restart game (3) Quit to main menu (9) Quit game" << endl;
+	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" << endl;
 }
 
 //executeUserChoice: execute the initial menu option that was chosen by the user.
 void Menus::executeUserChoice(Simulator &sim) {
-	int choise;
-	cin >> choise;
-	switch (choise)
+	int choice;
+	int rows = 0, cols = 0;
+	char ** temp_house;
+	cin >> choice;
+	switch (choice)
 	{
 	case 1:
 		system("cls");
-		sim.init();
+
+		temp_house = files.getHouseFromFile(files.getHouseNameByIndex(0), &rows, &cols);
+		sim.init(temp_house, rows, cols);
 		sim.run();
+		break;
+	case 2:
+		cout << "There are now houses from " << files.getMinHouseNumber() << "to " << files.getMaxHouseNumber() << " Please choose or enter 0 to go back" << endl;
+		cin >> choice;
+		if (choice != 0)
+		{
+			files.setFileType(0);
+			files.setHouseNumberChoice(choice);
+			
+		}
+		else {
+			printFirstMenu();
+			executeUserChoice(sim);
+		}
+		break;
+	case 3:
+
+
 		break;
 	case 8:
 		showInstructions(sim);
@@ -57,10 +81,16 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 		sim.run();
 		break;
 	case 3:
+		//files.saveGameToFile("", "");
+		break;
+	case 4:
+
+		break;
+	case 8:
 		system("cls");
 		sim.resetSimulatorData();
 		printFirstMenu();
-		executeUserChoice(sim); //?
+		executeUserChoice(sim); 
 	case 9:
 		exit(0);
 		break;

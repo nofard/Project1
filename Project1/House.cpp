@@ -6,7 +6,7 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 	int dockingCounter = 0;
 	overallDirtLevel = 0;
 
-	if(initRowsAndCols(_rows, _cols)) 
+	if (initRowsAndCols(_rows, _cols))
 	{
 		house = new char*[rows];
 		for (int i = 1; i < rows - 1; i++)
@@ -33,6 +33,8 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 			endGameForInvalidNumOfDocking();
 		}
 	}
+	else
+		exit(0);//need to be changed
 }
 
 //getHouse: return the array.
