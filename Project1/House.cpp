@@ -11,7 +11,7 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 		house = new char*[rows];
 		for (int i = 1; i < rows - 1; i++)
 		{
-			house[i] = new char[cols];
+			house[i] = new char[cols + 1];
 			for (int j = 1; j < cols - 1; j++)
 			{
 				house[i][j] = myHouse[i][j];
@@ -23,7 +23,7 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 				if (house[i][j] > '0' && house[i][j] <= '9')
 					overallDirtLevel += (int)(house[i][j] - '0');
 			}
-			house[i][cols] = '\0';
+			//house[i][cols] = '\0';
 		}
 		fillSurroundingWalls();
 
@@ -33,8 +33,10 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 			endGameForInvalidNumOfDocking();
 		}
 	}
-	else
-		exit(0);//need to be changed
+	else {
+		//exit(0);//need to be changed
+		
+	}
 }
 
 //getHouse: return the array.
@@ -134,4 +136,14 @@ void House::fillSurroundingWalls()
 		house[i][0] = 'W';
 		house[i][cols-1] = 'W';
 	}
+}
+
+void House::freeHouseMemory()
+{
+
+	for (int i = 0; i < rows; i++)
+	{
+		delete [] house[i];
+	}
+	delete[] house;
 }

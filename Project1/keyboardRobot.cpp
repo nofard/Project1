@@ -84,10 +84,12 @@ Direction KeyboardRobot::step()
 void KeyboardRobot::reduceBatteryLevel()
 {
 	if (!((direction == Direction::STAY) && (!isOnDirt())))
-		if (batteryLevel <= int(configuration::BatteryConsumptionRate))
+		//if (batteryLevel <= int(configuration::BatteryConsumptionRate))
+		if (batteryLevel <= config.BatteryConsumptionRate)
 			batteryLevel = 0;
 		else
-			batteryLevel -= int(configuration::BatteryConsumptionRate);
+			//batteryLevel -= int(configuration::BatteryConsumptionRate);
+			batteryLevel -= config.BatteryConsumptionRate;
 }
 
 //isOnDirt: return true if the robot is currently positioned on dirt.
@@ -109,7 +111,8 @@ int KeyboardRobot::getBatteryLevel() {
 
 //increaseBatteryLevel: increase battery level according to BatteryRachargeRate in the configuration file.
 void KeyboardRobot::increaseBatteryLevel() {
-	batteryLevel += (int)configuration::BatteryRachargeRate;
+	//batteryLevel += (int)configuration::BatteryRachargeRate;
+	batteryLevel += config.BatteryRachargeRate;
 }
 
 //setBatteryLevel: set batteryLevel.
@@ -117,4 +120,8 @@ void KeyboardRobot::setBatteryLevel(int batteryNewLevel) {
 	batteryLevel = batteryNewLevel;
 }
 
+void KeyboardRobot::freeMemory()
+{
+	delete sensor;
+}
 

@@ -20,6 +20,7 @@ public:
 	void executeUserChoice(Simulator &); 
 	void executeUserChoiceMidMenu(Simulator &);
 	void showInstructions(Simulator &);
+	void runGameSimulation(Simulator &, int houseNumber);
 };
 
 #endif

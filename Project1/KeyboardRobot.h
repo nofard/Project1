@@ -15,7 +15,8 @@ class KeyboardRobot
 	Direction direction = Direction::STAY;
 	char arrowKeys[NUM_OF_KEYS];
 	const Sensor* sensor;
-	int batteryLevel = (int)configuration::BatteryCapacity;
+	//int batteryLevel = (int)configuration::BatteryCapacity;
+	int batteryLevel = config.BatteryCapacity;
 
 public:
 	bool wasEscPressed = false;
@@ -33,6 +34,7 @@ public:
 	int getBatteryLevel();
 	void increaseBatteryLevel();
 	void setBatteryLevel(int);
+	void freeMemory();
 };
 
 #endif

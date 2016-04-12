@@ -5,7 +5,7 @@ using namespace std;
 //printFirstMenu: prints to the screen the initial menu.
 void Menus::printFirstMenu() {
 	system("cls");
-	cout << "(1) Start game (2) Start game from specific house (3) Continue from save game (8) Show instructions (9) Quit game" << endl;
+	cout << "(1) Start game (2) Start game from specific house (3) Continue from saved game (8) Show instructions (9) Quit game" << endl;
 
 
 }
@@ -19,17 +19,13 @@ void Menus::printMidMenu() {
 //executeUserChoice: execute the initial menu option that was chosen by the user.
 void Menus::executeUserChoice(Simulator &sim) {
 	int choice;
-	int rows = 0, cols = 0;
-	char ** temp_house;
+	
 	cin >> choice;
 	switch (choice)
 	{
 	case 1:
 		system("cls");
-
-		temp_house = files.getHouseFromFile(files.getHouseNameByIndex(0), &rows, &cols);
-		sim.init(temp_house, rows, cols);
-		sim.run();
+		runGameSimulation(sim, 0);
 		break;
 	case 2:
 		cout << "There are now houses from " << files.getMinHouseNumber() << "to " << files.getMaxHouseNumber() << " Please choose or enter 0 to go back" << endl;
@@ -38,7 +34,8 @@ void Menus::executeUserChoice(Simulator &sim) {
 		{
 			files.setFileType(0);
 			files.setHouseNumberChoice(choice);
-			
+			system("cls");
+			runGameSimulation(sim, choice);
 		}
 		else {
 			printFirstMenu();
@@ -121,4 +118,26 @@ void Menus::showInstructions(Simulator &sim) {
 	default:
 		break;
 	}
+}
+
+void Menus::runGameSimulation(Simulator &sim, int houseNumber)
+{
+	int rows = 0, cols = 0;
+	char ** temp_house;
+	for (int i = 0; i < files.getIntialFilesListLength() && sim.endedSuccessfully; i++) {
+		string houseName = files.getHouseNameByIndex(i);
+		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
+		{
+			temp_house = files.getHouseFromFile(files.getHouseNameByIndex(i), &rows, &cols);
+			sim.init(temp_house, rows, cols);
+			sim.run();
+
+		}
+	}
+	if (!sim.endedSuccessfully) {
+		printFirstMenu();
+		executeUserChoice(sim);
+	}
+	
+
 }

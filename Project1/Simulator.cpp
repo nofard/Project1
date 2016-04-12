@@ -4,8 +4,8 @@
 //init: initilize simulator data members;
 void Simulator::init()
 {
-	originalHouse.setHouse(house_example, 20, 79);
-	currHouse.setHouse(house_example, 20, 79);
+	//originalHouse.setHouse(house_example, 20, 79);
+	//currHouse.setHouse(house_example, 20, 79);
 
 	Sensor* theRobotSensor = new Sensor();
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
@@ -58,7 +58,9 @@ void Simulator::init(char** house_array, int rows, int cols)
 
 void Simulator::resetSimulatorData()
 {
+	system("cls");
 	stepNumber = 0;
+	freeSimulationMemory();
 }
 
 //updateDirtLevel: Update dirtLevel at a specifiec point, and reduce overall dirt level in the house
@@ -90,13 +92,15 @@ void Simulator::chargeRobot(Point p)
 void Simulator::printSimulationData()
 {
 	gotoxy(0, 22);
-	cout << "Round Number: " << stepNumber;
-	gotoxy(20, 22);
-	cout << "Total dust: " << currHouse.getOverallDirtLevel() << "  ";
-	gotoxy(40, 22);
-	cout << "Dust Collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel();
-	gotoxy(63, 22);
-	cout << "Battery: " << robot.getBatteryLevel() << "  ";
+	cout << "Round Number:" << stepNumber;
+	gotoxy(18, 22);
+	cout << "Total dust:" << currHouse.getOverallDirtLevel() << "  ";
+	gotoxy(34, 22);
+	cout << "Dust Collected:" << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel();
+	gotoxy(53, 22);
+	cout << "Battery:" << robot.getBatteryLevel() << "  ";
+	gotoxy(66, 22);
+	cout << "Max Steps:" << config.MaxSteps << "  ";
 	cout << endl;
 }
 
@@ -135,14 +139,15 @@ void Simulator::run()
 
 		} while (!endGame());
 
-
 	}
+	resetSimulatorData();
 
 }
 
 //endGame: Return true if one of the "end simulator situations" appears, and prints a suitable message to the screen.
 bool Simulator::endGame() {
 
+	char hold_the_screen;
 	Score robotScore;
 	if (currHouse.getOverallDirtLevel() == 0 && (robot.getPosition()).isSame(originalHouse.getDockingPosition()))
 	{
@@ -151,6 +156,8 @@ bool Simulator::endGame() {
 		system("cls");
 		cout << "Congratulations! You have cleared all dust in " << stepNumber << " steps!!!" << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
+		endedSuccessfully = true;
+		cin >> hold_the_screen;
 		return true;
 	}
 	if (robot.getBatteryLevel() == 0 && !(robot.getPosition()).isSame(originalHouse.getDockingPosition()))
@@ -159,17 +166,29 @@ bool Simulator::endGame() {
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		cout << "Robot is ran out of battery power! Ending game." << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
+		cin >> hold_the_screen;
+		endedSuccessfully = false;
 		return true;
 	}
-	if (stepNumber >= (int)configuration::MaxSteps)
+	if (stepNumber >= config.MaxSteps)
 	{
 		robotScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
-		cout << "You have passed " << (int)configuration::MaxSteps << " steps, dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel()
+		cout << "You have passed " << config.MaxSteps << " steps, dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel()
 			<< endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
+		cin >> hold_the_screen;
+		endedSuccessfully = false;
 		return true;
 	}
 	return false;
+}
+
+void Simulator::freeSimulationMemory()
+{
+	originalHouse.freeHouseMemory();
+	currHouse.freeHouseMemory();
+	robot.freeMemory();
+
 }

@@ -22,16 +22,14 @@ void HouseFiles::initHouseFiles()
 		*/
 }
 
-int HouseFiles::getMinHouseNumber() {
-	string firstHouseName = (initialHousefilesNames.begin())->data();
-	return ((firstHouseName[0] - '0') * 100 + (firstHouseName[1] - '0') * 10 + (firstHouseName[2] - '0'));
+int HouseFiles::getMinHouseNumber()
+{
+	return convertHouseNameToNumber((initialHousefilesNames.begin())->data());
 }
 
-int HouseFiles::getMaxHouseNumber() {
-	string firstHouseName = (initialHousefilesNames.back());
-
-
-	return ((firstHouseName[0] - '0') * 100 + (firstHouseName[1] - '0') * 10 + (firstHouseName[2] - '0')); 1;
+int HouseFiles::getMaxHouseNumber()
+{
+	return convertHouseNameToNumber(initialHousefilesNames.back());
 }
 
 void HouseFiles::setFileType(int _fileType)
@@ -64,6 +62,7 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols)
 
 	in.getline(buff, buff_size - 1);
 	maxSteps = atoi(buff);
+	config.MaxSteps = maxSteps;
 
 	in.getline(buff, buff_size - 1);
 	*rows = atoi(buff);
@@ -80,8 +79,18 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols)
 		{
 			house_array[i][j] = buff[j];
 		}
+		i++;
 	}
 
 	in.close();
 	return house_array;
+}
+int HouseFiles::getIntialFilesListLength() 
+{
+	return initialHousefilesNames.size();
+}
+
+int HouseFiles::convertHouseNameToNumber(string houseName) 
+{
+	return ((houseName[0] - '0') * 100 + (houseName[1] - '0') * 10 + (houseName[2] - '0'));
 }

@@ -25,6 +25,8 @@ public:
 	void setHouseNumberChoice(int);
 	string getHouseNameByIndex(int index);
 	char** getHouseFromFile(string house_name, int *rows, int *cols);
+	int getIntialFilesListLength();
+	int convertHouseNameToNumber(string);
 };
 
 #endif

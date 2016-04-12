@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Direction.h"
+#include "configuration.h"
 
 void gotoxy(int x, int y);
 void hideCursor();
