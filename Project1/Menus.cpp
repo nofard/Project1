@@ -135,6 +135,7 @@ void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 		}
 	}
 	if (!sim.endedSuccessfully) {
+		sim.endedSuccessfully = true;
 		printFirstMenu();
 		executeUserChoice(sim);
 	}
