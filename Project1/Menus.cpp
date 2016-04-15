@@ -62,6 +62,7 @@ void Menus::executeUserChoice(Simulator &sim) {
 //"(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" 
 void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 	int choice;
+	string fileName;
 	cin >> choice;
 	switch (choice)
 	{
@@ -81,7 +82,10 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 	//	sim.run();
 		break;
 	case 3:
-		//files.saveGameToFile("", "");
+		cout << "Please enter file name" << endl;
+		cin >> fileName;
+		
+		files.saveGameToFile(fileName, sim.getMoveList(), sim.getStepsNum());
 		break;
 	case 4:
 
@@ -126,12 +130,15 @@ void Menus::showInstructions(Simulator &sim) {
 void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 {
 	int rows = 0, cols = 0;
+	string currHouseName;
 	char ** temp_house;
 	for (int i = 0; i < files.getIntialFilesListLength() && sim.endedSuccessfully; i++) {
 		string houseName = files.getHouseNameByIndex(i);
 		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
 		{
-			temp_house = files.getHouseFromFile(files.getHouseNameByIndex(i), &rows, &cols);
+			currHouseName = files.getHouseNameByIndex(i);
+			files.setCurrHouseName(currHouseName);
+			temp_house = files.getHouseFromFile(currHouseName, &rows, &cols);
 			sim.init(temp_house, rows, cols);
 			sim.run();
 

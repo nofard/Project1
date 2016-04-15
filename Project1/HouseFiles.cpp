@@ -94,3 +94,38 @@ int HouseFiles::convertHouseNameToNumber(string houseName)
 {
 	return ((houseName[0] - '0') * 100 + (houseName[1] - '0') * 10 + (houseName[2] - '0'));
 }
+void HouseFiles::setCurrHouseName(string houseName) {
+	currHouseName = houseName;
+}
+
+void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>moves, int stepsNum) 
+{
+	string tempName;
+	int num;
+	ofstream outputFile; 
+
+	outputFile.open(this->currHouseName.substr(0,2) + "-" + fileName + ".house_saved", ios::_Noreplace);
+
+	while (!outputFile) {
+		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;
+		cin >> num;
+		if (num == 1) {
+			cout << "Please enter another file name:" << endl;
+			cin >> tempName;
+			outputFile.open(currHouseName + "-" + tempName + ".house_saved", ios::_Noreplace);
+		}
+		else {
+			outputFile.open(currHouseName + "-" + fileName + ".house_saved");
+		}
+	}
+	
+
+	outputFile << stepsNum << endl;
+	list<StepAndDirection>::iterator it;
+	for (it = moves.begin(); it != moves.end(); ++it)
+	{
+		outputFile << (*it).step << " : " << (*it).dir << endl;
+	}
+	
+	outputFile.close();
+}

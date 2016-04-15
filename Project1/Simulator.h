@@ -8,6 +8,8 @@
 #include "Menus.h"
 #include "Score.h"
 
+
+
 class Simulator 
 {
 	House originalHouse;
@@ -15,6 +17,7 @@ class Simulator
 	KeyboardRobot robot;
 	Sensor* sensor;
 	int stepNumber = 0;
+	list<StepAndDirection> moves;
 
 public:
 	bool endedSuccessfully = true;
@@ -30,6 +33,10 @@ public:
 	void restartSimulation();
 	void setStepNumber(int);
 	void setCurrentHouseToOriginal();
+	void addMoveToList(Direction currDirection);
+	void printList();
+	list<StepAndDirection> getMoveList();
+	int getStepsNum();
 };
 
 #endif

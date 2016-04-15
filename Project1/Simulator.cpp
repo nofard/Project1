@@ -99,12 +99,21 @@ void Simulator::run()
 		char gameChar = 0;
 		Menus menu;
 		int defDir = -1;
+		Direction currDirection;
 		do
 		{
-			if ((robot.step() != Direction::STAY && robot.step() != (Direction)(defDir)) ||
-				(robot.isOnDirt() && robot.step() == Direction::STAY))
+			currDirection = robot.step();
+		//	if ((currDirection != Direction::STAY && robot.step() != (Direction)(defDir)) ||
+		//(robot.isOnDirt() && robot.step() == Direction::STAY))
+			if (currDirection != Direction::STAY || (robot.isOnDirt() && currDirection == Direction::STAY))
 			{
 				stepNumber++;
+				addMoveToList(currDirection);
+				
+			}
+			else if (currDirection == Direction::STAY) 
+			{
+				addMoveToList(currDirection);
 			}
 			if (robot.wasEscPressed)
 			{
@@ -144,6 +153,10 @@ bool Simulator::endGame() {
 		cout << "Congratulations! You have cleared all dust in " << stepNumber << " steps!!!" << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		endedSuccessfully = true;
+
+		printList();
+
+
 		cin >> hold_the_screen;
 		return true;
 	}
@@ -205,4 +218,36 @@ void Simulator::setCurrentHouseToOriginal()
 {
 	currHouse.copyHouseData(originalHouse);
 	currHouse.setOverallDirtLevel(originalHouse.getOverallDirtLevel());
+}
+void Simulator::addMoveToList(Direction currDirection)
+{
+	StepAndDirection currStepAndDir = { stepNumber, (int)currDirection };
+	if (!moves.empty()) 
+	{
+		if ((Direction)moves.back().dir != currDirection)
+		{
+			moves.push_back(currStepAndDir);
+		}
+	}
+	else 
+	{
+		moves.push_back(currStepAndDir);
+	}
+}
+list<StepAndDirection> Simulator::getMoveList() 
+{
+	return moves;
+}
+
+int Simulator::getStepsNum() {
+	return stepNumber;
+}
+void Simulator::printList()
+{
+	list<StepAndDirection>::iterator it;
+	for (it = moves.begin(); it != moves.end(); ++it)
+	{
+		cout << (*it).dir << " : " << (*it).step << endl;
+	}
+
 }
