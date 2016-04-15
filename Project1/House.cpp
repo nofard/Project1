@@ -91,6 +91,11 @@ int House::getOverallDirtLevel()
 	return overallDirtLevel;
 }
 
+void House::setOverallDirtLevel(int _overallDirtLevel)
+{
+	overallDirtLevel = _overallDirtLevel;
+}
+
 //endGameForInvalidNumOfDocking: Print a message for invalid number of docking stations.
 void House::endGameForInvalidNumOfDocking()
 {
@@ -146,4 +151,21 @@ void House::freeHouseMemory()
 		delete [] house[i];
 	}
 	delete[] house;
+}
+
+void House::copyHouseData(House houseToCopy)
+{
+	rows = houseToCopy.rows;
+	cols = houseToCopy.cols;
+	dockingPosition = houseToCopy.dockingPosition;
+	overallDirtLevel = houseToCopy.overallDirtLevel;
+	validHouseFlag = houseToCopy.validHouseFlag;
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			house[i][j] = houseToCopy.house[i][j];
+		}
+	}
 }

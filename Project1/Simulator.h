@@ -27,6 +27,9 @@ public:
 	void chargeRobot(Point p);
 	bool endGame();
 	void freeSimulationMemory();
+	void restartSimulation();
+	void setStepNumber(int);
+	void setCurrentHouseToOriginal();
 };
 
 #endif

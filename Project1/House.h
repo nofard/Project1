@@ -25,12 +25,13 @@ public:
 	Point getDockingPosition();
 	void reduceOverallDirtLevel();
 	int getOverallDirtLevel();
+	void setOverallDirtLevel(int);
 	void endGameForInvalidNumOfDocking();
 	bool initRowsAndCols(int _rows, int _cols);
 	void fillSurroundingWalls();
 	bool isValidHouse(){return validHouseFlag;}
 	void freeHouseMemory();
+	void copyHouseData(House houseToCopy);
 };
 
 #endif
-

@@ -59,23 +59,26 @@ void Menus::executeUserChoice(Simulator &sim) {
 }
 
 //executeUserChoiceMidMenu: execute the middle menu option that was chosen by the user.
+//"(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" 
 void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 	int choice;
 	cin >> choice;
 	switch (choice)
 	{
-	case 1:
-		gotoxy(0, 23);
-		cout << std::string(80, ' ');
+	case 1: 
 		gotoxy(0, 24);
-		cout << std::string(1, ' ');
-		sim.run();
+		cout << string(80, ' ');
+		gotoxy(0, 25);
+		cout << string(80, ' ');
+		gotoxy(0, 26);
+		cout << string(1, ' ');
+	//	sim.run();
 		break;
 	case 2:
 		system("cls");
-		sim.init();
-		sim.resetSimulatorData();
-		sim.run();
+		//sim.init();
+		sim.restartSimulation();
+	//	sim.run();
 		break;
 	case 3:
 		//files.saveGameToFile("", "");

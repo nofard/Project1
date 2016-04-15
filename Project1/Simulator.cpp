@@ -178,3 +178,31 @@ void Simulator::freeSimulationMemory()
 	currHouse.freeHouseMemory();
 	robot.resetData();
 }
+
+void Simulator::restartSimulation()
+{
+	setCurrentHouseToOriginal();
+
+	robot.setPosition(originalHouse.getDockingPosition());
+	robot.setDirection(Direction::STAY);
+	robot.setBatteryLevel(config.BatteryCapacity);
+
+	delete sensor;
+	Sensor* theRobotSensor = new Sensor();
+	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
+	robot.setSensor(*theRobotSensor);
+	sensor = theRobotSensor;
+
+	setStepNumber(0);
+}
+
+void Simulator::setStepNumber(int stepNum)
+{
+	stepNumber = stepNum;
+}
+
+void Simulator::setCurrentHouseToOriginal()
+{
+	currHouse.copyHouseData(originalHouse);
+	currHouse.setOverallDirtLevel(originalHouse.getOverallDirtLevel());
+}

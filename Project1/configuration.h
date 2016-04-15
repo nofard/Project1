@@ -1,14 +1,21 @@
 #ifndef _CONFIGURATION_H_
 #define _CONFIGURATION_H_
+/*
+class Configuration
+{
+	int MaxSteps = 1200;
+	int MaxStepsAfterWinner = 200;
+	int BatteryCapacity = 400;
+	int BatteryConsumptionRate = 1;
+	int BatteryRachargeRate = 20;
+public:
+	
+	void setMaxSteps(int _maxSteps) { MaxSteps = _maxSteps; }
+	int getMaxSteps() { return MaxSteps; }
+	void setBatteryCapacity(int _batteryCapacity) { BatteryCapacity = _batteryCapacity; }
+};
+*/
 
-//enum class configuration
-//{
-//	MaxSteps,
-//	MaxStepsAfterWinner = 200,
-//	BatteryCapacity = 400,
-//	BatteryConsumptionRate = 1,
-//	BatteryRachargeRate = 20
-//};
 
 
 static struct configuration
