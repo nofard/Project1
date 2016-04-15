@@ -44,10 +44,9 @@ void HouseFiles::setHouseNumberChoice(int _houseNumChoice)
 string HouseFiles::getHouseNameByIndex(int index)
 {
 	list<string>::iterator it = initialHousefilesNames.begin();
-	/*for (int i = 0; i < index; i++, it++);
+	for (int i = 0; i < index; i++, it++);
 	{
-	}*/
-	it = --initialHousefilesNames.end();
+	}
 	return it->data();
 }
 

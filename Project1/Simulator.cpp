@@ -41,19 +41,6 @@ void Simulator::init(char** house_array, int rows, int cols)
 
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
-
-	//for all house printing, for debugging
-	/*for (int i = 0; i < 24; i++)
-	{
-	for (int j = 0; j < 80; j++)
-	{
-	//(j, i);
-	//cout << currHouse.getValueFromPoint(j, i);
-	//cout.flush();
-	Point p; p.setPoint(j, i);
-	p.drawToScreenWhenDockingOn(originalHouse.getDockingPosition(), currHouse.getValueFromPoint(j, i));
-	}
-	}*/
 }
 
 void Simulator::resetSimulatorData()
@@ -189,6 +176,5 @@ void Simulator::freeSimulationMemory()
 {
 	originalHouse.freeHouseMemory();
 	currHouse.freeHouseMemory();
-	robot.freeMemory();
-
+	robot.resetData();
 }

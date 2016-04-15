@@ -34,7 +34,7 @@ public:
 	int getBatteryLevel();
 	void increaseBatteryLevel();
 	void setBatteryLevel(int);
-	void freeMemory();
+	void resetData();
 };
 
 #endif

@@ -120,8 +120,11 @@ void KeyboardRobot::setBatteryLevel(int batteryNewLevel) {
 	batteryLevel = batteryNewLevel;
 }
 
-void KeyboardRobot::freeMemory()
+void KeyboardRobot::resetData()
 {
+	direction = Direction::STAY;
+	batteryLevel = config.BatteryCapacity;
 	delete sensor;
 }
+
 
