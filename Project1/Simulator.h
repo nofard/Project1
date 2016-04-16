@@ -8,6 +8,7 @@
 #include "Menus.h"
 #include "Score.h"
 
+
 class Menus;
 
 class Simulator 
@@ -40,6 +41,8 @@ public:
 	int getStepsNum();
 	void setMenu();
 	Menus* getMenu();
+	void runSavedGame(ifstream & savedFile);
+	Direction getDirectionFromSavedFile(ifstream &, int *fileStepNumer);
 };
 
 #endif

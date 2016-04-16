@@ -34,7 +34,7 @@ void Menus::executeUserChoice(Simulator &sim) {
 		cin >> choice;
 		if (choice != 0)
 		{
-			files.setFileType(0);
+			files.setFileType(NEW_HOUSE);
 			files.setHouseNumberChoice(choice);
 			system("cls");
 			runGameSimulation(sim, choice);
@@ -45,7 +45,19 @@ void Menus::executeUserChoice(Simulator &sim) {
 		}
 		break;
 	case 3:
-
+		cout << "There are saved houses from " << files.getMinHouseNumber() << "to " << files.getMaxHouseNumber() << " Please choose or enter 0 to go back" << endl;
+		cin >> choice;
+		if (choice != 0)
+		{
+			files.setFileType(SAVED_HOUSE);
+			files.setHouseNumberChoice(choice);
+			system("cls");
+			runSavedGameSimulation(sim, choice);
+		}
+		else {
+			printFirstMenu();
+			executeUserChoice(sim);
+		}
 
 		break;
 	case 8:
@@ -168,7 +180,7 @@ void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 	char ** temp_house;
 	for (int i = 0; i < files.getIntialFilesListLength() && sim.endedSuccessfully; i++) 
 	{
-		string houseName = files.getHouseNameByIndex(i);
+		string houseName = files.getHouseNameByIndex(*(files.getInitialHouseFilesList()), i);
 		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
 		{
 			files.setCurrHouseName(houseName);
@@ -187,6 +199,25 @@ void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 		printFirstMenu();
 		executeUserChoice(sim);
 	}
-	
+}
 
+void Menus::runSavedGameSimulation(Simulator &sim, int houseNumber)
+{
+	int rows = 0, cols = 0;
+	char ** temp_house;
+	boolean endSave = false;
+	for (int i = 0; i < files.getIntialFilesListLength() && !endSave; i++)
+	{
+		string houseName = files.getHouseNameByIndex(*(files.getInitialHouseFilesList()), i);
+		if (files.convertHouseNameToNumber(houseName) >= houseNumber)
+		{
+			ifstream savedFile(houseName);
+			files.setCurrHouseName(houseName);
+			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
+			sim.init(temp_house, rows, cols);
+			sim.runSavedGame(savedFile);
+			endSave = true;
+		}
+
+	}
 }

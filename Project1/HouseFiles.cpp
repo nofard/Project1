@@ -4,23 +4,29 @@ const int buff_size = 1024;
 
 void HouseFiles::initHouseFiles()
 {
+	initList(initialHousefilesNames, "dir /b /O:N |findstr \"[0-9][0-9][0-9].house$\" > houseFilesNames.txt");
+	initList(savedHousefilesNames, "dir /b /O:N |findstr \".house_saved\" > houseFilesNames.txt");
+	initList(solutionHousefilesNames, "dir /b /O:N |findstr \"[0-9][0-9][0-9].house_solution\" > houseFilesNames.txt");
+
+}
+
+void HouseFiles::initList(list<string>&lst, char* regex)
+{
 	char buff[buff_size];
-	system("dir /b /O:N |findstr \"[0-9][0-9][0-9].House\" > houseFilesNames.txt");
+	system(regex);
 	ifstream houseFilesNames("houseFilesNames.txt");
 
 	while (!houseFilesNames.eof()) {
 		houseFilesNames.getline(buff, buff_size - 1);
 		if (strcmp(buff, ""))
-			initialHousefilesNames.push_back(buff);
+			lst.push_back(buff);
 	}
 
 	houseFilesNames.close();
-	/*
-	list<string>::iterator it;
-	for (it = initialHousefilesNames.begin(); it != initialHousefilesNames.end(); ++it)
-		cout << (*it).data() << endl;
-		*/
 }
+
+
+
 
 int HouseFiles::getMinHouseNumber()
 {
@@ -41,9 +47,9 @@ void HouseFiles::setHouseNumberChoice(int _houseNumChoice)
 	houseNumberChoice = _houseNumChoice;
 }
 
-string HouseFiles::getHouseNameByIndex(int index)
+string HouseFiles::getHouseNameByIndex(list<string>&lst, int index)
 {
-	list<string>::iterator it = initialHousefilesNames.begin();
+	list<string>::iterator it = lst.begin();
 	for (int i = 0; i < index; i++, it++);
 	{
 	}
@@ -90,6 +96,16 @@ int HouseFiles::getIntialFilesListLength()
 	return initialHousefilesNames.size();
 }
 
+list<string>* HouseFiles::getInitialHouseFilesList()
+{
+	return &initialHousefilesNames;
+}
+
+list<string>* HouseFiles::getSavedHouseFilesList()
+{
+	return &savedHousefilesNames;
+}
+
 int HouseFiles::convertHouseNameToNumber(string houseName) 
 {
 	return ((houseName[0] - '0') * 100 + (houseName[1] - '0') * 10 + (houseName[2] - '0'));
@@ -98,13 +114,13 @@ void HouseFiles::setCurrHouseName(string houseName) {
 	currHouseName = houseName;
 }
 
-void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>&moves, int stepsNum) 
+void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirection>&moves, int stepsNum)
 {
 	string tempName;
 	int num;
 	ofstream outputFile; 
 
-	outputFile.open(this->currHouseName.substr(0,3) + "-" + fileName + ".house_saved", ios::_Noreplace);
+	outputFile.open(this->currHouseName.substr(0,3) + "-" + userSelectionPartName + ".house_saved", ios::_Noreplace);
 
 	while (!outputFile) {
 		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;
@@ -115,7 +131,7 @@ void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>&moves, i
 			outputFile.open(currHouseName + "-" + tempName + ".house_saved", ios::_Noreplace);
 		}
 		else {
-			outputFile.open(currHouseName + "-" + fileName + ".house_saved");
+			outputFile.open(currHouseName + "-" + userSelectionPartName + ".house_saved");
 		}
 	}
 	copyListToFile(outputFile, moves, stepsNum);
@@ -153,6 +169,6 @@ void HouseFiles::copyListToFile(ostream& outputFile, list<StepAndDirection>&move
 	list<StepAndDirection>::iterator it;
 	for (it = moves.begin(); it != moves.end(); ++it)
 	{
-		outputFile << (*it).step << " : " << (*it).dir << endl;
+		outputFile << (*it).step << ":" << (*it).dir << endl;
 	}
 }

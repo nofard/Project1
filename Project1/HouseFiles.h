@@ -8,6 +8,10 @@
 
 using namespace std;
 
+#define NEW_HOUSE 0
+#define SAVED_HOUSE 1
+#define SOLUTION_HOUSE 2
+
 class HouseFiles{
 	list<string> initialHousefilesNames;
 	list<string> savedHousefilesNames;
@@ -24,13 +28,17 @@ public:
 	void saveGameToFile(string fileName, list<StepAndDirection>&moves, int stepsNum);
 	void setFileType(int);
 	void setHouseNumberChoice(int);
-	string getHouseNameByIndex(int index);
+	string getHouseNameByIndex(list<string>&lst, int index);
 	char** getHouseFromFile(string house_name, int *rows, int *cols);
 	int getIntialFilesListLength();
 	int convertHouseNameToNumber(string);
 	void setCurrHouseName(string);
 	void saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum);
 	void copyListToFile(ostream& outputFile, list<StepAndDirection>&moves, int stepsNum);
+	void initList(list<string>&lst, char* regex);
+	list<string>* getInitialHouseFilesList();
+	list<string>* getSavedHouseFilesList();
+	
 };
 
 #endif
