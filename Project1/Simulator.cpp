@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Simulator.h"
 
 
@@ -96,8 +97,6 @@ void Simulator::run()
 {
 	if (originalHouse.isValidHouse())
 	{
-		char gameChar = 0;
-	//	Menus menu;
 		int defDir = -1;
 		Direction currDirection;
 		do
@@ -136,7 +135,64 @@ void Simulator::run()
 		} while (!endGame());
 
 	}
-	
+}
+
+void Simulator::runSavedGame(ifstream & savedFile)
+{
+		int defDir = -1;
+		Direction currDirection;
+		int fileStepNumer;
+		const int buff_size = 1024;
+		char buff[buff_size];
+
+		savedFile.getline(buff, buff_size - 1);
+		int totalNumSteps = atoi(buff);
+
+		for (int i = 0; i < totalNumSteps; i++) 
+		{
+			currDirection = getDirectionFromSavedFile(savedFile, &fileStepNumer);
+			while (stepNumber < fileStepNumer) {
+
+				if (currDirection != Direction::STAY || (robot.isOnDirt() && currDirection == Direction::STAY))
+				{
+					stepNumber++;
+					addMoveToList(currDirection);
+
+				}
+				else if (currDirection == Direction::STAY)
+				{
+					addMoveToList(currDirection);
+				}
+
+				robot.move();
+				robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), '@');
+				robot.reduceBatteryLevel();
+				chargeRobot(robot.getPosition());
+				updateDirtLevel(robot.getPosition());
+				sensor->updateSensorInfo(robot.getPosition());
+				sensor->revealArea();
+				printSimulationData();
+
+				Sleep(10);
+			}
+
+		}
+
+
+}
+
+Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepNum)
+{
+	const int buff_size = 1024;
+	char buff[buff_size];
+	char * token;
+
+	savedFile.getline(buff, buff_size - 1);
+	token = strtok(buff, ":");
+	*stepNum = atoi(token);
+	token = strtok(NULL, " ");
+
+	return (Direction)atoi(token);
 
 }
 

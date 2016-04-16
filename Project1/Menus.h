@@ -22,7 +22,8 @@ public:
 	void executeUserChoiceMidMenu(Simulator &);
 	void showInstructions(Simulator &);
 	void runGameSimulation(Simulator &, int houseNumber);
-	HouseFiles getHouseFiles();
+	void runSavedGameSimulation(Simulator &sim, int houseNumber);
+
 };
 
 #endif
