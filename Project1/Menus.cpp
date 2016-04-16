@@ -86,6 +86,15 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 		cin >> fileName;
 		
 		files.saveGameToFile(fileName, sim.getMoveList(), sim.getStepsNum());
+		
+		for (int i = 24; i <= 31; i++) {
+			gotoxy(0, i);
+			cout << string(80, ' ');
+		}
+		
+		gotoxy(0, 24);
+		printMidMenu();
+		executeUserChoiceMidMenu(sim);
 		break;
 	case 4:
 
@@ -136,9 +145,9 @@ void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 		string houseName = files.getHouseNameByIndex(i);
 		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
 		{
-			currHouseName = files.getHouseNameByIndex(i);
-			files.setCurrHouseName(currHouseName);
-			temp_house = files.getHouseFromFile(currHouseName, &rows, &cols);
+			//currHouseName = houseName;
+			files.setCurrHouseName(houseName);
+			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
 			sim.init(temp_house, rows, cols);
 			sim.run();
 

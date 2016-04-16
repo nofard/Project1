@@ -18,6 +18,7 @@ bld/
 
 # Roslyn cache directories
 *.ide/
+Project1/Project1.vcxproj
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
