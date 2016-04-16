@@ -21,7 +21,7 @@ public:
 	void initHouseFiles();
 	int getMinHouseNumber();
 	int getMaxHouseNumber();
-	void saveGameToFile(string fileName, list<StepAndDirection>moves, int stepsNum);
+	void saveGameToFile(string fileName, list<StepAndDirection>&moves, int stepsNum);
 	void setFileType(int);
 	void setHouseNumberChoice(int);
 	string getHouseNameByIndex(int index);
@@ -29,6 +29,8 @@ public:
 	int getIntialFilesListLength();
 	int convertHouseNameToNumber(string);
 	void setCurrHouseName(string);
+	void saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum);
+	void copyListToFile(ostream& outputFile, list<StepAndDirection>&moves, int stepsNum);
 };
 
 #endif

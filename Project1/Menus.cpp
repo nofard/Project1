@@ -139,9 +139,9 @@ void Menus::showInstructions(Simulator &sim) {
 void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 {
 	int rows = 0, cols = 0;
-	string currHouseName;
 	char ** temp_house;
-	for (int i = 0; i < files.getIntialFilesListLength() && sim.endedSuccessfully; i++) {
+	for (int i = 0; i < files.getIntialFilesListLength() && sim.endedSuccessfully; i++) 
+	{
 		string houseName = files.getHouseNameByIndex(i);
 		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
 		{
@@ -149,8 +149,12 @@ void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
 			sim.init(temp_house, rows, cols);
 			sim.run();
-
+			if (sim.endedSuccessfully)
+			{
+				files.saveSolutionToFile(sim.getMoveList(), sim.getStepsNum());
+			}
 		}
+		sim.resetSimulatorData();
 	}
 	if (!sim.endedSuccessfully) {
 		sim.endedSuccessfully = true;

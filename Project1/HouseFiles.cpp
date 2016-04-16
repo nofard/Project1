@@ -98,7 +98,7 @@ void HouseFiles::setCurrHouseName(string houseName) {
 	currHouseName = houseName;
 }
 
-void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>moves, int stepsNum) 
+void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>&moves, int stepsNum) 
 {
 	string tempName;
 	int num;
@@ -118,14 +118,41 @@ void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>moves, in
 			outputFile.open(currHouseName + "-" + fileName + ".house_saved");
 		}
 	}
-	
+	copyListToFile(outputFile, moves, stepsNum);
+	outputFile.close();
+}
 
+void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
+{
+	char buff[buff_size];
+	ofstream outputFile;
+	string solutionFileName = this->currHouseName.substr(0, 3) + ".house_solution";
+	outputFile.open(solutionFileName, ios::_Noreplace);
+
+	if(!outputFile) //file exist
+	{
+		ifstream inFile(solutionFileName);
+		inFile.getline(buff, buff_size - 1);
+		if (stepsNum < atoi(buff))
+		{
+			outputFile.open(solutionFileName);
+			copyListToFile(outputFile, moves, stepsNum);
+		}
+		inFile.close();
+	}
+	else
+	{
+		copyListToFile(outputFile, moves, stepsNum);
+	}
+	outputFile.close();
+}
+
+void HouseFiles::copyListToFile(ostream& outputFile, list<StepAndDirection>&moves, int stepsNum)
+{
 	outputFile << stepsNum << endl;
 	list<StepAndDirection>::iterator it;
 	for (it = moves.begin(); it != moves.end(); ++it)
 	{
 		outputFile << (*it).step << " : " << (*it).dir << endl;
 	}
-	
-	outputFile.close();
 }

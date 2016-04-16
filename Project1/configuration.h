@@ -16,8 +16,6 @@ public:
 };
 */
 
-
-
 static struct configuration
 {
 	int MaxSteps = 1200;

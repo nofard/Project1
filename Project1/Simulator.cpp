@@ -136,7 +136,7 @@ void Simulator::run()
 		} while (!endGame());
 
 	}
-	resetSimulatorData();
+	
 
 }
 
@@ -153,8 +153,6 @@ bool Simulator::endGame() {
 		cout << "Congratulations! You have cleared all dust in " << stepNumber << " steps!!!" << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		endedSuccessfully = true;
-
-		printList();
 
 
 		cin >> hold_the_screen;
@@ -190,7 +188,6 @@ void Simulator::freeSimulationMemory()
 	originalHouse.freeHouseMemory();
 	currHouse.freeHouseMemory();
 	robot.resetData();
-	delete menu;
 }
 
 void Simulator::restartSimulation()
