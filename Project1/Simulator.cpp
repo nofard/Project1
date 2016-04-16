@@ -97,7 +97,7 @@ void Simulator::run()
 	if (originalHouse.isValidHouse())
 	{
 		char gameChar = 0;
-		Menus menu;
+	//	Menus menu;
 		int defDir = -1;
 		Direction currDirection;
 		do
@@ -118,8 +118,8 @@ void Simulator::run()
 			if (robot.wasEscPressed)
 			{
 				robot.wasEscPressed = false;
-				menu.printMidMenu();
-				menu.executeUserChoiceMidMenu(*this);
+				menu->printMidMenu();
+				menu->executeUserChoiceMidMenu(*this);
 			}
 
 			robot.move();
@@ -190,6 +190,7 @@ void Simulator::freeSimulationMemory()
 	originalHouse.freeHouseMemory();
 	currHouse.freeHouseMemory();
 	robot.resetData();
+	delete menu;
 }
 
 void Simulator::restartSimulation()
@@ -250,4 +251,15 @@ void Simulator::printList()
 		cout << (*it).dir << " : " << (*it).step << endl;
 	}
 
+}
+
+void Simulator::setMenu()
+{
+	Menus* myMenu = new Menus();
+	menu = myMenu;
+}
+
+Menus* Simulator::getMenu()
+{
+	return menu;
 }

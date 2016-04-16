@@ -8,7 +8,7 @@
 #include "Menus.h"
 #include "Score.h"
 
-
+class Menus;
 
 class Simulator 
 {
@@ -18,6 +18,7 @@ class Simulator
 	Sensor* sensor;
 	int stepNumber = 0;
 	list<StepAndDirection> moves;
+	Menus* menu;
 
 public:
 	bool endedSuccessfully = true;
@@ -37,6 +38,8 @@ public:
 	void printList();
 	list<StepAndDirection> getMoveList();
 	int getStepsNum();
+	void setMenu();
+	Menus* getMenu();
 };
 
 #endif

@@ -104,7 +104,7 @@ void HouseFiles::saveGameToFile(string fileName, list<StepAndDirection>moves, in
 	int num;
 	ofstream outputFile; 
 
-	outputFile.open(this->currHouseName.substr(0,2) + "-" + fileName + ".house_saved", ios::_Noreplace);
+	outputFile.open(this->currHouseName.substr(0,3) + "-" + fileName + ".house_saved", ios::_Noreplace);
 
 	while (!outputFile) {
 		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;

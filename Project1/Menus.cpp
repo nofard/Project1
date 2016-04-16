@@ -145,7 +145,6 @@ void Menus::runGameSimulation(Simulator &sim, int houseNumber)
 		string houseName = files.getHouseNameByIndex(i);
 		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
 		{
-			//currHouseName = houseName;
 			files.setCurrHouseName(houseName);
 			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
 			sim.init(temp_house, rows, cols);
