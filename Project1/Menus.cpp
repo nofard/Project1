@@ -6,14 +6,16 @@ using namespace std;
 void Menus::printFirstMenu() {
 	system("cls");
 	cout << "(1) Start game (2) Start game from specific house (3) Continue from saved game (8) Show instructions (9) Quit game" << endl;
-
-
 }
 
 //printMidMenu: prints to the screen the "middle" menu, when game is paused(esc pressed).
 void Menus::printMidMenu() {
 	//system("cls");
 	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" << endl;
+}
+
+void Menus::printSavedMidMenu() {
+	cout << "(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu" << endl;
 }
 
 //executeUserChoice: execute the initial menu option that was chosen by the user.
@@ -111,6 +113,30 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 		break;
 	}
 
+}
+
+void Menus::executeUserChoiceSavedMenu(Simulator & sim) 
+{
+	int choice;
+	cin >> choice;
+	switch (choice)
+	{
+	case 1:
+
+		break;
+	case 2:
+
+		break;
+	case 3:
+
+		break;
+	case 4:
+
+		break;
+	case 8:
+
+		break;
+	}
 }
 
 //showInstructions: prints the instructions of the simulation.
