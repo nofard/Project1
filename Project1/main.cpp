@@ -8,11 +8,12 @@ using namespace std;
 int main()
 {
 	Simulator simulator;
-	Menus* menu = new Menus();
+	//Menus* menu = new Menus();
 	
-	
-	menu->printFirstMenu();
-	menu->executeUserChoice(simulator);
-
-	delete menu;
+	simulator.setMenu();
+	simulator.getMenu()->printFirstMenu();
+	simulator.getMenu()->executeUserChoice(simulator);
+//	menu->printFirstMenu();
+//	menu->executeUserChoice(simulator);
+	//delete menu;
 }

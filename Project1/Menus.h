@@ -13,6 +13,7 @@ class Simulator;
 class Menus 
 {
 	HouseFiles files;
+	
 public:
 	Menus() { files.initHouseFiles(); }
 	void printFirstMenu();
