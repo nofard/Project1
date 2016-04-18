@@ -71,6 +71,8 @@ ipch/
 *.sdf
 *.cachefile
 
+/*.vcproj
+
 # Visual Studio profiler
 *.psess
 *.vsp
