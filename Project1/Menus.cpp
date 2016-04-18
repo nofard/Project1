@@ -189,7 +189,9 @@ void Menus::runSavedGameSimulation(Simulator &sim, int houseNumber)
 			files.setCurrHouseName(houseName);
 			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
 			sim.init(temp_house, rows, cols);
-			sim.runSavedGame(savedFile);
+
+			ifstream savedMoves("001-test1.house_saved");
+;			sim.runSavedGame(savedMoves);
 			endSave = true;
 		}
 

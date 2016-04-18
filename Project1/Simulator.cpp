@@ -102,18 +102,9 @@ void Simulator::run()
 		do
 		{
 			currDirection = robot.step();
-		//	if ((currDirection != Direction::STAY && robot.step() != (Direction)(defDir)) ||
-		//(robot.isOnDirt() && robot.step() == Direction::STAY))
-			if (currDirection != Direction::STAY || (robot.isOnDirt() && currDirection == Direction::STAY))
-			{
-				stepNumber++;
-				addMoveToList(currDirection);
-				
-			}
-			else if (currDirection == Direction::STAY) 
-			{
-				addMoveToList(currDirection);
-			}
+			stepNumber++;
+			addMoveToList(currDirection);
+
 			if (robot.wasEscPressed)
 			{
 				robot.wasEscPressed = false;
@@ -141,28 +132,26 @@ void Simulator::runSavedGame(ifstream & savedFile)
 {
 		int defDir = -1;
 		Direction currDirection;
-		int fileStepNumer;
+		int stepNumberFromFile;
 		const int buff_size = 1024;
 		char buff[buff_size];
 
 		savedFile.getline(buff, buff_size - 1);
 		int totalNumSteps = atoi(buff);
 
-		for (int i = 0; i < totalNumSteps; i++) 
+		currDirection = getDirectionFromSavedFile(savedFile, &stepNumberFromFile);
+		for (int i = 0; i < totalNumSteps ; i++) 
 		{
-			currDirection = getDirectionFromSavedFile(savedFile, &fileStepNumer);
-			while (stepNumber < fileStepNumer) {
-
-				if (currDirection != Direction::STAY || (robot.isOnDirt() && currDirection == Direction::STAY))
-				{
-					stepNumber++;
-					addMoveToList(currDirection);
-
-				}
-				else if (currDirection == Direction::STAY)
-				{
-					addMoveToList(currDirection);
-				}
+			
+			stepNumber++;
+			if (stepNumber == stepNumberFromFile)
+			{
+				robot.setDirection(currDirection);
+				if(!savedFile.eof())
+					currDirection = getDirectionFromSavedFile(savedFile, &stepNumberFromFile);
+			}
+			if(currDirection != (Direction)-1) //check for last row in the file
+				addMoveToList(currDirection);
 
 				robot.move();
 				robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), '@');
@@ -174,11 +163,8 @@ void Simulator::runSavedGame(ifstream & savedFile)
 				printSimulationData();
 
 				Sleep(10);
-			}
-
 		}
-
-
+		run();
 }
 
 Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepNum)
@@ -188,11 +174,22 @@ Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepN
 	char * token;
 
 	savedFile.getline(buff, buff_size - 1);
-	token = strtok(buff, ":");
-	*stepNum = atoi(token);
-	token = strtok(NULL, " ");
+	if (strcmp(buff, ""))
+	{
+		token = strtok(buff, ":");
+		*stepNum = atoi(token);
+		token = strtok(NULL, " ");
+		return (Direction)atoi(token);
+	}
+	else
+	{
+		return (Direction)-1;
+	}
+	
 
-	return (Direction)atoi(token);
+
+
+	
 
 }
 

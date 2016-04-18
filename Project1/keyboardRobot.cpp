@@ -83,7 +83,7 @@ Direction KeyboardRobot::step()
 //reduceBatteryLevel: reduce battery level according to BatteryConsumptionRate in the configuration file.
 void KeyboardRobot::reduceBatteryLevel()
 {
-	if (!((direction == Direction::STAY) && (!isOnDirt())))
+//	if (!((direction == Direction::STAY) && (!isOnDirt())))
 		//if (batteryLevel <= int(configuration::BatteryConsumptionRate))
 		if (batteryLevel <= config.BatteryConsumptionRate)
 			batteryLevel = 0;
