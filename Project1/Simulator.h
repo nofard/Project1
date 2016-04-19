@@ -8,6 +8,8 @@
 #include "Menus.h"
 #include "Score.h"
 
+#define ROBOT_LETTER '@'
+#define BUFF_SIZE 1024
 
 class Menus;
 

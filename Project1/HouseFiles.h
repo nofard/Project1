@@ -8,6 +8,8 @@
 
 using namespace std;
 
+enum {START_INDEX_NAME = 0, END_INDEX_NAME = 3};
+
 #define NEW_HOUSE 0
 #define SAVED_HOUSE 1
 #define SOLUTION_HOUSE 2
@@ -40,6 +42,7 @@ public:
 	list<string>* getSavedHouseFilesList();
 	char convertNumToDirLetter(int number);
 	int getHouseNumberChoice();
+	int getFileType();
 	
 };
 

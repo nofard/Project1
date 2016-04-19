@@ -25,9 +25,6 @@ void HouseFiles::initList(list<string>&lst, char* regex)
 	houseFilesNames.close();
 }
 
-
-
-
 int HouseFiles::getMinHouseNumber()
 {
 	return convertHouseNameToNumber((initialHousefilesNames.begin())->data());
@@ -117,15 +114,15 @@ void HouseFiles::setCurrHouseName(string houseName) {
 void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirection>&moves, int stepsNum)
 {
 	string tempName;
-	int num;
+	int userChoice;
 	ofstream outputFile; 
 
 	outputFile.open(this->currHouseName.substr(0,3) + "-" + userSelectionPartName + ".house_saved", ios::_Noreplace);
 
 	while (!outputFile) {
 		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;
-		cin >> num;
-		if (num == 1) {
+		cin >> userChoice;
+		if (userChoice == 1) {
 			cout << "Please enter another file name:" << endl;
 			cin >> tempName;
 			outputFile.open(currHouseName + "-" + tempName + ".house_saved", ios::_Noreplace);
@@ -142,7 +139,7 @@ void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
 {
 	char buff[buff_size];
 	ofstream outputFile;
-	string solutionFileName = this->currHouseName.substr(0, 3) + ".house_solution";
+	string solutionFileName = this->currHouseName.substr(START_INDEX_NAME, END_INDEX_NAME) + ".house_solution";
 	outputFile.open(solutionFileName, ios::_Noreplace);
 
 	if(!outputFile) //file exist
@@ -177,19 +174,19 @@ char HouseFiles::convertNumToDirLetter(int number)
 {
 	switch (number)
 	{
-	case 0:
+	case (int)(Direction::UP):
 		return 'w';
 		break;
-	case 1:
+	case (int)(Direction::RIGHT):
 		return 'd';
 		break;
-	case 2:
+	case (int)(Direction::DOWN):
 		return 'x';
 		break;
-	case 3:
+	case (int)(Direction::LEFT):
 		return 'a';
 		break;
-	case 4:
+	case (int)(Direction::STAY):
 		return 's';
 		break;
 
@@ -200,4 +197,9 @@ char HouseFiles::convertNumToDirLetter(int number)
 int HouseFiles::getHouseNumberChoice()
 {
 	return houseNumberChoice;
+}
+
+int HouseFiles::getFileType()
+{
+	return fileType;
 }

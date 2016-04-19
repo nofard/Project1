@@ -45,8 +45,8 @@ void Point::drawToScreenWhenDockingOn(Point docking, char ch)
 	int newX, newY;
 	int x_offset, y_offset;
 
-	x_offset = 40 - docking.getX();
-	y_offset = 12 - docking.getY();
+	x_offset = DOCK_X - docking.getX();
+	y_offset = DOCK_Y - docking.getY();
 
 	newX = x + x_offset;
 	newY = y + y_offset;

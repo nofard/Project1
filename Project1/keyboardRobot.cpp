@@ -61,13 +61,13 @@ void KeyboardRobot::setArrowKeys(const char* keys)
 Direction KeyboardRobot::step()
 {
 	char keyPressed = 0;
-	int dir = -1;
+	int dir = DEFAULT_DIR;
 	SensorInformation currSensorInfo;
 
 	if (_kbhit())
 	{
 		keyPressed = _getch();
-		if (keyPressed == 27)
+		if (keyPressed == ESC_KEY)
 			wasEscPressed = true;
 		if ((dir = getDirection(keyPressed)) != -1)
 			direction = (Direction)dir;
@@ -97,7 +97,7 @@ bool KeyboardRobot::isOnDirt() {
 	SensorInformation currSensorInfo;
 	currSensorInfo = sensor->sense();
 
-	if (currSensorInfo.dirtLevel >= 1 && currSensorInfo.dirtLevel <= 9)
+	if (currSensorInfo.dirtLevel >= MIN_DIRT_LEVEL + 1 && currSensorInfo.dirtLevel <= MAX_DIRT_LEVEL)
 		return true;
 	else
 		return false;

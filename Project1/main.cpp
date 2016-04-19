@@ -16,7 +16,7 @@ int main()
 	menu->setSimulator(simulator);
 	menu->printFirstMenu();
 	menu->executeUserChoice();
-//	menu->printFirstMenu();
-//	menu->executeUserChoice(simulator);
-	//delete menu;
+
+	delete menu;
+	delete simulator;
 }

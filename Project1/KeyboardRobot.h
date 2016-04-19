@@ -8,6 +8,7 @@
 #include "configuration.h"
 
 #define NUM_OF_KEYS 5
+#define ESC_KEY 27
 
 class KeyboardRobot
 {

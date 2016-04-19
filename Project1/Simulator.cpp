@@ -5,8 +5,6 @@
 //init: initilize simulator data members;
 void Simulator::init()
 {
-	//originalHouse.setHouse(house_example, 20, 79);
-	//currHouse.setHouse(house_example, 20, 79);
 
 	Sensor* theRobotSensor = new Sensor();
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
@@ -16,18 +14,6 @@ void Simulator::init()
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
 
-	//for all house printing, for debugging
-	/*for (int i = 0; i < 24; i++)
-	{
-	for (int j = 0; j < 80; j++)
-	{
-	//(j, i);
-	//cout << currHouse.getValueFromPoint(j, i);
-	//cout.flush();
-	Point p; p.setPoint(j, i);
-	p.drawToScreenWhenDockingOn(originalHouse.getDockingPosition(), currHouse.getValueFromPoint(j, i));
-	}
-	}*/
 }
 
 void Simulator::init(char** house_array, int rows, int cols)
@@ -55,7 +41,7 @@ void Simulator::resetSimulatorData()
 void Simulator::updateDirtLevel(Point p)
 {
 	int dirtLevel = (int)(currHouse.getValueFromPoint(p) - '0');
-	if (dirtLevel >= 0 && dirtLevel <= 9)
+	if (dirtLevel >= MIN_DIRT_LEVEL && dirtLevel <= MAX_DIRT_LEVEL)
 	{
 		currHouse.reduceValueAtPoint(p);
 		currHouse.reduceOverallDirtLevel();
@@ -97,7 +83,6 @@ void Simulator::run()
 {
 	if (originalHouse.isValidHouse())
 	{
-		int defDir = -1;
 		Direction currDirection;
 		do
 		{
@@ -113,7 +98,7 @@ void Simulator::run()
 			}
 
 			robot.move();
-			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), '@');
+			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
 			robot.reduceBatteryLevel();
 			chargeRobot(robot.getPosition());
 			updateDirtLevel(robot.getPosition());
@@ -130,13 +115,11 @@ void Simulator::run()
 
 void Simulator::runSavedGame(ifstream & savedFile)
 {
-		int defDir = -1;
 		Direction currDirection;
 		int stepNumberFromFile;
-		const int buff_size = 1024;
-		char buff[buff_size];
+		char buff[BUFF_SIZE];
 
-		savedFile.getline(buff, buff_size - 1);
+		savedFile.getline(buff, BUFF_SIZE - 1);
 		int totalNumSteps = atoi(buff);
 
 		currDirection = getDirectionFromSavedFile(savedFile, &stepNumberFromFile);
@@ -150,11 +133,11 @@ void Simulator::runSavedGame(ifstream & savedFile)
 				if(!savedFile.eof())
 					currDirection = getDirectionFromSavedFile(savedFile, &stepNumberFromFile);
 			}
-			if(currDirection != (Direction)-1) //check for last row in the file
+			if(currDirection != (Direction)DEFAULT_DIR) //check for last row in the file
 				addMoveToList(currDirection);
 
 				robot.move();
-				robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), '@');
+				robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
 				robot.reduceBatteryLevel();
 				chargeRobot(robot.getPosition());
 				updateDirtLevel(robot.getPosition());
@@ -164,16 +147,15 @@ void Simulator::runSavedGame(ifstream & savedFile)
 
 				Sleep(10);
 		}
-		run();
 }
 
 Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepNum)
 {
-	const int buff_size = 1024;
-	char buff[buff_size];
+	//const int buff_size = 1024;
+	char buff[BUFF_SIZE];
 	char * token;
 
-	savedFile.getline(buff, buff_size - 1);
+	savedFile.getline(buff, BUFF_SIZE - 1);
 	if (strcmp(buff, ""))
 	{
 		token = strtok(buff, ":");
@@ -183,7 +165,7 @@ Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepN
 	}
 	else
 	{
-		return (Direction)-1;
+		return (Direction)DEFAULT_DIR;
 	}
 
 }
@@ -193,7 +175,7 @@ bool Simulator::endGame() {
 
 	char hold_the_screen;
 	Score robotScore;
-	if (currHouse.getOverallDirtLevel() == 0 && (robot.getPosition()).isSame(originalHouse.getDockingPosition()))
+	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (robot.getPosition()).isSame(originalHouse.getDockingPosition()))
 	{
 		robotScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
@@ -300,7 +282,6 @@ void Simulator::printList()
 
 void Simulator::setMenu(Menus * _menu)
 {
-	//Menus* myMenu = new Menus();
 	menu = _menu;
 }
 
@@ -329,5 +310,5 @@ Direction Simulator::convertDirLetterToDir(char* letter)
 		break;
 
 	}
-	return (Direction)-1;
+	return (Direction)DEFAULT_DIR;
 }

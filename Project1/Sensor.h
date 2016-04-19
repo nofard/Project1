@@ -4,6 +4,8 @@
 #include "io_utils.h"
 #include "House.h"
 
+#define DIR_AMOUNT 4
+
 class Simulator;
 
 struct SensorInformation 

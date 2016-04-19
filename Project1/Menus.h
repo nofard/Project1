@@ -1,11 +1,16 @@
 #ifndef _MENUS_H_
 #define _MENUS_H_
 
+
+
 #include "Simulator.h"
 #include "io_utils.h"
 #include "HouseFiles.h"
 #include <string>
 #include <cstdlib>
+
+#define FIRST_ROW_MID_MENU 24
+#define FULL_ROW 80
 
 class Simulator;
 //class HouseFiles;
@@ -22,7 +27,7 @@ public:
 	void executeUserChoice(); 
 	void executeUserChoiceMidMenu();
 	void showInstructions();
-	void runGameSimulation(int houseNumber);
+	void runGameSimulation(string houseSavedName);
 	HouseFiles getHouseFiles(); 
 	void printSavedMidMenu();
 	void executeUserChoiceSavedMenu();

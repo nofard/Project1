@@ -15,12 +15,12 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 			for (int j = 1; j < cols - 1; j++)
 			{
 				house[i][j] = myHouse[i][j];
-				if (house[i][j] == 'D')
+				if (house[i][j] == DOCK_LETTER)
 				{
 					dockingCounter++;
 					setDockingPosition(j, i);
 				}
-				if (house[i][j] > '0' && house[i][j] <= '9')
+				if (house[i][j] > (MIN_DIRT_LEVEL + '0') && house[i][j] <= (MAX_DIRT_LEVEL + '0'))
 					overallDirtLevel += (int)(house[i][j] - '0');
 			}
 			//house[i][cols] = '\0';
@@ -107,7 +107,7 @@ void House::endGameForInvalidNumOfDocking()
 //initRowsAndCols: Check validation size of rows and cols and init data members of them.
 bool House::initRowsAndCols(int _rows, int _cols)
 {
-	if (_rows < 5 || _rows > 20 || _cols < 10 || _cols > 79)
+	if (_rows < MIN_ROWS || _rows > MAX_ROWS || _cols < MIN_COLS || _cols > MAX_COLS)
 	{
 		system("cls");
 		cout << "Invalid house:" << endl;
@@ -132,14 +132,14 @@ void House::fillSurroundingWalls()
 	house[rows-1] = new char[cols];
 	for (i = 0; i < cols; i++)//Fill first and last rows
 	{
-		house[0][i] = 'W';
-		house[rows-1][i] = 'W';
+		house[0][i] = WALL_LETTER;
+		house[rows-1][i] = WALL_LETTER;
 	}
 		
 	for (i = 0; i < rows; i++)//Fill first and last cols
 	{
-		house[i][0] = 'W';
-		house[i][cols-1] = 'W';
+		house[i][0] = WALL_LETTER;
+		house[i][cols-1] = WALL_LETTER;
 	}
 }
 
