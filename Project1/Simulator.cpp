@@ -179,17 +179,12 @@ Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepN
 		token = strtok(buff, ":");
 		*stepNum = atoi(token);
 		token = strtok(NULL, " ");
-		return (Direction)atoi(token);
+		return convertDirLetterToDir(token);
 	}
 	else
 	{
 		return (Direction)-1;
 	}
-	
-
-
-
-	
 
 }
 
@@ -312,4 +307,27 @@ void Simulator::setMenu()
 Menus* Simulator::getMenu()
 {
 	return menu;
+}
+Direction Simulator::convertDirLetterToDir(char* letter)
+{
+	switch (letter[0])
+	{
+	case 'w':
+		return Direction::UP;
+		break;
+	case 'd':
+		return Direction::RIGHT;
+		break;
+	case 'x':
+		return Direction::DOWN;
+		break;
+	case 'a':
+		return Direction::LEFT;
+		break;
+	case 's':
+		return Direction::STAY;
+		break;
+
+	}
+	return (Direction)-1;
 }

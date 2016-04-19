@@ -52,7 +52,8 @@ void Menus::executeUserChoice(Simulator &sim) {
 			files.setFileType(SAVED_HOUSE);
 			files.setHouseNumberChoice(choice);
 			system("cls");
-			runSavedGameSimulation(sim, choice);
+			chooseSavedHouse(choice);
+			//runSavedGameSimulation(sim, choice);
 		}
 		else {
 			printFirstMenu();
@@ -221,5 +222,40 @@ void Menus::runSavedGameSimulation(Simulator &sim, int houseNumber)
 			endSave = true;
 		}
 
+	}
+}
+void Menus::chooseSavedHouse(int houseNum)
+{
+	list<string> currSavedHouses;
+	list<string> *savedHousesList = files.getSavedHouseFilesList();
+	list<string>::iterator it;
+	char hold_the_screen;
+	//string tempStr;
+	int tempNum;
+
+	for (it = (*savedHousesList).begin(); it != (*savedHousesList).end(); ++it)
+	{
+		//tempStr = (*it).substr(0, 3);
+		tempNum = ((*it)[0] - '0') * 100 + ((*it)[1] - '0') * 10 + ((*it)[2] - '0');
+		if (tempNum == houseNum)
+		{
+			currSavedHouses.push_back((*it));
+		}
+	}
+
+	if (currSavedHouses.size() > 1)
+	{
+		//chooseSavedFromRange();
+	} 
+	else if (currSavedHouses.size() == 1)
+	{
+
+	}
+	else
+	{
+		cout << "There is no saved game for this house" << endl;
+		cin >> hold_the_screen;
+		printFirstMenu();
+		//executeUserChoice();
 	}
 }

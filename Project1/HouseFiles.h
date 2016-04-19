@@ -38,6 +38,7 @@ public:
 	void initList(list<string>&lst, char* regex);
 	list<string>* getInitialHouseFilesList();
 	list<string>* getSavedHouseFilesList();
+	char convertNumToDirLetter(int number);
 	
 };
 

@@ -169,6 +169,30 @@ void HouseFiles::copyListToFile(ostream& outputFile, list<StepAndDirection>&move
 	list<StepAndDirection>::iterator it;
 	for (it = moves.begin(); it != moves.end(); ++it)
 	{
-		outputFile << (*it).step << ":" << (*it).dir << endl;
+		outputFile << (*it).step << ":" << convertNumToDirLetter((*it).dir) << endl;
 	}
+}
+
+char HouseFiles::convertNumToDirLetter(int number)
+{
+	switch (number)
+	{
+	case 0:
+		return 'w';
+		break;
+	case 1:
+		return 'd';
+		break;
+	case 2:
+		return 'x';
+		break;
+	case 3:
+		return 'a';
+		break;
+	case 4:
+		return 's';
+		break;
+
+	}
+	return 's';
 }

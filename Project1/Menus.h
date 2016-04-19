@@ -26,6 +26,7 @@ public:
 	void printSavedMidMenu();
 	void executeUserChoiceSavedMenu(Simulator &);
 	void runSavedGameSimulation(Simulator &sim, int houseNumber);
+	void chooseSavedHouse(int houseNum);
 
 };
 

@@ -43,6 +43,7 @@ public:
 	Menus* getMenu();
 	void runSavedGame(ifstream & savedFile);
 	Direction getDirectionFromSavedFile(ifstream &, int *fileStepNumer);
+	Direction convertDirLetterToDir(char* letter);
 };
 
 #endif
