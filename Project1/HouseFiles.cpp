@@ -196,3 +196,8 @@ char HouseFiles::convertNumToDirLetter(int number)
 	}
 	return 's';
 }
+
+int HouseFiles::getHouseNumberChoice()
+{
+	return houseNumberChoice;
+}

@@ -7,12 +7,15 @@ using namespace std;
 
 int main()
 {
-	Simulator simulator;
-	//Menus* menu = new Menus();
+	Simulator* simulator = new Simulator();
+	Menus* menu = new Menus();
 	
-	simulator.setMenu();
-	simulator.getMenu()->printFirstMenu();
-	simulator.getMenu()->executeUserChoice(simulator);
+
+
+	simulator->setMenu(menu);
+	menu->setSimulator(simulator);
+	menu->printFirstMenu();
+	menu->executeUserChoice();
 //	menu->printFirstMenu();
 //	menu->executeUserChoice(simulator);
 	//delete menu;

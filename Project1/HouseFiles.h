@@ -39,6 +39,7 @@ public:
 	list<string>* getInitialHouseFilesList();
 	list<string>* getSavedHouseFilesList();
 	char convertNumToDirLetter(int number);
+	int getHouseNumberChoice();
 	
 };
 

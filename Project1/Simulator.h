@@ -39,7 +39,7 @@ public:
 	void printList();
 	list<StepAndDirection> getMoveList();
 	int getStepsNum();
-	void setMenu();
+	void setMenu(Menus * _menu);
 	Menus* getMenu();
 	void runSavedGame(ifstream & savedFile);
 	Direction getDirectionFromSavedFile(ifstream &, int *fileStepNumer);

@@ -109,7 +109,7 @@ void Simulator::run()
 			{
 				robot.wasEscPressed = false;
 				menu->printMidMenu();
-				menu->executeUserChoiceMidMenu(*this);
+				menu->executeUserChoiceMidMenu();
 			}
 
 			robot.move();
@@ -298,10 +298,10 @@ void Simulator::printList()
 
 }
 
-void Simulator::setMenu()
+void Simulator::setMenu(Menus * _menu)
 {
-	Menus* myMenu = new Menus();
-	menu = myMenu;
+	//Menus* myMenu = new Menus();
+	menu = _menu;
 }
 
 Menus* Simulator::getMenu()

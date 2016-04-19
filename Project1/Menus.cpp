@@ -19,7 +19,7 @@ void Menus::printSavedMidMenu() {
 }
 
 //executeUserChoice: execute the initial menu option that was chosen by the user.
-void Menus::executeUserChoice(Simulator &sim) {
+void Menus::executeUserChoice() {
 	int choice;
 	
 	cin >> choice;
@@ -27,7 +27,7 @@ void Menus::executeUserChoice(Simulator &sim) {
 	{
 	case 1:
 		system("cls");
-		runGameSimulation(sim, 0);
+		runGameSimulation(0);
 		break;
 	case 2:
 		cout << "There are now houses from " << files.getMinHouseNumber() << "to " << files.getMaxHouseNumber() << " Please choose or enter 0 to go back" << endl;
@@ -37,11 +37,11 @@ void Menus::executeUserChoice(Simulator &sim) {
 			files.setFileType(NEW_HOUSE);
 			files.setHouseNumberChoice(choice);
 			system("cls");
-			runGameSimulation(sim, choice);
+			runGameSimulation(choice);
 		}
 		else {
 			printFirstMenu();
-			executeUserChoice(sim);
+			executeUserChoice();
 		}
 		break;
 	case 3:
@@ -57,12 +57,12 @@ void Menus::executeUserChoice(Simulator &sim) {
 		}
 		else {
 			printFirstMenu();
-			executeUserChoice(sim);
+			executeUserChoice();
 		}
 
 		break;
 	case 8:
-		showInstructions(sim);
+		showInstructions();
 		break;
 	case 9:
 		exit(0);
@@ -75,7 +75,7 @@ void Menus::executeUserChoice(Simulator &sim) {
 
 //executeUserChoiceMidMenu: execute the middle menu option that was chosen by the user.
 //"(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" 
-void Menus::executeUserChoiceMidMenu(Simulator &sim) {
+void Menus::executeUserChoiceMidMenu() {
 	int choice;
 	string fileName;
 	cin >> choice;
@@ -93,14 +93,14 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 	case 2:
 		system("cls");
 		//sim.init();
-		sim.restartSimulation();
+		sim->restartSimulation();
 	//	sim.run();
 		break;
 	case 3:
 		cout << "Please enter file name" << endl;
 		cin >> fileName;
 		
-		files.saveGameToFile(fileName, sim.getMoveList(), sim.getStepsNum());
+		files.saveGameToFile(fileName, sim->getMoveList(), sim->getStepsNum());
 		
 		for (int i = 24; i <= 31; i++) {
 			gotoxy(0, i);
@@ -109,16 +109,16 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 		
 		gotoxy(0, 24);
 		printMidMenu();
-		executeUserChoiceMidMenu(sim);
+		executeUserChoiceMidMenu();
 		break;
 	case 4:
 
 		break;
 	case 8:
 		system("cls");
-		sim.resetSimulatorData();
+		sim->resetSimulatorData();
 		printFirstMenu();
-		executeUserChoice(sim); 
+		executeUserChoice(); 
 	case 9:
 		exit(0);
 		break;
@@ -128,7 +128,7 @@ void Menus::executeUserChoiceMidMenu(Simulator &sim) {
 
 }
 
-void Menus::executeUserChoiceSavedMenu(Simulator & sim) 
+void Menus::executeUserChoiceSavedMenu() 
 {
 	int choice;
 	cin >> choice;
@@ -153,7 +153,7 @@ void Menus::executeUserChoiceSavedMenu(Simulator & sim)
 }
 
 //showInstructions: prints the instructions of the simulation.
-void Menus::showInstructions(Simulator &sim) {
+void Menus::showInstructions() {
 	int choise;
 	system("cls");
 	cout << "Please use the following key \"waxds\" arrows to move the robot around the house" << endl;
@@ -165,7 +165,7 @@ void Menus::showInstructions(Simulator &sim) {
 	case 0:
 		system("cls");
 		printFirstMenu();
-		executeUserChoice(sim);
+		executeUserChoice();
 		break;
 	case 9:
 		exit(0);
@@ -175,54 +175,51 @@ void Menus::showInstructions(Simulator &sim) {
 	}
 }
 
-void Menus::runGameSimulation(Simulator &sim, int houseNumber)
+void Menus::runGameSimulation(int houseNumber)
 {
 	int rows = 0, cols = 0;
 	char ** temp_house;
-	for (int i = 0; i < files.getIntialFilesListLength() && sim.endedSuccessfully; i++) 
+	for (int i = 0; i < files.getIntialFilesListLength() && sim->endedSuccessfully; i++) 
 	{
 		string houseName = files.getHouseNameByIndex(*(files.getInitialHouseFilesList()), i);
 		if (files.convertHouseNameToNumber(houseName) >= houseNumber) 
 		{
 			files.setCurrHouseName(houseName);
 			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
-			sim.init(temp_house, rows, cols);
-			sim.run();
-			if (sim.endedSuccessfully)
+			sim->init(temp_house, rows, cols);
+			sim->run();
+			if (sim->endedSuccessfully)
 			{
-				files.saveSolutionToFile(sim.getMoveList(), sim.getStepsNum());
+				files.saveSolutionToFile(sim->getMoveList(), sim->getStepsNum());
 			}
 		}
-		sim.resetSimulatorData();
+		sim->resetSimulatorData();
 	}
-	if (!sim.endedSuccessfully) {
-		sim.endedSuccessfully = true;
+	if (!sim->endedSuccessfully) {
+		sim->endedSuccessfully = true;
 		printFirstMenu();
-		executeUserChoice(sim);
+		executeUserChoice();
 	}
 }
 
-void Menus::runSavedGameSimulation(Simulator &sim, int houseNumber)
+void Menus::runSavedGameSimulation(string houseSavedName)
 {
 	int rows = 0, cols = 0;
 	char ** temp_house;
-	boolean endSave = false;
-	for (int i = 0; i < files.getIntialFilesListLength() && !endSave; i++)
-	{
-		string houseName = files.getHouseNameByIndex(*(files.getInitialHouseFilesList()), i);
-		if (files.convertHouseNameToNumber(houseName) >= houseNumber)
-		{
-			ifstream savedFile(houseName);
-			files.setCurrHouseName(houseName);
-			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
-			sim.init(temp_house, rows, cols);
+	string houseName;
 
-			ifstream savedMoves("001-test1.house_saved");
-;			sim.runSavedGame(savedMoves);
-			endSave = true;
-		}
+	houseName = houseSavedName.substr(0, 3) + ".house";
 
-	}
+	ifstream savedFile(houseName);
+	files.setCurrHouseName(houseName);
+	temp_house = files.getHouseFromFile(houseName, &rows, &cols);
+	sim->init(temp_house, rows, cols);
+
+	ifstream savedMoves(houseSavedName);
+	sim->runSavedGame(savedMoves);
+
+	savedFile.close();
+	savedMoves.close();
 }
 void Menus::chooseSavedHouse(int houseNum)
 {
@@ -230,6 +227,7 @@ void Menus::chooseSavedHouse(int houseNum)
 	list<string> *savedHousesList = files.getSavedHouseFilesList();
 	list<string>::iterator it;
 	char hold_the_screen;
+	string chosenSaveHouse;
 	//string tempStr;
 	int tempNum;
 
@@ -245,17 +243,42 @@ void Menus::chooseSavedHouse(int houseNum)
 
 	if (currSavedHouses.size() > 1)
 	{
-		//chooseSavedFromRange();
+		chosenSaveHouse = chooseSavedFromRangeMenu(currSavedHouses);
+		runSavedGameSimulation(chosenSaveHouse);
 	} 
 	else if (currSavedHouses.size() == 1)
 	{
-
+		runSavedGameSimulation(currSavedHouses.begin()->data());
 	}
 	else
 	{
 		cout << "There is no saved game for this house" << endl;
 		cin >> hold_the_screen;
 		printFirstMenu();
-		//executeUserChoice();
+		executeUserChoice();
 	}
+}
+void Menus::setSimulator(Simulator * _sim)
+{
+	sim = _sim;
+}
+string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
+{
+	list<string>::iterator it;
+	int index = 1;
+	int choice;
+
+	cout << "Please select a game from the following list:" << endl;
+	for (it = currSavedHouses.begin(); it != currSavedHouses.end(); it++)
+	{
+		cout << "(" << index << ") " << (*it) << endl;
+		index++;
+	}
+	cin >> choice;
+	system("cls");
+	int i;
+	for (i = 0, it = currSavedHouses.begin(); i < choice-1; i++, it++)
+	{
+	}
+	return (*it);
 }
