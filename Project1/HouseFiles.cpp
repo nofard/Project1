@@ -203,3 +203,16 @@ int HouseFiles::getFileType()
 {
 	return fileType;
 }
+
+int HouseFiles::getIndexOfHouseFromList(string houseName)
+{
+	int index = 0;
+	list<string>::iterator it = initialHousefilesNames.begin();
+
+	while((*it) != houseName && it != initialHousefilesNames.end())
+	{
+		it++;
+		index++;
+	}
+	return index;
+}

@@ -178,6 +178,8 @@ void Menus::runGameSimulation(string houseSavedName)
 	int rows = 0, cols = 0;
 	char ** temp_house;
 	string houseName;
+	int houseIndex;
+
 
 	for (int i = 0; i < files.getIntialFilesListLength() && sim->endedSuccessfully; i++) 
 	{
@@ -192,7 +194,7 @@ void Menus::runGameSimulation(string houseSavedName)
 			sim->runSavedGame(savedMoves);
 			savedMoves.close();
 
-		//	i = files.getHouseNumberChoice();
+			i = files.getIndexOfHouseFromList(houseName) + 1;
 			files.setFileType(NEW_HOUSE);
 			sim->run();
 		}

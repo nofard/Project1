@@ -43,7 +43,7 @@ public:
 	char convertNumToDirLetter(int number);
 	int getHouseNumberChoice();
 	int getFileType();
-	
+	int getIndexOfHouseFromList(string houseName);
 };
 
 #endif
