@@ -4,6 +4,7 @@
 #include "io_utils.h"
 #include "House.h"
 
+
 #define DIR_AMOUNT 4
 
 class Simulator;
@@ -28,9 +29,11 @@ public:
 	SensorInformation sense()const;
 	void Sensor::updateSensorInfo(Point currPosition);
 	void setCurrPosition(Point currPosition);
+	Point getCurrPosition();
 	void updateWallsInfo();
 	void updateDirtLevel();
 	void revealArea();
+	void revealArea(Simulator& sim);
 };
 
 #endif

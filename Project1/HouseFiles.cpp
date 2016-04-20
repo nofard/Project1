@@ -103,6 +103,8 @@ list<string>* HouseFiles::getSavedHouseFilesList()
 	return &savedHousefilesNames;
 }
 
+
+
 int HouseFiles::convertHouseNameToNumber(string houseName) 
 {
 	return ((houseName[0] - '0') * 100 + (houseName[1] - '0') * 10 + (houseName[2] - '0'));
@@ -215,4 +217,18 @@ int HouseFiles::getIndexOfHouseFromList(string houseName)
 		index++;
 	}
 	return index;
+}
+string HouseFiles::getSolutionFromList(int houseNumber)
+{
+	list<string>::iterator it = solutionHousefilesNames.begin();
+	while (it != solutionHousefilesNames.end())
+	{
+		if (convertHouseNameToNumber(*it) == houseNumber)
+			return (*it);
+	}
+	return "";
+}
+string HouseFiles::getCurrHouseName()
+{
+	return currHouseName;
 }

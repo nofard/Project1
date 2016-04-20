@@ -28,6 +28,12 @@ void Sensor::setCurrPosition(Point currPosition)
 	robotPosition = currPosition;
 }
 
+//getCurrPosition: get robotPosition.
+Point Sensor::getCurrPosition()
+{
+	return robotPosition;
+}
+
 //updateWallsInfo: update isWall array with boolean parameters that indicates if there is wall in the direction(by index).
 void Sensor::updateWallsInfo()
 {
@@ -63,3 +69,4 @@ void Sensor::revealArea()
 	}
 
 }
+

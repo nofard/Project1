@@ -39,12 +39,6 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 	}
 }
 
-//getHouse: return the array.
-char** House::getHouse()
-{
-	return house;
-}
-
 //getValueFromPoint: return the character in a specifiec point.
 char House::getValueFromPoint(Point p)
 {
@@ -168,4 +162,17 @@ void House::copyHouseData(House houseToCopy)
 			house[i][j] = houseToCopy.house[i][j];
 		}
 	}
+}
+int House::getRows()
+{
+	return rows;
+}
+int House::getCols()
+{
+	return cols;
+}
+
+void House::setHouseArray(char** arr)
+{
+	house = arr;
 }

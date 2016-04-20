@@ -28,6 +28,8 @@ void Simulator::init(char** house_array, int rows, int cols)
 
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
+	
+	setSavedPrintedHouse(rows, cols);
 }
 
 void Simulator::resetSimulatorData()
@@ -93,8 +95,10 @@ void Simulator::run()
 			if (robot.wasEscPressed)
 			{
 				robot.wasEscPressed = false;
-				menu->printMidMenu();
-				menu->executeUserChoiceMidMenu();
+				saveSimulationParameters();
+				menu->midMenuManager();
+				//menu->printMidMenu();
+				//menu->executeUserChoiceMidMenu();
 			}
 
 			robot.move();
@@ -148,6 +152,54 @@ void Simulator::runSavedGame(ifstream & savedFile)
 				Sleep(10);
 		}
 }
+
+void Simulator::runSolution(ifstream& solutionFile)
+{
+	Direction currDirection;
+	int stepNumberFromFile;
+	char buff[BUFF_SIZE];
+
+	solutionFile.getline(buff, BUFF_SIZE - 1);
+	int totalNumSteps = atoi(buff);
+
+	currDirection = getDirectionFromSavedFile(solutionFile, &stepNumberFromFile);
+	for (int i = 0; i < totalNumSteps; i++)
+	{
+		stepNumber++;
+		if (stepNumber == stepNumberFromFile)
+		{
+			robot.setDirection(currDirection);
+			if (!solutionFile.eof())
+				currDirection = getDirectionFromSavedFile(solutionFile, &stepNumberFromFile);
+		}
+
+		updateEscPressedStatus();
+		if (robot.wasEscPressed)
+		{
+			robot.wasEscPressed = false;
+			menu->printSolutionMidMenu();
+			menu->executeUserChoiceSolutionMenu();
+		}
+		else
+		{
+			if (currDirection != (Direction)DEFAULT_DIR) //check for last row in the file
+				addMoveToList(currDirection);
+
+			robot.move();
+			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
+			robot.reduceBatteryLevel();
+			chargeRobot(robot.getPosition());
+			updateDirtLevel(robot.getPosition());
+			sensor->updateSensorInfo(robot.getPosition());
+			sensor->revealArea();
+			printSimulationData();
+
+			Sleep(100);
+		}
+	}
+
+}
+
 
 Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepNum)
 {
@@ -311,4 +363,87 @@ Direction Simulator::convertDirLetterToDir(char* letter)
 
 	}
 	return (Direction)DEFAULT_DIR;
+}
+
+void Simulator::updateEscPressedStatus()
+{
+	int keyPressed = 0;
+
+	if (_kbhit())
+	{
+		keyPressed = _getch();
+		if (keyPressed == ESC_KEY)
+		{
+			robot.wasEscPressed = true;
+		}
+	}
+}
+
+void Simulator::setSavedPrintedHouse(int rows, int cols)
+{
+	savedParameters.printedHouse = new char*[rows];
+	for (int i = 0; i < rows; i++)
+	{
+		savedParameters.printedHouse[i] = new char[cols];
+		for (int j = 0; j < cols; j++)
+		{
+			savedParameters.printedHouse[i][j] = ' ';
+		}
+	}
+}
+
+void Simulator::savePointToPrintedHouse(Point p, char ch)
+{
+	savedParameters.printedHouse[p.getY()][p.getX()] = ch;
+}
+
+void Simulator::saveSimulationParameters()
+{
+	savePrintedHouseFromScreen();
+	saveHouse();
+	saveRobot();
+	savedParameters.sensorPosition = sensor->getCurrPosition();
+	savedParameters.stepNumber = stepNumber;
+	saveMovesList();
+}
+
+void Simulator::savePrintedHouseFromScreen()
+{
+
+}
+
+void Simulator::saveHouse()
+{
+	int rows = currHouse.getRows();
+	int cols = currHouse.getCols();
+
+	//allocation:
+	char** savedHouseArray = new char*[rows];
+	for (int i = 0; i < rows; i++)
+	{
+		savedHouseArray[i] = new char[cols];
+		for (int j = 0; j < cols; j++)
+		{
+		}
+	}
+
+	savedParameters.house.setHouseArray(savedHouseArray);
+	savedParameters.house.copyHouseData(currHouse);
+}
+
+void Simulator::saveRobot()
+{
+	savedParameters.robot.setPosition(robot.getPosition());
+	savedParameters.robot.setDirection(Direction::STAY);
+	savedParameters.robot.setSensor(*sensor);
+	savedParameters.robot.setBatteryLevel(robot.getBatteryLevel());
+}
+
+void Simulator::saveMovesList()
+{
+	list<StepAndDirection>::iterator it;
+	for (it = moves.begin(); it != moves.end(); ++it)
+	{
+		savedParameters.moves.push_back(*it);
+	}
 }

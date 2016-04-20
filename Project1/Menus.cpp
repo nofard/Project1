@@ -14,7 +14,7 @@ void Menus::printMidMenu() {
 	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" << endl;
 }
 
-void Menus::printSavedMidMenu() {
+void Menus::printSolutionMidMenu() {
 	cout << "(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu" << endl;
 }
 
@@ -94,6 +94,7 @@ void Menus::executeUserChoiceMidMenu() {
 	case 2:
 		system("cls");
 		sim->restartSimulation();
+		runGameSimulation("dummy");
 		break;
 	case 3:
 		cout << "Please enter file name" << endl;
@@ -110,6 +111,10 @@ void Menus::executeUserChoiceMidMenu() {
 		executeUserChoiceMidMenu();
 		break;
 	case 4:
+		system("cls");
+		sim->restartSimulation();
+		runGameSolution();
+		
 
 		break;
 	case 8:
@@ -126,26 +131,40 @@ void Menus::executeUserChoiceMidMenu() {
 
 }
 
-void Menus::executeUserChoiceSavedMenu() 
+//executeUserChoiceSolutionMenu: execute the solution menu option that was chosen by the user.
+//"(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu" 
+void Menus::executeUserChoiceSolutionMenu() 
 {
+	string currHouseName;
 	int choice;
 	cin >> choice;
 	switch (choice)
 	{
 	case 1:
+		gotoxy(0, FIRST_ROW_MID_MENU);
+		cout << string(FULL_ROW, ' ');
+		gotoxy(0, FIRST_ROW_MID_MENU + 1);
+		cout << string(FULL_ROW, ' ');
+		gotoxy(0, FIRST_ROW_MID_MENU + 2);
+		cout << string(FULL_ROW, ' ');
 
 		break;
 	case 2:
-
+		system("cls");
+		sim->restartSimulation();
+		runGameSolution();
 		break;
 	case 3:
 
 		break;
 	case 4:
-
+		system("cls");
+		currHouseName = files.getCurrHouseName();
+		sim->restartSimulation();
+		runGameSimulation(currHouseName);
 		break;
 	case 8:
-
+		//aviv will change his beloved flag
 		break;
 	}
 }
@@ -178,8 +197,6 @@ void Menus::runGameSimulation(string houseSavedName)
 	int rows = 0, cols = 0;
 	char ** temp_house;
 	string houseName;
-	int houseIndex;
-
 
 	for (int i = 0; i < files.getIntialFilesListLength() && sim->endedSuccessfully; i++) 
 	{
@@ -304,4 +321,43 @@ string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
 	{
 	}
 	return (*it);
+}
+
+void Menus::midMenuManager()
+{
+
+	while (midMenuAlive)
+	{
+		printMidMenu();
+		executeUserChoiceMidMenu();
+	}
+
+
+}
+
+void Menus::runGameSolution()
+{
+	int rows = 0, cols = 0;
+	char ** temp_house;
+	string houseName;
+	string solutionName;
+
+	solutionName = files.getSolutionFromList(files.getHouseNumberChoice());
+	if (solutionName == "")
+	{
+		cout << "Sorry, there isn't a solution for this house" << endl;
+	}
+	else
+	{
+		houseName = solutionName.substr(START_INDEX_NAME, END_INDEX_NAME) + ".house";
+		files.setCurrHouseName(houseName);
+		temp_house = files.getHouseFromFile(houseName, &rows, &cols);
+		sim->init(temp_house, rows, cols);
+
+
+		ifstream solutionFile(solutionName);
+		sim->runSolution(solutionFile);
+		solutionFile.close();
+
+	}
 }

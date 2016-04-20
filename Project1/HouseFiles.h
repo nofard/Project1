@@ -40,10 +40,12 @@ public:
 	void initList(list<string>&lst, char* regex);
 	list<string>* getInitialHouseFilesList();
 	list<string>* getSavedHouseFilesList();
+	string getSolutionFromList(int houseNumber);
 	char convertNumToDirLetter(int number);
 	int getHouseNumberChoice();
 	int getFileType();
 	int getIndexOfHouseFromList(string houseName);
+	string getCurrHouseName();
 };
 
 #endif

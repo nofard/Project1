@@ -21,7 +21,6 @@ class House
 
 public:
 	void setHouse(char ** myHouse, int _rows, int _cols);
-	char** getHouse();
 	char getValueFromPoint(Point p);
 	char getValueFromPoint(int x, int y);
 	void reduceValueAtPoint(Point p);
@@ -36,6 +35,9 @@ public:
 	bool isValidHouse(){return validHouseFlag;}
 	void freeHouseMemory();
 	void copyHouseData(House houseToCopy);
+	int getRows();
+	int getCols();
+	void setHouseArray(char** arr);
 };
 
 #endif
