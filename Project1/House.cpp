@@ -172,7 +172,19 @@ int House::getCols()
 	return cols;
 }
 
+void House::setRows(int _rows)
+{
+	rows = _rows;
+}
+void House::setCols(int _cols)
+{
+	cols = _cols;
+}
 void House::setHouseArray(char** arr)
 {
 	house = arr;
+}
+char ** House::getHouse()
+{
+	return house;
 }

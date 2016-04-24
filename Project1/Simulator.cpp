@@ -2,20 +2,6 @@
 #include "Simulator.h"
 
 
-//init: initilize simulator data members;
-void Simulator::init()
-{
-
-	Sensor* theRobotSensor = new Sensor();
-	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
-	robot.setSensor(*theRobotSensor);
-	sensor = theRobotSensor;
-
-	robot.setPosition(originalHouse.getDockingPosition());
-	robot.setArrowKeys("wdxas");
-
-}
-
 void Simulator::init(char** house_array, int rows, int cols)
 {
 	originalHouse.setHouse(house_array, rows, cols);
@@ -29,14 +15,16 @@ void Simulator::init(char** house_array, int rows, int cols)
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
 	
-	setSavedPrintedHouse(rows, cols);
+	//setSavedPrintedHouse();
 }
 
 void Simulator::resetSimulatorData()
 {
 	system("cls");
 	stepNumber = 0;
+	moves.clear();
 	freeSimulationMemory();
+	
 }
 
 //updateDirtLevel: Update dirtLevel at a specifiec point, and reduce overall dirt level in the house
@@ -112,7 +100,7 @@ void Simulator::run()
 
 			Sleep(100);
 
-		} while (!endGame());
+ 		} while (!endGame());
 
 	}
 }
@@ -158,12 +146,13 @@ void Simulator::runSolution(ifstream& solutionFile)
 	Direction currDirection;
 	int stepNumberFromFile;
 	char buff[BUFF_SIZE];
-
+	int solMenuUserChoice = 0;
+	
 	solutionFile.getline(buff, BUFF_SIZE - 1);
 	int totalNumSteps = atoi(buff);
 
 	currDirection = getDirectionFromSavedFile(solutionFile, &stepNumberFromFile);
-	for (int i = 0; i < totalNumSteps; i++)
+	for (int i = 0; i < totalNumSteps && solMenuUserChoice != 3 ; i++)
 	{
 		stepNumber++;
 		if (stepNumber == stepNumberFromFile)
@@ -178,7 +167,7 @@ void Simulator::runSolution(ifstream& solutionFile)
 		{
 			robot.wasEscPressed = false;
 			menu->printSolutionMidMenu();
-			menu->executeUserChoiceSolutionMenu();
+			solMenuUserChoice = menu->executeUserChoiceSolutionMenu();
 		}
 		else
 		{
@@ -191,7 +180,7 @@ void Simulator::runSolution(ifstream& solutionFile)
 			chargeRobot(robot.getPosition());
 			updateDirtLevel(robot.getPosition());
 			sensor->updateSensorInfo(robot.getPosition());
-			sensor->revealArea();
+			sensor->revealArea(false);
 			printSimulationData();
 
 			Sleep(100);
@@ -287,6 +276,7 @@ void Simulator::restartSimulation()
 	sensor = theRobotSensor;
 
 	setStepNumber(0);
+	moves.clear();
 }
 
 void Simulator::setStepNumber(int stepNum)
@@ -379,18 +369,20 @@ void Simulator::updateEscPressedStatus()
 	}
 }
 
-void Simulator::setSavedPrintedHouse(int rows, int cols)
+void Simulator::setSavedPrintedHouse()
 {
-	savedParameters.printedHouse = new char*[rows];
-	for (int i = 0; i < rows; i++)
+//	savedParameters.printedHouse = new char*[MAX_ROWS];
+	for (int i = 0; i < MAX_ROWS; i++)
 	{
-		savedParameters.printedHouse[i] = new char[cols];
-		for (int j = 0; j < cols; j++)
+	//	savedParameters.printedHouse[i] = new char[MAX_COLS+1];
+		for (int j = 0; j < MAX_COLS; j++)
 		{
 			savedParameters.printedHouse[i][j] = ' ';
 		}
+		//savedParameters.printedHouse[i][MAX_COLS] = '\0';
 	}
 }
+
 
 void Simulator::savePointToPrintedHouse(Point p, char ch)
 {
@@ -399,7 +391,7 @@ void Simulator::savePointToPrintedHouse(Point p, char ch)
 
 void Simulator::saveSimulationParameters()
 {
-	savePrintedHouseFromScreen();
+	//savePrintedHouseFromScreen();
 	saveHouse();
 	saveRobot();
 	savedParameters.sensorPosition = sensor->getCurrPosition();
@@ -409,7 +401,12 @@ void Simulator::saveSimulationParameters()
 
 void Simulator::savePrintedHouseFromScreen()
 {
-
+	string buff;
+	for (int i = 0; i < MAX_ROWS; i++)
+	{
+//		getline(std::iostream::out, buff);
+		strcpy(savedParameters.printedHouse[i], buff.c_str());
+	}
 }
 
 void Simulator::saveHouse()
@@ -446,4 +443,73 @@ void Simulator::saveMovesList()
 	{
 		savedParameters.moves.push_back(*it);
 	}
+}
+
+void Simulator::restoreSimulationParameters()
+{
+	printSavedHouseToScreen();
+	restoreHouse();
+	restoreRobot();
+	sensor->setCurrPosition(savedParameters.sensorPosition);
+	sensor->setHouse(&currHouse);
+	stepNumber = savedParameters.stepNumber;
+	restoreMovesList();
+
+}
+
+void Simulator::printSavedHouseToScreen()
+{
+	Point currPoint;
+	system("cls");
+	gotoxy(0, 0);
+//	for (int i = 0; i < MAX_ROWS; i++)
+//	{
+//		cout << savedParameters.printedHouse[i] << endl;
+//	}
+
+	for (int i = 0; i < currHouse.getRows(); i++)
+	{
+		for (int j = 0; j < currHouse.getCols(); j++)
+		{
+			currPoint.setPoint(j, i);
+			if (savedParameters.printedHouse[i][j] == NULL)
+				currPoint.drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
+			else
+				currPoint.drawToScreenWhenDockingOn(currHouse.getDockingPosition(), savedParameters.printedHouse[i][j]);
+				
+		}
+		cout << endl;
+	}
+}
+
+void Simulator::restoreHouse()
+{
+	currHouse.setRows(savedParameters.house.getRows());
+	currHouse.setCols(savedParameters.house.getCols());
+
+	currHouse.setHouseArray(savedParameters.house.getHouse());
+	currHouse.copyHouseData(savedParameters.house);
+}
+
+void Simulator::restoreRobot()
+{
+	robot.setPosition(savedParameters.robot.getPosition());
+	robot.setDirection(Direction::STAY);
+	//robot.setSensor(savedParameters.robot.getSensor());
+	robot.setBatteryLevel(savedParameters.robot.getBatteryLevel());
+	robot.wasEscPressed = false;
+}
+
+void Simulator::restoreMovesList()
+{
+	moves.clear();
+	list<StepAndDirection>::iterator it;
+	for (it = savedParameters.moves.begin(); it != savedParameters.moves.end(); ++it)
+		moves.push_back(*it);
+
+}
+
+void Simulator::savePrintedCharToSavedArray(int row, int col, char ch)
+{
+	savedParameters.printedHouse[row][col] = ch;
 }

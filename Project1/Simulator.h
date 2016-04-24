@@ -1,10 +1,7 @@
 #ifndef _SIMULATOR_H_
 #define _SIMULATOR_H_
 
-#include "io_utils.h"
 #include "KeyboardRobot.h"
-#include "House.h"
-#include "Sensor.h"
 #include "Menus.h"
 #include "Score.h"
 
@@ -14,7 +11,7 @@
 
 struct savedForLater
 {
-	char** printedHouse;
+	char printedHouse[MAX_ROWS][MAX_COLS];
 	House house;
 	KeyboardRobot robot;
 	Point sensorPosition;
@@ -23,6 +20,7 @@ struct savedForLater
 };
 
 class Menus;
+class Sensor;
 
 class Simulator 
 {
@@ -60,15 +58,22 @@ public:
 	Direction convertDirLetterToDir(char* letter);
 	void runSolution(ifstream& solutionFile);
 	void updateEscPressedStatus();
-	void setSavedPrintedHouse(int rows, int cols);
+	void setSavedPrintedHouse();
 	void savePointToPrintedHouse(Point p, char ch);
+
+	void savePrintedCharToSavedArray(int row, int col, char ch);
+	void restoreSimulationParameters();
 private:
 	void saveSimulationParameters();
 	void savePrintedHouseFromScreen();
 	void saveHouse();
 	void saveRobot();
 	void saveMovesList();
-
+	
+	void printSavedHouseToScreen();
+	void restoreHouse();
+	void restoreRobot();
+	void restoreMovesList();
 };
 
 #endif

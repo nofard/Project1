@@ -1,11 +1,8 @@
 #ifndef _POINT_H_
 #define _POINT_H_
 
-#include <iostream>
 #include "io_utils.h"
 
-
-using namespace std;
 
 enum { MAX_Y = 20, MAX_X = 79 };
 enum {DOCK_X = 40, DOCK_Y = 12};

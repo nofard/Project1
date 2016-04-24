@@ -1,6 +1,4 @@
 #include "Menus.h"
-#include <iostream>
-using namespace std;
 
 //printFirstMenu: prints to the screen the initial menu.
 void Menus::printFirstMenu() {
@@ -133,7 +131,7 @@ void Menus::executeUserChoiceMidMenu() {
 
 //executeUserChoiceSolutionMenu: execute the solution menu option that was chosen by the user.
 //"(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu" 
-void Menus::executeUserChoiceSolutionMenu() 
+int Menus::executeUserChoiceSolutionMenu() 
 {
 	string currHouseName;
 	int choice;
@@ -155,7 +153,9 @@ void Menus::executeUserChoiceSolutionMenu()
 		runGameSolution();
 		break;
 	case 3:
-
+		sim->restoreSimulationParameters();
+		midMenuAlive = false;
+		//runGameSimulation(files.getCurrHouseName());
 		break;
 	case 4:
 		system("cls");
@@ -167,6 +167,7 @@ void Menus::executeUserChoiceSolutionMenu()
 		//aviv will change his beloved flag
 		break;
 	}
+	return choice;
 }
 
 //showInstructions: prints the instructions of the simulation.

@@ -5,12 +5,14 @@
 #include "config.h"
 #include <iostream>
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
 #include "Direction.h"
 #include "StepAndDirection.h"
 #include "configuration.h"
 #include <list>
+
+using namespace std;
 
 void gotoxy(int x, int y);
 void hideCursor();

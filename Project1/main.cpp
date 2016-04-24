@@ -1,7 +1,3 @@
-#include <windows.h>
-#include <iostream>
-using namespace std;
-
 #include "Simulator.h"
 #include "Menus.h"
 

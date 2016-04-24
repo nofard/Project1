@@ -1,9 +1,9 @@
 #ifndef _SENSOR_H_
 #define _SENSOR_H_
 
-#include "io_utils.h"
+//#include "io_utils.h"
 #include "House.h"
-
+//#include "Simulator.h"
 
 #define DIR_AMOUNT 4
 
@@ -17,7 +17,7 @@ struct SensorInformation
 
 class Sensor
 {
-	Simulator * sim;
+	Simulator* sim;
 	House *house;
 	SensorInformation sensorInfo;
 	Point robotPosition;
@@ -33,7 +33,7 @@ public:
 	void updateWallsInfo();
 	void updateDirtLevel();
 	void revealArea();
-	void revealArea(Simulator& sim);
+	void revealArea(bool saveToArray);
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "Sensor.h"
+#include "Simulator.h"
 
 //initSensor: set sensor data members.
 void Sensor::initSensor(Simulator * _sim, House *_house, Point _robotPosition)
@@ -66,6 +67,27 @@ void Sensor::revealArea()
 		neighbor = robotPosition.next((Direction)dir);
 		charToDraw = house->getValueFromPoint(neighbor);
 		neighbor.drawToScreenWhenDockingOn(house->getDockingPosition(), charToDraw);
+		sim->savePrintedCharToSavedArray(neighbor.getY(), neighbor.getX(), charToDraw);
+		
+	}
+}
+
+//revealArea: reveal to the screen the area(= 4 directions) near the robot position.
+void Sensor::revealArea(bool saveToArray)
+{
+	Point neighbor;
+	char charToDraw;
+
+	for (int dir = 0; dir < DIR_AMOUNT; dir++)
+	{
+		neighbor = robotPosition.next((Direction)dir);
+		charToDraw = house->getValueFromPoint(neighbor);
+		neighbor.drawToScreenWhenDockingOn(house->getDockingPosition(), charToDraw);
+		if (saveToArray)
+		{
+			sim->savePrintedCharToSavedArray(neighbor.getY(), neighbor.getX(), charToDraw);
+		}
+		
 	}
 
 }

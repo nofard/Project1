@@ -1,11 +1,7 @@
 #ifndef _ROBOT_H_
 #define _ROBOT_H_
 
-#include <cstring>
-#include "Point.h"
 #include "Sensor.h"
-#include "Direction.h"
-#include "configuration.h"
 
 #define NUM_OF_KEYS 5
 #define ESC_KEY 27
@@ -35,6 +31,7 @@ public:
 	void increaseBatteryLevel();
 	void setBatteryLevel(int);
 	void resetData();
+	Sensor * getSensor();
 };
 
 #endif

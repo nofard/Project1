@@ -1,14 +1,13 @@
 #ifndef _HOUSE_H_
 #define _HOUSE_H_
 
-#include "io_utils.h"
 #include "Point.h"
 
 #define DOCK_LETTER 'D'
 #define WALL_LETTER 'W'
 
 enum { MIN_DIRT_LEVEL = 0, MAX_DIRT_LEVEL = 9 };
-enum { MIN_ROWS = 5, MAX_ROWS = 24, MIN_COLS = 10, MAX_COLS = 79 };
+enum { MIN_ROWS = 5, MAX_ROWS = 20, MIN_COLS = 10, MAX_COLS = 79 };
 
 class House
 {
@@ -38,6 +37,9 @@ public:
 	int getRows();
 	int getCols();
 	void setHouseArray(char** arr);
+	void setRows(int _rows);
+	void setCols(int _cols);
+	char ** getHouse();
 };
 
 #endif

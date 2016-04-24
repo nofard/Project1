@@ -3,10 +3,8 @@
 
 #include "io_utils.h"
 #include <fstream>
-#include <iostream>
-#include <string>
 
-using namespace std;
+
 
 enum {START_INDEX_NAME = 0, END_INDEX_NAME = 3};
 
