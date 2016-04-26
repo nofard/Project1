@@ -227,7 +227,8 @@ void Menus::runGameSimulation(string houseSavedName)
 				}
 			}
 		}
-		if(sim->endedSuccessfully && i != files.getIntialFilesListLength() -1)//for the last one no reset, its resets in the main
+		//if(sim->endedSuccessfully && i != files.getIntialFilesListLength() -1)//for the last one no reset, its resets in the main
+		if (sim->endedSuccessfully)
 			sim->resetSimulatorData();
 	}
 	if (sim->endedSuccessfully)//done all houses and finished succuessfully
@@ -243,13 +244,13 @@ void Menus::chooseSavedHouse(int houseNum)
 	list<string>::iterator it;
 	char hold_the_screen;
 	string chosenSaveHouse;
-	//string tempStr;
-	int tempNum;
+
+	int tempHouseNum;
 
 	for (it = (*savedHousesList).begin(); it != (*savedHousesList).end(); ++it)
 	{
-		tempNum = ((*it)[0] - '0') * 100 + ((*it)[1] - '0') * 10 + ((*it)[2] - '0');
-		if (tempNum == houseNum)
+		tempHouseNum = ((*it)[0] - '0') * 100 + ((*it)[1] - '0') * 10 + ((*it)[2] - '0');
+		if (tempHouseNum == houseNum)
 		{
 			currSavedHouses.push_back((*it));
 		}
@@ -259,12 +260,10 @@ void Menus::chooseSavedHouse(int houseNum)
 	{
 		chosenSaveHouse = chooseSavedFromRangeMenu(currSavedHouses);
 		runGameSimulation(chosenSaveHouse);
-		//firstMenuAlive = false;
 	} 
 	else if (currSavedHouses.size() == 1)
 	{
 		runGameSimulation(currSavedHouses.begin()->data());
-		//firstMenuAlive = false;
 	}
 	else
 	{

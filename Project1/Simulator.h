@@ -66,11 +66,9 @@ public:
 	void restoreSimulationParameters();
 private:
 	void saveSimulationParameters();
-	void savePrintedHouseFromScreen();
 	void saveHouse();
 	void saveRobot();
 	void saveMovesList();
-	
 	void printSavedHouseToScreen();
 	void restoreHouse();
 	void restoreRobot();

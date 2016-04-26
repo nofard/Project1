@@ -29,10 +29,8 @@ public:
 	void executeUserChoiceMidMenu();
 	void showInstructions();
 	void runGameSimulation(string houseSavedName);
-	HouseFiles getHouseFiles(); 
 	void printSolutionMidMenu();
 	int executeUserChoiceSolutionMenu();
-	void runSavedGameSimulation(string houseSavedName);
 	void chooseSavedHouse(int houseNum);
 	void setSimulator(Simulator * _sim);
 	string chooseSavedFromRangeMenu(list<string> & listSavedHouses);

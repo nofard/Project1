@@ -100,7 +100,6 @@ void Simulator::run()
 			}
 
  		} while (!endGame());
-
 	}
 }
 
@@ -189,10 +188,6 @@ void Simulator::runSolution(ifstream& solutionFile)
 
 			Sleep(100);
 		}
-
-		
-
-		
 	}
 }
 
@@ -265,7 +260,6 @@ bool Simulator::endGame() {
 		return true;
 	}
 		
-
 	return false;
 }
 
@@ -387,15 +381,12 @@ void Simulator::updateEscPressedStatus()
 
 void Simulator::setSavedPrintedHouse()
 {
-//	savedParameters.printedHouse = new char*[MAX_ROWS];
 	for (int i = 0; i < MAX_ROWS; i++)
 	{
-	//	savedParameters.printedHouse[i] = new char[MAX_COLS+1];
 		for (int j = 0; j < MAX_COLS; j++)
 		{
 			savedParameters.printedHouse[i][j] = ' ';
 		}
-		//savedParameters.printedHouse[i][MAX_COLS] = '\0';
 	}
 }
 
@@ -407,7 +398,6 @@ void Simulator::savePointToPrintedHouse(Point p, char ch)
 
 void Simulator::saveSimulationParameters()
 {
-	//savePrintedHouseFromScreen();
 	saveHouse();
 	saveRobot();
 	savedParameters.sensorPosition = sensor->getCurrPosition();
@@ -415,15 +405,6 @@ void Simulator::saveSimulationParameters()
 	saveMovesList();
 }
 
-void Simulator::savePrintedHouseFromScreen()
-{
-	string buff;
-	for (int i = 0; i < MAX_ROWS; i++)
-	{
-//		getline(std::iostream::out, buff);
-		strcpy(savedParameters.printedHouse[i], buff.c_str());
-	}
-}
 
 void Simulator::saveHouse()
 {
@@ -478,10 +459,6 @@ void Simulator::printSavedHouseToScreen()
 	Point currPoint;
 	system("cls");
 	gotoxy(0, 0);
-//	for (int i = 0; i < MAX_ROWS; i++)
-//	{
-//		cout << savedParameters.printedHouse[i] << endl;
-//	}
 
 	for (int i = 0; i < currHouse.getRows(); i++)
 	{
@@ -511,7 +488,6 @@ void Simulator::restoreRobot()
 {
 	robot.setPosition(savedParameters.robot.getPosition());
 	robot.setDirection(Direction::STAY);
-	//robot.setSensor(savedParameters.robot.getSensor());
 	robot.setBatteryLevel(savedParameters.robot.getBatteryLevel());
 	robot.wasEscPressed = false;
 }
