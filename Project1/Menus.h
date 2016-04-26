@@ -18,7 +18,10 @@ class Menus
 	Simulator * sim;
 	
 public:
+	bool firstMenuAlive = true;
 	bool midMenuAlive = true;
+	bool repeatSolution = false;
+	bool restartHouseFromSolution = false;
 	Menus() { files.initHouseFiles(); }
 	void printFirstMenu();
 	void printMidMenu();
@@ -34,6 +37,7 @@ public:
 	void setSimulator(Simulator * _sim);
 	string chooseSavedFromRangeMenu(list<string> & listSavedHouses);
 	void midMenuManager();
+	void firstMenuManager();
 	void runGameSolution();
 };
 

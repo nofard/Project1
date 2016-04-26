@@ -15,6 +15,7 @@ void Simulator::init(char** house_array, int rows, int cols)
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
 	
+	endGameParameter = false;
 	//setSavedPrintedHouse();
 }
 
@@ -22,7 +23,6 @@ void Simulator::resetSimulatorData()
 {
 	system("cls");
 	stepNumber = 0;
-	moves.clear();
 	freeSimulationMemory();
 	
 }
@@ -55,15 +55,15 @@ void Simulator::chargeRobot(Point p)
 //printSimulationData: prints information about the simulation in the buttom of the screen
 void Simulator::printSimulationData()
 {
-	gotoxy(0, 22);
+	gotoxy(0, SIM_DATA_ROW);
 	cout << "Round Number:" << stepNumber;
-	gotoxy(18, 22);
+	gotoxy(18, SIM_DATA_ROW);
 	cout << "Total dust:" << currHouse.getOverallDirtLevel() << "  ";
-	gotoxy(34, 22);
+	gotoxy(34, SIM_DATA_ROW);
 	cout << "Dust Collected:" << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel();
-	gotoxy(53, 22);
+	gotoxy(53, SIM_DATA_ROW);
 	cout << "Battery:" << robot.getBatteryLevel() << "  ";
-	gotoxy(66, 22);
+	gotoxy(66, SIM_DATA_ROW);
 	cout << "Max Steps:" << config.MaxSteps << "  ";
 	cout << endl;
 }
@@ -79,17 +79,7 @@ void Simulator::run()
 			currDirection = robot.step();
 			stepNumber++;
 			addMoveToList(currDirection);
-
-			if (robot.wasEscPressed)
-			{
-				robot.wasEscPressed = false;
-				saveSimulationParameters();
-				menu->midMenuAlive = true;
-				menu->midMenuManager();
-				//menu->printMidMenu();
-				//menu->executeUserChoiceMidMenu();
-			}
-
+			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
 			robot.move();
 			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
 			robot.reduceBatteryLevel();
@@ -100,6 +90,14 @@ void Simulator::run()
 			printSimulationData();
 
 			Sleep(100);
+
+			if (robot.wasEscPressed)
+			{
+				robot.wasEscPressed = false;
+				saveSimulationParameters();
+				menu->midMenuAlive = true;
+				menu->midMenuManager();
+			}
 
  		} while (!endGame());
 
@@ -118,7 +116,6 @@ void Simulator::runSavedGame(ifstream & savedFile)
 		currDirection = getDirectionFromSavedFile(savedFile, &stepNumberFromFile);
 		for (int i = 0; i < totalNumSteps ; i++) 
 		{
-			
 			stepNumber++;
 			if (stepNumber == stepNumberFromFile)
 			{
@@ -138,7 +135,7 @@ void Simulator::runSavedGame(ifstream & savedFile)
 				sensor->revealArea();
 				printSimulationData();
 
-				Sleep(10);
+				//Sleep(10);
 		}
 }
 
@@ -147,22 +144,14 @@ void Simulator::runSolution(ifstream& solutionFile)
 	Direction currDirection;
 	int stepNumberFromFile;
 	char buff[BUFF_SIZE];
-	int solMenuUserChoice = 0;
-	
+	int solMenuUserChoice = 1;
+
 	solutionFile.getline(buff, BUFF_SIZE - 1);
 	int totalNumSteps = atoi(buff);
 
 	currDirection = getDirectionFromSavedFile(solutionFile, &stepNumberFromFile);
-	for (int i = 0; i < totalNumSteps && solMenuUserChoice != 3 ; i++)
+	for (int i = 0; i < totalNumSteps && (solMenuUserChoice == 1 || solMenuUserChoice == 2) ; i++)
 	{
-		stepNumber++;
-		if (stepNumber == stepNumberFromFile)
-		{
-			robot.setDirection(currDirection);
-			if (!solutionFile.eof())
-				currDirection = getDirectionFromSavedFile(solutionFile, &stepNumberFromFile);
-		}
-
 		updateEscPressedStatus();
 		if (robot.wasEscPressed)
 		{
@@ -170,8 +159,22 @@ void Simulator::runSolution(ifstream& solutionFile)
 			menu->printSolutionMidMenu();
 			solMenuUserChoice = menu->executeUserChoiceSolutionMenu();
 		}
+
+		if (solMenuUserChoice == 2)
+			menu->repeatSolution = true;
 		else
+			menu->repeatSolution = false;
+
+		if(solMenuUserChoice == 1)
 		{
+			stepNumber++;
+			if (stepNumber == stepNumberFromFile)
+			{
+				robot.setDirection(currDirection);
+				if (!solutionFile.eof())
+					currDirection = getDirectionFromSavedFile(solutionFile, &stepNumberFromFile);
+			}
+
 			if (currDirection != (Direction)DEFAULT_DIR) //check for last row in the file
 				addMoveToList(currDirection);
 
@@ -186,10 +189,12 @@ void Simulator::runSolution(ifstream& solutionFile)
 
 			Sleep(100);
 		}
+
+		
+
+		
 	}
-
 }
-
 
 Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepNum)
 {
@@ -226,7 +231,6 @@ bool Simulator::endGame() {
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		endedSuccessfully = true;
 
-
 		cin >> hold_the_screen;
 		return true;
 	}
@@ -238,6 +242,7 @@ bool Simulator::endGame() {
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		cin >> hold_the_screen;
 		endedSuccessfully = false;
+		menu->firstMenuAlive = false;
 		return true;
 	}
 	if (stepNumber >= config.MaxSteps)
@@ -250,8 +255,17 @@ bool Simulator::endGame() {
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		cin >> hold_the_screen;
 		endedSuccessfully = false;
+		menu->firstMenuAlive = false;
 		return true;
 	}
+
+	if (endGameParameter == true)
+	{
+		endedSuccessfully = false;
+		return true;
+	}
+		
+
 	return false;
 }
 
@@ -260,6 +274,7 @@ void Simulator::freeSimulationMemory()
 	originalHouse.freeHouseMemory();
 	currHouse.freeHouseMemory();
 	robot.resetData();
+	moves.clear();
 }
 
 void Simulator::restartSimulation()

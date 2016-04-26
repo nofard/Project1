@@ -8,6 +8,7 @@
 
 #define ROBOT_LETTER '@'
 #define BUFF_SIZE 1024
+#define SIM_DATA_ROW 22
 
 struct savedForLater
 {
@@ -35,7 +36,7 @@ class Simulator
 
 public:
 	bool endedSuccessfully = true;
-	void init();
+	bool endGameParameter = false;
 	void init(char** house_array, int rows, int cols);
 	void run();
 	void updateDirtLevel(Point p);

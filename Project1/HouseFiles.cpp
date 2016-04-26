@@ -225,6 +225,7 @@ string HouseFiles::getSolutionFromList(int houseNumber)
 	{
 		if (convertHouseNameToNumber(*it) == houseNumber)
 			return (*it);
+		it++;
 	}
 	return "";
 }

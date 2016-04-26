@@ -6,13 +6,13 @@ int main()
 	Simulator* simulator = new Simulator();
 	Menus* menu = new Menus();
 	
-
-
 	simulator->setMenu(menu);
 	menu->setSimulator(simulator);
-	menu->printFirstMenu();
-	menu->executeUserChoice();
 
+	menu->firstMenuManager();
+
+	//simulator->freeSavedParameters();
+	//menu->freeMenuMemory
 	delete menu;
 	delete simulator;
 }
