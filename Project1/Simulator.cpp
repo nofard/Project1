@@ -84,6 +84,7 @@ void Simulator::run()
 			{
 				robot.wasEscPressed = false;
 				saveSimulationParameters();
+				menu->midMenuAlive = true;
 				menu->midMenuManager();
 				//menu->printMidMenu();
 				//menu->executeUserChoiceMidMenu();

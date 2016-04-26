@@ -87,7 +87,7 @@ void Menus::executeUserChoiceMidMenu() {
 		cout << string(FULL_ROW, ' ');
 		gotoxy(0, FIRST_ROW_MID_MENU + 2);
 		cout << string(FULL_ROW, ' ');
-
+		midMenuAlive = false;
 		break;
 	case 2:
 		system("cls");
@@ -223,6 +223,7 @@ void Menus::runGameSimulation(string houseSavedName)
 			{
 				files.setCurrHouseName(houseName);
 				files.setHouseNumberChoice((files.getHouseNumberChoice()) + 1);
+				//files.setHouseNumberChoice((files.getHouseNumberChoice()));
 				temp_house = files.getHouseFromFile(houseName, &rows, &cols);
 				sim->init(temp_house, rows, cols);
 				sim->run();
