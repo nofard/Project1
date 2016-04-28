@@ -27,6 +27,7 @@ void Menus::executeUserChoice() {
 	case 1:
 		system("cls");
 		files.setFileType(NEW_HOUSE);
+		files.setHouseNumberChoice(1);
 		runGameSimulation("dummy");
 		break;
 	case 2:
@@ -105,10 +106,12 @@ void Menus::executeUserChoiceMidMenu() {
 		break;
 	case 8:
 		system("cls");
+		sim->resetSimulatorData();
 		sim->endGameParameter = true;
 		midMenuAlive = false;
 		break; 
 	case 9:
+		sim->resetSimulatorData();
 		sim->endGameParameter = true;
 		midMenuAlive = false;
 		firstMenuAlive = false;
@@ -146,6 +149,7 @@ int Menus::executeUserChoiceSolutionMenu()
 		break;
 	case 4:
 		system("cls");
+		sim->resetSimulatorData();
 		midMenuAlive = false;
 		sim->endGameParameter = true;
 		restartHouseFromSolution = true;
@@ -193,6 +197,7 @@ void Menus::runGameSimulation(string houseSavedName)
 	int rows = 0, cols = 0;
 	char ** temp_house;
 	string houseName;
+	char hold_the_screen;
 
 	for (int i = 0; i < files.getIntialFilesListLength() && sim->endedSuccessfully; i++) 
 	{
@@ -227,13 +232,13 @@ void Menus::runGameSimulation(string houseSavedName)
 				}
 			}
 		}
-		//if(sim->endedSuccessfully && i != files.getIntialFilesListLength() -1)//for the last one no reset, its resets in the main
 		if (sim->endedSuccessfully)
 			sim->resetSimulatorData();
 	}
 	if (sim->endedSuccessfully)//done all houses and finished succuessfully
 	{
-		firstMenuAlive = false;
+		cout << "Well done, you have finished cleaning the last house." << endl;
+		cin >> hold_the_screen;
 	}
 }
 
@@ -259,7 +264,8 @@ void Menus::chooseSavedHouse(int houseNum)
 	if (currSavedHouses.size() > 1)
 	{
 		chosenSaveHouse = chooseSavedFromRangeMenu(currSavedHouses);
-		runGameSimulation(chosenSaveHouse);
+		if(chosenSaveHouse != "")
+			runGameSimulation(chosenSaveHouse);
 	} 
 	else if (currSavedHouses.size() == 1)
 	{
@@ -281,7 +287,7 @@ string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
 	int index = 1;
 	int choice;
 
-	cout << "Please select a game from the following list:" << endl;
+	cout << "Please select a game from the following list or enter 0 to main menu." << endl;
 	for (it = currSavedHouses.begin(); it != currSavedHouses.end(); it++)
 	{
 		cout << "(" << index << ") " << (*it) << endl;
@@ -289,11 +295,20 @@ string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
 	}
 	cin >> choice;
 	system("cls");
-	int i;
-	for (i = 0, it = currSavedHouses.begin(); i < choice - 1; i++, it++)
+	if (choice == 0)
 	{
+		sim->resetSimulatorData();
+		return "";
 	}
-	return (*it);
+	else
+	{ 
+		
+		int i;
+		for (i = 0, it = currSavedHouses.begin(); i < choice - 1; i++, it++)
+		{
+		}
+		return (*it);
+	}
 }
 
 void Menus::firstMenuManager()
@@ -305,7 +320,7 @@ void Menus::firstMenuManager()
 
 		if (!restartHouseFromSolution)
 		{
-			sim->resetSimulatorData();
+		//	sim->resetSimulatorData();
 			printFirstMenu();
 			executeUserChoice();
 		}
