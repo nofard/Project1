@@ -66,6 +66,7 @@ public:
 
 	void savePrintedCharToSavedArray(int row, int col, char ch);
 	void restoreSimulationParameters();
+	void freeSavedParameters();
 private:
 	void saveSimulationParameters();
 	void saveHouse();

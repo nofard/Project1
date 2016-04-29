@@ -44,6 +44,7 @@ public:
 	int getFileType();
 	int getIndexOfHouseFromList(string houseName);
 	string getCurrHouseName();
+	void freeHouseFilesMemory();
 };
 
 #endif

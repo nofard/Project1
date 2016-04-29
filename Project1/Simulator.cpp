@@ -507,3 +507,9 @@ void Simulator::savePrintedCharToSavedArray(int row, int col, char ch)
 {
 	savedParameters.printedHouse[row][col] = ch;
 }
+
+void Simulator::freeSavedParameters()
+{
+	savedParameters.house.freeHouseMemory();
+	savedParameters.moves.clear();
+}

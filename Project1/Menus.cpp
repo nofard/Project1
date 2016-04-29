@@ -374,3 +374,8 @@ void Menus::runGameSolution()
 
 	}
 }
+
+void Menus::freeMenusMemory()
+{
+	files.freeHouseFilesMemory();
+}

@@ -231,3 +231,10 @@ string HouseFiles::getCurrHouseName()
 {
 	return currHouseName;
 }
+
+void HouseFiles::freeHouseFilesMemory()
+{
+	initialHousefilesNames.clear();
+	savedHousefilesNames.clear();
+	solutionHousefilesNames.clear();
+}

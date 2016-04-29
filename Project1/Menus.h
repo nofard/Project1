@@ -3,14 +3,11 @@
 
 #include "Simulator.h"
 #include "HouseFiles.h"
-//#include <string>
-//#include <cstdlib>
 
 #define FIRST_ROW_MID_MENU 24
 #define FULL_ROW 80
 
 class Simulator;
-//class HouseFiles;
 
 class Menus 
 {
@@ -37,6 +34,7 @@ public:
 	void midMenuManager();
 	void firstMenuManager();
 	void runGameSolution();
+	void freeMenusMemory();
 };
 
 #endif
