@@ -6,18 +6,19 @@ void Menus::printFirstMenu() {
 	cout << "(1) Start game (2) Start game from specific house (3) Continue from saved game (8) Show instructions (9) Quit game" << endl;
 }
 
-//printMidMenu: prints to the screen the "middle" menu, when game is paused(esc pressed).
+//printMidMenu: prints to the screen the "middle" menu, when game is paused (esc pressed).
 void Menus::printMidMenu() {
 	//system("cls");
 	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" << endl;
 }
 
+//printSolutionMidMenu: prints to the screen the "middle" menu, when solution is paused (esc pressed).
 void Menus::printSolutionMidMenu() {
 	cout << "(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu" << endl;
 }
 
 //executeUserChoice: execute the initial menu option that was chosen by the user.
-//"(1) Start game (2) Start game from specific house (3) Continue from saved game (8) Show instructions (9) Quit game"
+//(1) Start game (2) Start game from specific house (3) Continue from saved game (8) Show instructions (9) Quit game
 void Menus::executeUserChoice() {
 	int choice;
 	
@@ -65,7 +66,7 @@ void Menus::executeUserChoice() {
 }
 
 //executeUserChoiceMidMenu: execute the middle menu option that was chosen by the user.
-//"(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" 
+//(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game 
 void Menus::executeUserChoiceMidMenu() {
 	int choice;
 	string fileName;
@@ -123,7 +124,7 @@ void Menus::executeUserChoiceMidMenu() {
 }
 
 //executeUserChoiceSolutionMenu: execute the solution menu option that was chosen by the user.
-//"(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu" 
+//(1) Continue showing sol (2) Restart solution (3) Continue game (4) Restart game (8) Quit to main menu
 int Menus::executeUserChoiceSolutionMenu() 
 {
 	string currHouseName;
@@ -149,7 +150,7 @@ int Menus::executeUserChoiceSolutionMenu()
 		break;
 	case 4:
 		system("cls");
-		sim->resetSimulatorData();
+		//sim->resetSimulatorData();
 		midMenuAlive = false;
 		sim->endGameParameter = true;
 		restartHouseFromSolution = true;
@@ -191,7 +192,8 @@ void Menus::showInstructions() {
 		break;
 	}
 }
-
+//runGameSimulation: gets house name and run the simulation starting from the given house (new or saved game) until all houses followed
+//were completed successfully or one of the houses were failed to be cleaned entirely. 
 void Menus::runGameSimulation(string houseSavedName)
 {
 	int rows = 0, cols = 0;
@@ -244,7 +246,8 @@ void Menus::runGameSimulation(string houseSavedName)
 		cin >> hold_the_screen;
 	}
 }
-
+//chooseSavedHouse: gets house number chosen by the user from range, check if saved house exists for this user
+//and if exists run the simulation from the chosen saved house.
 void Menus::chooseSavedHouse(int houseNum)
 {
 	list<string> currSavedHouses;
@@ -280,10 +283,15 @@ void Menus::chooseSavedHouse(int houseNum)
 		cin >> hold_the_screen;
 	}
 }
+
+//setSimulator: sets the simulator variable.
 void Menus::setSimulator(Simulator * _sim)
 {
 	sim = _sim;
 }
+
+//chooseSavedFromRangeMenu: gets a list of specific house saved games, prints a numbered menu of those houses, gets from the user 
+//his choice and returns the chosen house.
 string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
 {
 	list<string>::iterator it;
@@ -313,7 +321,7 @@ string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
 		return (*it);
 	}
 }
-
+//firstMenuManager: 
 void Menus::firstMenuManager()
 {
 	while (firstMenuAlive)
@@ -335,7 +343,7 @@ void Menus::firstMenuManager()
 		}
 	}
 }
-
+//midMenuManager: checks if middle menu needs to be printes and executed
 void Menus::midMenuManager()
 {
 
@@ -345,7 +353,8 @@ void Menus::midMenuManager()
 		executeUserChoiceMidMenu();
 	}
 }
-
+//runGameSolution: run solution of the current house the user is running the game on, if there is no saved solution for this 
+//house. a message will be displayed.
 void Menus::runGameSolution()
 {
 	int rows = 0, cols = 0;
@@ -353,11 +362,14 @@ void Menus::runGameSolution()
 	string houseName;
 	int maxStepsFromFile;
 	string solutionName;
+	char hold_the_screen;
 
 	solutionName = files.getSolutionFromList(files.getHouseNumberChoice());
 	if (solutionName == "")
 	{
 		cout << "Sorry, there isn't a solution for this house" << endl;
+		cout << "Press any key to continue" << endl;
+		cin >> hold_the_screen;
 	}
 	else
 	{
@@ -374,7 +386,7 @@ void Menus::runGameSolution()
 
 	}
 }
-
+//freeMenusMemory: frees the menus' data members - which is house files object.
 void Menus::freeMenusMemory()
 {
 	files.freeHouseFilesMemory();

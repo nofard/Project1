@@ -120,6 +120,7 @@ void KeyboardRobot::setBatteryLevel(int batteryNewLevel) {
 	batteryLevel = batteryNewLevel;
 }
 
+//resetData: gets the initial battery capacity and resets all data keyboard robot contains.
 void KeyboardRobot::resetData(int batteryCapacity)
 {
 	direction = Direction::STAY;

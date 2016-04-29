@@ -51,7 +51,7 @@ char House::getValueFromPoint(int x, int y)
 	return house[y][x];
 }
 
-//reduceValueAtPoint: reduce value by 1 to a specifiec point.
+//reduceValueAtPoint: reduce value by 1 to a specific point.
 void House::reduceValueAtPoint(Point p)
 {
 	int value = (int)(house[p.getY()][p.getX()] - '0');
@@ -136,7 +136,7 @@ void House::fillSurroundingWalls()
 		house[i][cols-1] = WALL_LETTER;
 	}
 }
-
+//freeHouseMemory: frees the memory allocated for the house array.
 void House::freeHouseMemory()
 {
 
@@ -146,7 +146,7 @@ void House::freeHouseMemory()
 	}
 	delete[] house;
 }
-
+//copyHouseData: gets house variable and copies all its content to the current house data member.
 void House::copyHouseData(House houseToCopy)
 {
 	rows = houseToCopy.rows;

@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Simulator.h"
 
-
+//init: gets house array, rows and columns, and init all variables to initial state.
 void Simulator::init(char** house_array, int rows, int cols)
 {
 	config.initDefaultConfiguration();
@@ -20,7 +20,7 @@ void Simulator::init(char** house_array, int rows, int cols)
 
 	endGameParameter = false;
 }
-
+//resetSimulatorData: resets simulation data, and frees all alloacted memory in the simulation.
 void Simulator::resetSimulatorData()
 {
 	system("cls");
@@ -70,7 +70,8 @@ void Simulator::printSimulationData()
 	cout << endl;
 }
 
-//run: The main function to run the simulation. get the step from the algorithm until the end of the cleaning process
+//run: The main function to run the simulation. Runs the robot until the end of the cleaning process (successful or not)
+//or if users choose to quit in ESC menu
 void Simulator::run()
 {
 	if (originalHouse.isValidHouse())
@@ -105,6 +106,7 @@ void Simulator::run()
 	}
 }
 
+//runSavedGame: gets the saved file object, and runs the robot according to the moves written in the saved file
 void Simulator::runSavedGame(ifstream & savedFile)
 {
 		Direction currDirection;
@@ -139,7 +141,8 @@ void Simulator::runSavedGame(ifstream & savedFile)
 				//Sleep(10);
 		}
 }
-
+//runSolution: gets the saved solution file object, and runs the robot according to the moves written in the saved file until end of 
+//file or if users choose to quit or go back to game in ESC menu.
 void Simulator::runSolution(ifstream& solutionFile)
 {
 	Direction currDirection;
@@ -192,7 +195,8 @@ void Simulator::runSolution(ifstream& solutionFile)
 		}
 	}
 }
-
+//getDirectionFromSavedFile: gets saved file object and steps number as output variable, and parse the written format to a direction
+//and returns the direction written in the file
 Direction Simulator::getDirectionFromSavedFile(ifstream & savedFile, int * stepNum)
 {
 	//const int buff_size = 1024;
@@ -219,6 +223,7 @@ bool Simulator::endGame() {
 
 	char hold_the_screen;
 	Score robotScore;
+
 	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (robot.getPosition()).isSame(originalHouse.getDockingPosition()))
 	{
 		robotScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
@@ -265,6 +270,7 @@ bool Simulator::endGame() {
 	return false;
 }
 
+//freeSimulationMemory: frees the simulation's data members - which are house arrays, reset robot's data and clears moves list.
 void Simulator::freeSimulationMemory()
 {
 	originalHouse.freeHouseMemory();
@@ -272,7 +278,7 @@ void Simulator::freeSimulationMemory()
 	robot.resetData(config.getBatteryConsumptionRate());
 	moves.clear();
 }
-
+//restartSimulation: restart simulation data to initial state without freeing the already allocated memory.
 void Simulator::restartSimulation()
 {
 	setCurrentHouseToOriginal();
@@ -295,12 +301,14 @@ void Simulator::setStepNumber(int stepNum)
 {
 	stepNumber = stepNum;
 }
-
+//setCurrentHouseToOriginal: sets current house data to match original house data.
 void Simulator::setCurrentHouseToOriginal()
 {
 	currHouse.copyHouseData(originalHouse);
 	currHouse.setOverallDirtLevel(originalHouse.getOverallDirtLevel());
 }
+//addMoveToList: gets a direction, checks if list of moves last element is different from current direction, if so, adds to the list
+//this direction and the current step number.
 void Simulator::addMoveToList(Direction currDirection)
 {
 	StepAndDirection currStepAndDir = { stepNumber, (int)currDirection };
@@ -316,6 +324,7 @@ void Simulator::addMoveToList(Direction currDirection)
 		moves.push_back(currStepAndDir);
 	}
 }
+//getMoveList: returns the moves list.
 list<StepAndDirection> Simulator::getMoveList() 
 {
 	return moves;
@@ -323,15 +332,6 @@ list<StepAndDirection> Simulator::getMoveList()
 
 int Simulator::getStepsNum() {
 	return stepNumber;
-}
-void Simulator::printList()
-{
-	list<StepAndDirection>::iterator it;
-	for (it = moves.begin(); it != moves.end(); ++it)
-	{
-		cout << (*it).dir << " : " << (*it).step << endl;
-	}
-
 }
 
 void Simulator::setMenu(Menus * _menu)
@@ -343,6 +343,7 @@ Menus* Simulator::getMenu()
 {
 	return menu;
 }
+//convertDirLetterToDir: gets a direction letter and returns the suited direction.
 Direction Simulator::convertDirLetterToDir(char* letter)
 {
 	switch (letter[0])
@@ -366,7 +367,7 @@ Direction Simulator::convertDirLetterToDir(char* letter)
 	}
 	return (Direction)DEFAULT_DIR;
 }
-
+//updateEscPressedStatus: "listens" to users input and checks if it's the ESC key, if so, updates the wasEscPressed variable.
 void Simulator::updateEscPressedStatus()
 {
 	int keyPressed = 0;
@@ -380,7 +381,7 @@ void Simulator::updateEscPressedStatus()
 		}
 	}
 }
-
+//setSavedPrintedHouse: sets the printed house from saved parameters to contain white spaces
 void Simulator::setSavedPrintedHouse()
 {
 	for (int i = 0; i < MAX_ROWS; i++)
@@ -391,13 +392,13 @@ void Simulator::setSavedPrintedHouse()
 		}
 	}
 }
-
-
+//savePointToPrintedHouse: gets point and char, and saves to the suited place in the saved for later array the char given
 void Simulator::savePointToPrintedHouse(Point p, char ch)
 {
 	savedParameters.printedHouse[p.getY()][p.getX()] = ch;
 }
 
+//saveSimulationParameters: saves all current simulation data to configured struct.
 void Simulator::saveSimulationParameters()
 {
 	saveHouse();
@@ -406,8 +407,7 @@ void Simulator::saveSimulationParameters()
 	savedParameters.stepNumber = stepNumber;
 	saveMovesList();
 }
-
-
+//saveHouse: saves current house to new allocated house variable under saved for later struct.
 void Simulator::saveHouse()
 {
 	int rows = currHouse.getRows();
@@ -426,7 +426,7 @@ void Simulator::saveHouse()
 	savedParameters.house.setHouseArray(savedHouseArray);
 	savedParameters.house.copyHouseData(currHouse);
 }
-
+//saveRobot: saves all current robot data to robot variable under saved for later struct
 void Simulator::saveRobot()
 {
 	savedParameters.robot.setPosition(robot.getPosition());
@@ -434,7 +434,7 @@ void Simulator::saveRobot()
 	savedParameters.robot.setSensor(*sensor);
 	savedParameters.robot.setBatteryLevel(robot.getBatteryLevel());
 }
-
+//saveMovesList: saves moves list to a variable under saved for later struct
 void Simulator::saveMovesList()
 {
 	list<StepAndDirection>::iterator it;
@@ -443,7 +443,7 @@ void Simulator::saveMovesList()
 		savedParameters.moves.push_back(*it);
 	}
 }
-
+//restoreSimulationParameters: restore all saved simulation parameter from the saved for later struct to the current running simulation
 void Simulator::restoreSimulationParameters()
 {
 	printSavedHouseToScreen();
@@ -455,7 +455,7 @@ void Simulator::restoreSimulationParameters()
 	restoreMovesList();
 
 }
-
+//printSavedHouseToScreen: prints the saved for later array to the screen
 void Simulator::printSavedHouseToScreen()
 {
 	Point currPoint;
@@ -476,7 +476,7 @@ void Simulator::printSavedHouseToScreen()
 		cout << endl;
 	}
 }
-
+//restoreHouse: sets the current house to be the saved for later.
 void Simulator::restoreHouse()
 {
 	currHouse.setRows(savedParameters.house.getRows());
@@ -485,7 +485,7 @@ void Simulator::restoreHouse()
 	currHouse.setHouseArray(savedParameters.house.getHouse());
 	currHouse.copyHouseData(savedParameters.house);
 }
-
+//restoreRobot: sets the current robot to be the saved for later robot. 
 void Simulator::restoreRobot()
 {
 	robot.setPosition(savedParameters.robot.getPosition());
@@ -493,7 +493,7 @@ void Simulator::restoreRobot()
 	robot.setBatteryLevel(savedParameters.robot.getBatteryLevel());
 	robot.wasEscPressed = false;
 }
-
+//restoreMovesList: sets the moves list to be the saved for later moves list.
 void Simulator::restoreMovesList()
 {
 	moves.clear();
@@ -502,12 +502,12 @@ void Simulator::restoreMovesList()
 		moves.push_back(*it);
 
 }
-
+//savePrintedCharToSavedArray: gets row, col and char, and saves to the suited place in the saved for later array the char given
 void Simulator::savePrintedCharToSavedArray(int row, int col, char ch)
 {
 	savedParameters.printedHouse[row][col] = ch;
 }
-
+//freeSavedParameters: frees the memory allocated for saved for later struct.
 void Simulator::freeSavedParameters()
 {
 	savedParameters.house.freeHouseMemory();

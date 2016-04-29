@@ -2,6 +2,7 @@
 
 const int buff_size = 1024;
 
+//initHouseFiles: init each file type list with a suited command line.
 void HouseFiles::initHouseFiles()
 {
 	initList(initialHousefilesNames, "dir /b /O:N |findstr \"[0-9][0-9][0-9].house$\" > houseFilesNames.txt");
@@ -9,11 +10,12 @@ void HouseFiles::initHouseFiles()
 	initList(solutionHousefilesNames, "dir /b /O:N |findstr \"[0-9][0-9][0-9].house_solution\" > houseFilesNames.txt");
 
 }
-
-void HouseFiles::initList(list<string>&lst, char* regex)
+//initList: gets file type list and a command to run, runs the command that outputs to a file, and copy all the houses 
+//names from the result file to the given list.
+void HouseFiles::initList(list<string>&lst, char* command)
 {
 	char buff[buff_size];
-	system(regex);
+	system(command);
 	ifstream houseFilesNames("houseFilesNames.txt");
 
 	while (!houseFilesNames.eof()) {
@@ -24,12 +26,12 @@ void HouseFiles::initList(list<string>&lst, char* regex)
 
 	houseFilesNames.close();
 }
-
+//getMinHouseNumber: returns the minimal house number found in houses list (the list that contains the .house files)
 int HouseFiles::getMinHouseNumber()
 {
 	return convertHouseNameToNumber((initialHousefilesNames.begin())->data());
 }
-
+//getMaxHouseNumber: returns the maximal house number found in houses list (the list that contains the .house files)
 int HouseFiles::getMaxHouseNumber()
 {
 	return convertHouseNameToNumber(initialHousefilesNames.back());
@@ -43,7 +45,7 @@ void HouseFiles::setHouseNumberChoice(int _houseNumChoice)
 {
 	houseNumberChoice = _houseNumChoice;
 }
-
+//getHouseNameByIndex: recieves a list of house names and an index, and returns the name of the house name in the given index on the list.
 string HouseFiles::getHouseNameByIndex(list<string>&lst, int index)
 {
 	list<string>::iterator it = lst.begin();
@@ -52,7 +54,8 @@ string HouseFiles::getHouseNameByIndex(list<string>&lst, int index)
 	}
 	return it->data();
 }
-
+//getHouseFromFile: gets name of file, and rows, cols and maxs steps (as output variables) and reads from the file the output information
+//and also the house array itself, and return the array.
 char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int *maxStepsFromFile)
 {
 	char** house_array;
@@ -86,31 +89,33 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	in.close();
 	return house_array;
 }
+//getIntialFilesListLength: returns the size of list that contains files names with .house suffix
 int HouseFiles::getIntialFilesListLength() 
 {
 	return initialHousefilesNames.size();
 }
-
+//getInitialHouseFilesList: returns the list that contains files names with .house suffix
 list<string>* HouseFiles::getInitialHouseFilesList()
 {
 	return &initialHousefilesNames;
 }
-
+//getSavedHouseFilesList: returns the list that contains files names with .house_saved suffix
 list<string>* HouseFiles::getSavedHouseFilesList()
 {
 	return &savedHousefilesNames;
 }
-
-
-
+//convertHouseNameToNumber: gets full house name and returns it number as an integer
 int HouseFiles::convertHouseNameToNumber(string houseName) 
 {
 	return ((houseName[0] - '0') * 100 + (houseName[1] - '0') * 10 + (houseName[2] - '0'));
 }
-void HouseFiles::setCurrHouseName(string houseName) {
+void HouseFiles::setCurrHouseName(string houseName) 
+{
 	currHouseName = houseName;
 }
-
+//saveGameToFile: gets part of house name to save, list of moves were made in the game and the number of steps,
+//and checks if this file already exists, if so, asks the user whether to override or save in different name
+//and saves the moves and steps number to a file.
 void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirection>&moves, int stepsNum)
 {
 	string tempName;
@@ -118,7 +123,6 @@ void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirect
 	ofstream outputFile; 
 
 	outputFile.open(this->currHouseName.substr(0,3) + "-" + userSelectionPartName + ".house_saved", ios::_Noreplace);
-
 	while (!outputFile) {
 		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;
 		cin >> userChoice;
@@ -134,7 +138,9 @@ void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirect
 	copyListToFile(outputFile, moves, stepsNum);
 	outputFile.close();
 }
-
+//saveSolutionToFile: gets list of moves were made in the game and the number of steps,
+//and checks if this file already exists, if so, checks if number of steps in current is lower than in existing file, if so,
+//saves the moves and steps number to a file.
 void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
 {
 	char buff[buff_size];
@@ -159,7 +165,8 @@ void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
 	}
 	outputFile.close();
 }
-
+//copyListToFile: gets file object, list of moves made in the game and number of steps, and saved to the file this information
+//in a specific format.
 void HouseFiles::copyListToFile(ostream& outputFile, list<StepAndDirection>&moves, int stepsNum)
 {
 	outputFile << stepsNum << endl;
@@ -169,7 +176,7 @@ void HouseFiles::copyListToFile(ostream& outputFile, list<StepAndDirection>&move
 		outputFile << (*it).step << ":" << convertNumToDirLetter((*it).dir) << endl;
 	}
 }
-
+//convertNumToDirLetter: gets a number and returns the suited direction letter.
 char HouseFiles::convertNumToDirLetter(int number)
 {
 	switch (number)
@@ -203,7 +210,8 @@ int HouseFiles::getFileType()
 {
 	return fileType;
 }
-
+//getIndexOfHouseFromList: gets name of house, and search for this name in the list of house name, and returns the index of this name
+//in the list.
 int HouseFiles::getIndexOfHouseFromList(string houseName)
 {
 	int index = 0;
@@ -216,6 +224,7 @@ int HouseFiles::getIndexOfHouseFromList(string houseName)
 	}
 	return index;
 }
+//getSolutionFromList: gets house number, and search for it in solution files list, and returns it name (if wasn't found return "").
 string HouseFiles::getSolutionFromList(int houseNumber)
 {
 	list<string>::iterator it = solutionHousefilesNames.begin();
@@ -231,7 +240,7 @@ string HouseFiles::getCurrHouseName()
 {
 	return currHouseName;
 }
-
+//freeHouseFilesMemory: clears all list filled in house files.
 void HouseFiles::freeHouseFilesMemory()
 {
 	initialHousefilesNames.clear();
