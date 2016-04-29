@@ -4,19 +4,21 @@
 
 void Simulator::init(char** house_array, int rows, int cols)
 {
+	config.initDefaultConfiguration();
+
 	originalHouse.setHouse(house_array, rows, cols);
 	currHouse.setHouse(house_array, rows, cols);
 
 	Sensor* theRobotSensor = new Sensor();
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
 	robot.setSensor(*theRobotSensor);
+	robot.setBatteryLevel(config.getBatteryCapacity());
 	sensor = theRobotSensor;
 
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setArrowKeys("wdxas");
-	
+
 	endGameParameter = false;
-	//setSavedPrintedHouse();
 }
 
 void Simulator::resetSimulatorData()
@@ -44,7 +46,7 @@ void Simulator::chargeRobot(Point p)
 
 	if (p.isSame(originalHouse.getDockingPosition())) {
 		if (robot.getBatteryLevel() < 380) {
-			robot.increaseBatteryLevel();
+			robot.increaseBatteryLevel(config.getBatteryRachargeRate());
 		}
 		else if (robot.getBatteryLevel() >= 380) {
 			robot.setBatteryLevel(400);
@@ -64,7 +66,7 @@ void Simulator::printSimulationData()
 	gotoxy(53, SIM_DATA_ROW);
 	cout << "Battery:" << robot.getBatteryLevel() << "  ";
 	gotoxy(66, SIM_DATA_ROW);
-	cout << "Max Steps:" << config.MaxSteps << "  ";
+	cout << "Max Steps:" << config.getMaxSteps() << "  ";
 	cout << endl;
 }
 
@@ -82,7 +84,7 @@ void Simulator::run()
 			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
 			robot.move();
 			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
-			robot.reduceBatteryLevel();
+			robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
 			chargeRobot(robot.getPosition());
 			updateDirtLevel(robot.getPosition());
 			sensor->updateSensorInfo(robot.getPosition());
@@ -127,7 +129,7 @@ void Simulator::runSavedGame(ifstream & savedFile)
 
 				robot.move();
 				robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
-				robot.reduceBatteryLevel();
+				robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
 				chargeRobot(robot.getPosition());
 				updateDirtLevel(robot.getPosition());
 				sensor->updateSensorInfo(robot.getPosition());
@@ -179,7 +181,7 @@ void Simulator::runSolution(ifstream& solutionFile)
 
 			robot.move();
 			robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
-			robot.reduceBatteryLevel();
+			robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
 			chargeRobot(robot.getPosition());
 			updateDirtLevel(robot.getPosition());
 			sensor->updateSensorInfo(robot.getPosition());
@@ -240,13 +242,13 @@ bool Simulator::endGame() {
 		menu->firstMenuAlive = false;
 		return true;
 	}
-	if (stepNumber >= config.MaxSteps)
+	if (stepNumber >= config.getMaxSteps())
 	{
 		robotScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
-		cout << "You have passed " << config.MaxSteps << " steps, dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel()
-			<< endl;
+		cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
+		cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		cin >> hold_the_screen;
 		endedSuccessfully = false;
@@ -267,7 +269,7 @@ void Simulator::freeSimulationMemory()
 {
 	originalHouse.freeHouseMemory();
 	currHouse.freeHouseMemory();
-	robot.resetData();
+	robot.resetData(config.getBatteryConsumptionRate());
 	moves.clear();
 }
 
@@ -277,7 +279,7 @@ void Simulator::restartSimulation()
 
 	robot.setPosition(originalHouse.getDockingPosition());
 	robot.setDirection(Direction::STAY);
-	robot.setBatteryLevel(config.BatteryCapacity);
+	robot.setBatteryLevel(config.getBatteryCapacity());
 
 	delete sensor;
 	Sensor* theRobotSensor = new Sensor();

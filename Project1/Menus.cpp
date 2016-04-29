@@ -197,6 +197,7 @@ void Menus::runGameSimulation(string houseSavedName)
 	int rows = 0, cols = 0;
 	char ** temp_house;
 	string houseName;
+	int maxStepsFromFile;
 	char hold_the_screen;
 
 	for (int i = 0; i < files.getIntialFilesListLength() && sim->endedSuccessfully; i++) 
@@ -205,7 +206,8 @@ void Menus::runGameSimulation(string houseSavedName)
 		{
 			houseName = houseSavedName.substr(START_INDEX_NAME, END_INDEX_NAME) + ".house";
 			files.setCurrHouseName(houseName);
-			temp_house = files.getHouseFromFile(houseName, &rows, &cols);
+			temp_house = files.getHouseFromFile(houseName, &rows, &cols, &maxStepsFromFile);
+			sim->config.setMaxSteps(maxStepsFromFile);
 			sim->init(temp_house, rows, cols);
 
 			ifstream savedMoves(houseSavedName);
@@ -223,7 +225,8 @@ void Menus::runGameSimulation(string houseSavedName)
 			{
 				files.setCurrHouseName(houseName);
 				files.setHouseNumberChoice(files.convertHouseNameToNumber(houseName));
-				temp_house = files.getHouseFromFile(houseName, &rows, &cols);
+				temp_house = files.getHouseFromFile(houseName, &rows, &cols, &maxStepsFromFile);
+				sim->config.setMaxSteps(maxStepsFromFile);
 				sim->init(temp_house, rows, cols);
 				sim->run();
 				if (sim->endedSuccessfully)
@@ -348,6 +351,7 @@ void Menus::runGameSolution()
 	int rows = 0, cols = 0;
 	char ** temp_house;
 	string houseName;
+	int maxStepsFromFile;
 	string solutionName;
 
 	solutionName = files.getSolutionFromList(files.getHouseNumberChoice());
@@ -359,7 +363,8 @@ void Menus::runGameSolution()
 	{
 		houseName = solutionName.substr(START_INDEX_NAME, END_INDEX_NAME) + ".house";
 		files.setCurrHouseName(houseName);
-		temp_house = files.getHouseFromFile(houseName, &rows, &cols);
+		temp_house = files.getHouseFromFile(houseName, &rows, &cols, &maxStepsFromFile);
+		sim->config.setMaxSteps(maxStepsFromFile);
 		sim->init(temp_house, rows, cols);
 
 

@@ -33,8 +33,10 @@ class Simulator
 	list<StepAndDirection> moves;
 	Menus* menu;
 	savedForLater savedParameters;
+	
 
 public:
+	Configuration config;
 	bool endedSuccessfully = true;
 	bool endGameParameter = false;
 	void init(char** house_array, int rows, int cols);

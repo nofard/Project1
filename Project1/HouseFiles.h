@@ -29,7 +29,7 @@ public:
 	void setFileType(int);
 	void setHouseNumberChoice(int);
 	string getHouseNameByIndex(list<string>&lst, int index);
-	char** getHouseFromFile(string house_name, int *rows, int *cols);
+	char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int *maxStepsFromFile);
 	int getIntialFilesListLength();
 	int convertHouseNameToNumber(string);
 	void setCurrHouseName(string);

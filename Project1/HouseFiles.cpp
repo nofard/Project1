@@ -53,19 +53,17 @@ string HouseFiles::getHouseNameByIndex(list<string>&lst, int index)
 	return it->data();
 }
 
-char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols)
+char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int *maxStepsFromFile)
 {
 	char** house_array;
 	int i = 0;
-	int maxSteps;
 	char buff[buff_size];
 	ifstream in(house_name);
 
 	in.getline(buff, buff_size - 1);//title of the house
 
 	in.getline(buff, buff_size - 1);
-	maxSteps = atoi(buff);
-	config.MaxSteps = maxSteps;
+	*maxStepsFromFile = atoi(buff);
 
 	in.getline(buff, buff_size - 1);
 	*rows = atoi(buff);
