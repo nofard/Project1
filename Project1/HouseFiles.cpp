@@ -133,14 +133,15 @@ void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirect
 	int userChoice;
 	ofstream outputFile; 
 
-	outputFile.open(currHouseName.substr(0,3) + userSelectionPartName + ".house_saved", ios::_Noreplace);
+	outputFile.open(currHouseName.substr(0,3) +
+	"-"	+ userSelectionPartName + ".house_saved", ios::_Noreplace);
 	while (!outputFile) {
 		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;
 		cin >> userChoice;
 		if (userChoice == 1) {
 			cout << "Please enter another file name:" << endl;
 			cin >> tempName;
-			outputFile.open(currHouseName.substr(0, 3) + tempName + ".house_saved", ios::_Noreplace);
+			outputFile.open(currHouseName.substr(0, 3) + "-" + tempName + ".house_saved", ios::_Noreplace);
 		}
 		else {
 			outputFile.open(currHouseName.substr(0, 3) + userSelectionPartName + ".house_saved");

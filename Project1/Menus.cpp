@@ -370,6 +370,7 @@ void Menus::runGameSolution()
 		cout << "Sorry, there isn't a solution for this house" << endl;
 		cout << "Press any key to continue" << endl;
 		cin >> hold_the_screen;
+		system("cls");
 	}
 	else
 	{
