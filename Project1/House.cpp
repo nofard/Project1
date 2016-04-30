@@ -145,6 +145,7 @@ void House::freeHouseMemory()
 		delete [] house[i];
 	}
 	delete[] house;
+	house = NULL;
 }
 //copyHouseData: gets house variable and copies all its content to the current house data member.
 void House::copyHouseData(House houseToCopy)

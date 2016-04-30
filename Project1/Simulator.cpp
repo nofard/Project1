@@ -25,8 +25,9 @@ void Simulator::resetSimulatorData()
 {
 	system("cls");
 	stepNumber = 0;
-	freeSimulationMemory();
-	
+
+	if(currHouse.getHouse() != nullptr) //check if memory isn't freed already
+		freeSimulationMemory();
 }
 
 //updateDirtLevel: Update dirtLevel at a specifiec point, and reduce overall dirt level in the house

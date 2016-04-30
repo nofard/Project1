@@ -9,6 +9,7 @@ void Menus::printFirstMenu() {
 //printMidMenu: prints to the screen the "middle" menu, when game is paused (esc pressed).
 void Menus::printMidMenu() {
 	//system("cls");
+	gotoxy(0, FIRST_ROW_MID_MENU);
 	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" << endl;
 }
 
