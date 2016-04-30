@@ -89,7 +89,7 @@ void Menus::executeUserChoiceMidMenu() {
 		cin >> fileName;
 		files.saveGameToFile(fileName, sim->getMoveList(), sim->getStepsNum());
 		
-		for (int i = FIRST_ROW_MID_MENU; i <= FIRST_ROW_MID_MENU + 7; i++) {
+		for (int i = FIRST_ROW_MID_MENU; i <= FIRST_ROW_MID_MENU + 10; i++) {
 			gotoxy(0, i);
 			cout << string(FULL_ROW, ' ');
 		}

@@ -59,7 +59,8 @@ string HouseFiles::getHouseNameByIndex(list<string>&lst, int index)
 char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int *maxStepsFromFile)
 {
 	char** house_array;
-	int i = 0;
+	int rowIndex = 0;
+	int colIndex = 0;
 	char buff[buff_size];
 	ifstream in(house_name);
 
@@ -75,15 +76,25 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	*cols = atoi(buff);
 
 	house_array =  new char*[*rows];
-	while (!in.eof())
+
+	for (int i = 0; i < *rows; i++)
 	{
 		house_array[i] = new char[*cols]; //memory allocation for a row
-		in.getline(buff, buff_size - 1);
 		for (int j = 0; j < *cols; j++)
 		{
-			house_array[i][j] = buff[j];
+			house_array[i][j] = ' ';
 		}
-		i++;
+	}
+	while (!in.eof())
+	{	
+		in.getline(buff, buff_size - 1);
+		colIndex = 0;
+		while(colIndex < strlen(buff))
+		{
+			house_array[rowIndex][colIndex] = buff[colIndex];
+			colIndex++;
+		}
+		rowIndex++;
 	}
 
 	in.close();
@@ -122,17 +133,17 @@ void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirect
 	int userChoice;
 	ofstream outputFile; 
 
-	outputFile.open(this->currHouseName.substr(0,3) + "-" + userSelectionPartName + ".house_saved", ios::_Noreplace);
+	outputFile.open(currHouseName.substr(0,3) + userSelectionPartName + ".house_saved", ios::_Noreplace);
 	while (!outputFile) {
 		cout << "This file already exists, please choose whether to enter another name (1) or to override (2): " << endl;
 		cin >> userChoice;
 		if (userChoice == 1) {
 			cout << "Please enter another file name:" << endl;
 			cin >> tempName;
-			outputFile.open(currHouseName + "-" + tempName + ".house_saved", ios::_Noreplace);
+			outputFile.open(currHouseName.substr(0, 3) + tempName + ".house_saved", ios::_Noreplace);
 		}
 		else {
-			outputFile.open(currHouseName + "-" + userSelectionPartName + ".house_saved");
+			outputFile.open(currHouseName.substr(0, 3) + userSelectionPartName + ".house_saved");
 		}
 	}
 	copyListToFile(outputFile, moves, stepsNum);
