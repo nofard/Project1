@@ -44,6 +44,8 @@ void Menus::executeUserChoice() {
 		}
 		break;
 	case 3:
+		files.initHouseFiles();
+
 		cout << "There are saved houses from " << files.getMinHouseNumber() << " to " << files.getMaxHouseNumber() << " Please choose or enter 0 to go back" << endl;
 		cin >> choice;
 		if (choice != 0)

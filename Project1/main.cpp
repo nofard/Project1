@@ -11,7 +11,7 @@ int main()
 
 	menu->firstMenuManager();
 
-	simulator->freeSavedParameters();
+	//simulator->freeSavedParameters();
 	menu->freeMenusMemory();
 	delete menu;
 	delete simulator;

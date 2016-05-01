@@ -18,6 +18,7 @@ void HouseFiles::initList(list<string>&lst, char* command)
 	system(command);
 	ifstream houseFilesNames("houseFilesNames.txt");
 
+	lst.clear();
 	while (!houseFilesNames.eof()) {
 		houseFilesNames.getline(buff, buff_size - 1);
 		if (strcmp(buff, ""))
@@ -146,6 +147,7 @@ void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirect
 			outputFile.open(currHouseName.substr(0, 3) + "-" + userSelectionPartName + ".house_saved");
 		}
 	}
+	
 	copyListToFile(outputFile, moves, stepsNum);
 	outputFile.close();
 }

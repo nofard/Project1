@@ -26,8 +26,10 @@ void Simulator::resetSimulatorData()
 	system("cls");
 	stepNumber = 0;
 
-	if(currHouse.getHouse() != nullptr) //check if memory isn't freed already
+	if (currHouse.getHouse() != nullptr) {  //check if memory isn't freed already
 		freeSimulationMemory();
+		freeSavedParameters();
+	}
 }
 
 //updateDirtLevel: Update dirtLevel at a specifiec point, and reduce overall dirt level in the house
@@ -513,4 +515,8 @@ void Simulator::freeSavedParameters()
 {
 	savedParameters.house.freeHouseMemory();
 	savedParameters.moves.clear();
+
+	for (int i = 0; i < MAX_ROWS; i++)
+		for (int j = 0; j < MAX_COLS; j++)
+			savedParameters.printedHouse[i][j] = ' ';
 }
