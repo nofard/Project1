@@ -44,8 +44,7 @@ void Menus::executeUserChoice() {
 		}
 		break;
 	case 3:
-		files.initHouseFiles();
-
+		files.initList(*(files.getSavedHouseFilesList()), "dir / b / O:N | findstr \".house_saved\" > houseFilesNames.txt");
 		cout << "There are saved houses from " << files.getMinHouseNumber() << " to " << files.getMaxHouseNumber() << " Please choose or enter 0 to go back" << endl;
 		cin >> choice;
 		if (choice != 0)
