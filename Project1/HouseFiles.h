@@ -2,6 +2,7 @@
 #define _HOUSE_FILES_H_
 
 #include "io_utils.h"
+#include "House.h"
 #include <fstream>
 
 
@@ -45,6 +46,7 @@ public:
 	int getIndexOfHouseFromList(string houseName);
 	string getCurrHouseName();
 	void freeHouseFilesMemory();
+	bool checkRowsAndColsValidation(int _rows, int _cols);
 };
 
 #endif

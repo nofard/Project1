@@ -230,13 +230,17 @@ void Menus::runGameSimulation(string houseSavedName)
 				files.setCurrHouseName(houseName);
 				files.setHouseNumberChoice(files.convertHouseNameToNumber(houseName));
 				temp_house = files.getHouseFromFile(houseName, &rows, &cols, &maxStepsFromFile);
-				sim->config.setMaxSteps(maxStepsFromFile);
-				sim->init(temp_house, rows, cols);
-				sim->run();
-				if (sim->endedSuccessfully)
+				if (temp_house != nullptr)
 				{
-					files.saveSolutionToFile(sim->getMoveList(), sim->getStepsNum());
+					sim->config.setMaxSteps(maxStepsFromFile);
+					sim->init(temp_house, rows, cols);
+					sim->run();
+					if (sim->endedSuccessfully)
+					{
+						files.saveSolutionToFile(sim->getMoveList(), sim->getStepsNum());
+					}
 				}
+
 			}
 		}
 		if (sim->endedSuccessfully)

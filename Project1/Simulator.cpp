@@ -9,6 +9,8 @@ void Simulator::init(char** house_array, int rows, int cols)
 	originalHouse.setHouse(house_array, rows, cols);
 	currHouse.setHouse(house_array, rows, cols);
 
+
+
 	Sensor* theRobotSensor = new Sensor();
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
 	robot.setSensor(*theRobotSensor);

@@ -6,37 +6,32 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 	int dockingCounter = 0;
 	overallDirtLevel = 0;
 
-	if (initRowsAndCols(_rows, _cols))
+	rows = _rows;
+	cols = _cols;
+	house = new char*[rows];
+	for (int i = 1; i < rows - 1; i++)
 	{
-		house = new char*[rows];
-		for (int i = 1; i < rows - 1; i++)
+		house[i] = new char[cols + 1];
+		for (int j = 1; j < cols - 1; j++)
 		{
-			house[i] = new char[cols + 1];
-			for (int j = 1; j < cols - 1; j++)
+			house[i][j] = myHouse[i][j];
+			if (house[i][j] == DOCK_LETTER)
 			{
-				house[i][j] = myHouse[i][j];
-				if (house[i][j] == DOCK_LETTER)
-				{
-					dockingCounter++;
-					setDockingPosition(j, i);
-				}
-				if (house[i][j] > (MIN_DIRT_LEVEL + '0') && house[i][j] <= (MAX_DIRT_LEVEL + '0'))
-					overallDirtLevel += (int)(house[i][j] - '0');
+				dockingCounter++;
+				setDockingPosition(j, i);
 			}
-			//house[i][cols] = '\0';
+			if (house[i][j] > (MIN_DIRT_LEVEL + '0') && house[i][j] <= (MAX_DIRT_LEVEL + '0'))
+				overallDirtLevel += (int)(house[i][j] - '0');
 		}
-		fillSurroundingWalls();
-
-		if (dockingCounter != 1)
-		{
-			validHouseFlag = false;
-			endGameForInvalidNumOfDocking();
-		}
+		//house[i][cols] = '\0';
 	}
-	else {
-		//exit(0);//need to be changed
-		
-	}
+	fillSurroundingWalls();
+	
+	if (dockingCounter != 1)
+	{
+		validHouseFlag = false;
+		endGameForInvalidNumOfDocking();
+	}	
 }
 
 //getValueFromPoint: return the character in a specifiec point.

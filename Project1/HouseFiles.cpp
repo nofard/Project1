@@ -76,30 +76,39 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	in.getline(buff, buff_size - 1);
 	*cols = atoi(buff);
 
-	house_array =  new char*[*rows];
-
-	for (int i = 0; i < *rows; i++)
+	if (checkRowsAndColsValidation(*rows, *cols))
 	{
-		house_array[i] = new char[*cols]; //memory allocation for a row
-		for (int j = 0; j < *cols; j++)
+		house_array = new char*[*rows];
+
+		for (int i = 0; i < *rows; i++)
 		{
-			house_array[i][j] = ' ';
+			house_array[i] = new char[*cols]; //memory allocation for a row
+			for (int j = 0; j < *cols; j++)
+			{
+				house_array[i][j] = ' ';
+			}
 		}
+		while (!in.eof() && rowIndex < *rows)
+		{
+			in.getline(buff, buff_size - 1);
+			colIndex = 0;
+			while (colIndex < strlen(buff) && colIndex < *cols)
+			{
+				house_array[rowIndex][colIndex] = buff[colIndex];
+				colIndex++;
+			}
+			rowIndex++;
+		}
+
+		in.close();
+		return house_array;
 	}
-	while (!in.eof())
-	{	
-		in.getline(buff, buff_size - 1);
-		colIndex = 0;
-		while(colIndex < strlen(buff))
-		{
-			house_array[rowIndex][colIndex] = buff[colIndex];
-			colIndex++;
-		}
-		rowIndex++;
+	else
+	{
+		in.close();
+		return nullptr;
 	}
 
-	in.close();
-	return house_array;
 }
 //getIntialFilesListLength: returns the size of list that contains files names with .house suffix
 int HouseFiles::getIntialFilesListLength() 
@@ -259,4 +268,23 @@ void HouseFiles::freeHouseFilesMemory()
 	initialHousefilesNames.clear();
 	savedHousefilesNames.clear();
 	solutionHousefilesNames.clear();
+}
+
+//checkRowsAndColsValidation: check rows and cols validation 
+bool HouseFiles::checkRowsAndColsValidation(int _rows, int _cols)
+{
+	char hold_the_screen;
+	if (_rows < MIN_ROWS || _rows > MAX_ROWS || _cols < MIN_COLS || _cols > MAX_COLS)
+	{
+		system("cls");
+		cout << "Invalid house:" << endl;
+		cout << "Reason: House size is invalid" << endl;
+		cout << "Press any key to continue to the next house" << endl;
+		cin >> hold_the_screen;
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
