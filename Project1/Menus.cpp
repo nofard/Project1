@@ -327,7 +327,7 @@ string Menus::chooseSavedFromRangeMenu(list<string> & currSavedHouses)
 		return (*it);
 	}
 }
-//firstMenuManager: 
+//firstMenuManager: checks if main menu is alive.
 void Menus::firstMenuManager()
 {
 	while (firstMenuAlive)
