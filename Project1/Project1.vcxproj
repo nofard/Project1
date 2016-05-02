@@ -82,7 +82,6 @@
     <ClInclude Include="config.h" />
     <ClInclude Include="configuration.h" />
     <ClInclude Include="Direction.h" />
-    <ClInclude Include="exampleHouse.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="HouseFiles.h" />
     <ClInclude Include="io_utils.h" />

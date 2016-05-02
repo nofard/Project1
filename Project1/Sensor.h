@@ -1,9 +1,7 @@
 #ifndef _SENSOR_H_
 #define _SENSOR_H_
 
-//#include "io_utils.h"
 #include "House.h"
-//#include "Simulator.h"
 
 #define DIR_AMOUNT 4
 

@@ -31,7 +31,6 @@ public:
 	void increaseBatteryLevel(int batteryRachargeRate);
 	void setBatteryLevel(int);
 	void resetData(int batteryCapacity);
-	//Sensor * getSensor();
 };
 
 #endif

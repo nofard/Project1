@@ -36,9 +36,6 @@
     <ClInclude Include="Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="exampleHouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Menus.h">
       <Filter>Header Files</Filter>
     </ClInclude>

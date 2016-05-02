@@ -5,8 +5,6 @@
 #include "House.h"
 #include <fstream>
 
-
-
 enum {START_INDEX_NAME = 0, END_INDEX_NAME = 3};
 
 #define NEW_HOUSE 0

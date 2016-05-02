@@ -38,10 +38,22 @@ int HouseFiles::getMaxHouseNumber()
 	return convertHouseNameToNumber(initialHousefilesNames.back());
 }
 
+//getFileType: get houseFiles fileType.
+int HouseFiles::getFileType()
+{
+	return fileType;
+}
+//setFileType: set houseFiles fileType.
 void HouseFiles::setFileType(int _fileType)
 {
 	fileType = _fileType;
 }
+//getHouseNumberChoice: get house number choice.
+int HouseFiles::getHouseNumberChoice()
+{
+	return houseNumberChoice;
+}
+//setHouseNumberChoice: set house number choice.
 void HouseFiles::setHouseNumberChoice(int _houseNumChoice)
 {
 	houseNumberChoice = _houseNumChoice;
@@ -103,7 +115,7 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 		in.close();
 		return house_array;
 	}
-	else
+	else //house size is invalid
 	{
 		in.close();
 		return nullptr;
@@ -174,7 +186,7 @@ void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
 	{
 		ifstream inFile(solutionFileName);
 		inFile.getline(buff, buff_size - 1);
-		if (stepsNum < atoi(buff))
+		if (stepsNum < atoi(buff) && stepsNum != 0)
 		{
 			outputFile.open(solutionFileName);
 			copyListToFile(outputFile, moves, stepsNum);
@@ -223,15 +235,6 @@ char HouseFiles::convertNumToDirLetter(int number)
 	return 's';
 }
 
-int HouseFiles::getHouseNumberChoice()
-{
-	return houseNumberChoice;
-}
-
-int HouseFiles::getFileType()
-{
-	return fileType;
-}
 //getIndexOfHouseFromList: gets name of house, and search for this name in the list of house name, and returns the index of this name
 //in the list.
 int HouseFiles::getIndexOfHouseFromList(string houseName)
@@ -281,6 +284,7 @@ bool HouseFiles::checkRowsAndColsValidation(int _rows, int _cols)
 		cout << "Reason: House size is invalid" << endl;
 		cout << "Press any key to continue to the next house" << endl;
 		cin >> hold_the_screen;
+		system("cls");
 		return false;
 	}
 	else

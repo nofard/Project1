@@ -9,8 +9,6 @@ void Simulator::init(char** house_array, int rows, int cols)
 	originalHouse.setHouse(house_array, rows, cols);
 	currHouse.setHouse(house_array, rows, cols);
 
-
-
 	Sensor* theRobotSensor = new Sensor();
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
 	robot.setSensor(*theRobotSensor);
@@ -25,12 +23,12 @@ void Simulator::init(char** house_array, int rows, int cols)
 //resetSimulatorData: resets simulation data, and frees all alloacted memory in the simulation.
 void Simulator::resetSimulatorData()
 {
-	system("cls");
-	stepNumber = 0;
-
-	if (currHouse.getHouse() != nullptr) {  //check if memory isn't freed already
+	if (currHouse.getHouse() != nullptr)  //check if memory isn't freed already
+	{
+		system("cls");
+		stepNumber = 0;
 		freeSimulationMemory();
-		freeSavedParameters();
+		resetSavedParameters();
 	}
 }
 
@@ -229,7 +227,7 @@ bool Simulator::endGame() {
 	char hold_the_screen;
 	Score robotScore;
 
-	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (robot.getPosition()).isSame(originalHouse.getDockingPosition()))
+	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (robot.getPosition()).isSame(originalHouse.getDockingPosition()) && !endGameParameter)
 	{
 		robotScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
@@ -266,7 +264,7 @@ bool Simulator::endGame() {
 		return true;
 	}
 
-	if (endGameParameter == true)
+	if (endGameParameter == true) //due to '9' choice (=Quit game) in menus etc.
 	{
 		endedSuccessfully = false;
 		return true;
@@ -335,15 +333,18 @@ list<StepAndDirection> Simulator::getMoveList()
 	return moves;
 }
 
+//getStepsNum: get stepNumber.
 int Simulator::getStepsNum() {
 	return stepNumber;
 }
 
+//setMenu: set menu pointer.
 void Simulator::setMenu(Menus * _menu)
 {
 	menu = _menu;
 }
 
+//getMenu: return menu pointer.
 Menus* Simulator::getMenu()
 {
 	return menu;
@@ -512,12 +513,10 @@ void Simulator::savePrintedCharToSavedArray(int row, int col, char ch)
 {
 	savedParameters.printedHouse[row][col] = ch;
 }
-//freeSavedParameters: frees the memory allocated for saved for later struct.
-void Simulator::freeSavedParameters()
+//resetSavedParameters: reset savedParameters struct.
+void Simulator::resetSavedParameters()
 {
-	savedParameters.house.freeHouseMemory();
 	savedParameters.moves.clear();
-
 	for (int i = 0; i < MAX_ROWS; i++)
 		for (int j = 0; j < MAX_COLS; j++)
 			savedParameters.printedHouse[i][j] = ' ';

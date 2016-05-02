@@ -127,10 +127,5 @@ void KeyboardRobot::resetData(int batteryCapacity)
 	batteryLevel = batteryCapacity;
 	delete sensor;
 }
-/*
-Sensor * KeyboardRobot::getSensor()
-{
-	return sensor;
-}*/
 
 

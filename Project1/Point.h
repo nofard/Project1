@@ -3,13 +3,12 @@
 
 #include "io_utils.h"
 
-
 enum { MAX_Y = 20, MAX_X = 79 };
 enum {DOCK_X = 40, DOCK_Y = 12};
 
-class Point {
+class Point 
+{
 	int x = 1, y = 1;
-
 public:
 	int getX() const {return x;}
 	int getY() const {return y;}

@@ -5,7 +5,6 @@
 #include "Menus.h"
 #include "Score.h"
 
-
 #define ROBOT_LETTER '@'
 #define BUFF_SIZE 1024
 #define SIM_DATA_ROW 22
@@ -21,7 +20,6 @@ struct savedForLater
 };
 
 class Menus;
-class Sensor;
 
 class Simulator 
 {
@@ -63,10 +61,9 @@ public:
 	void updateEscPressedStatus();
 	void setSavedPrintedHouse();
 	void savePointToPrintedHouse(Point p, char ch);
-
 	void savePrintedCharToSavedArray(int row, int col, char ch);
 	void restoreSimulationParameters();
-	void freeSavedParameters();
+	void resetSavedParameters();
 private:
 	void saveSimulationParameters();
 	void saveHouse();

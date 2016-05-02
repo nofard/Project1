@@ -9,6 +9,7 @@ class Configuration
 	int BatteryConsumptionRate;
 	int BatteryRachargeRate;
 public:
+	//initDefaultConfiguration: initilize data members to default values.
 	void initDefaultConfiguration()
 	{
 		MaxStepsAfterWinner = 200;
@@ -17,6 +18,7 @@ public:
 		BatteryRachargeRate = 20;
 	}
 
+	//get and set functions:
 	int getMaxSteps() { return MaxSteps; }
 	void setMaxSteps(int _maxSteps) { MaxSteps = _maxSteps; }
 	
@@ -29,17 +31,5 @@ public:
 	int getBatteryRachargeRate() { return BatteryRachargeRate; }
 	void setBatteryRachargeRate(int _BatteryRachargeRate) { BatteryRachargeRate = _BatteryRachargeRate; }
 };
-
-/*
-static struct configuration
-{
-	int MaxSteps = 1200;
-	int MaxStepsAfterWinner = 200;
-	int BatteryCapacity = 400;
-	int BatteryConsumptionRate = 1;
-	int BatteryRachargeRate = 20;
-}config;
-*/
-
 
 #endif
