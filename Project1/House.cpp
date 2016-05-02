@@ -93,26 +93,6 @@ void House::endGameForInvalidNumOfDocking()
 	cout << "Reason: More or less than one docking station" << endl;
 }
 
-//initRowsAndCols: Check validation size of rows and cols and init data members of them.
-bool House::initRowsAndCols(int _rows, int _cols)
-{
-	if (_rows < MIN_ROWS || _rows > MAX_ROWS || _cols < MIN_COLS || _cols > MAX_COLS)
-	{
-		system("cls");
-		cout << "Invalid house:" << endl;
-		cout << "Reason: House size is invalid" << endl;
-		validHouseFlag = false;
-		return false;
-	}
-		
-	else
-	{
-		rows = _rows;
-		cols = _cols;
-		return true;
-	}	
-}
-
 //fillSurroundingWalls: This function make sure the surrounding walls of the house are complete, so the robot won't escape and eat ice cream.
 void House::fillSurroundingWalls()
 {
@@ -159,27 +139,32 @@ void House::copyHouseData(House houseToCopy)
 		}
 	}
 }
+//getRows: get house rows.
 int House::getRows()
 {
 	return rows;
 }
+//getCols: get house cols.
 int House::getCols()
 {
 	return cols;
 }
-
+//setRows: set house rows.
 void House::setRows(int _rows)
 {
 	rows = _rows;
 }
+//setCols: set house cols.
 void House::setCols(int _cols)
 {
 	cols = _cols;
 }
+//setHouseArray: set house array.
 void House::setHouseArray(char** arr)
 {
 	house = arr;
 }
+//getHouse: get house array.
 char ** House::getHouse()
 {
 	return house;

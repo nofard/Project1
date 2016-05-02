@@ -1,8 +1,8 @@
 #ifndef _SCORE_H_
 #define _SCORE_H_
 
-
-class Score{
+class Score
+{
 	int position_in_copmetition;
 	int winner_num_steps;
 	int this_num_steps;
@@ -12,7 +12,8 @@ class Score{
 
 public:
 	Score() {}
-	Score(int position, int winnerSteps, int thisSteps, int overallDirt, int dirtCollected, bool backInDock) {
+	Score(int position, int winnerSteps, int thisSteps, int overallDirt, int dirtCollected, bool backInDock)
+	{
 		position_in_copmetition = position;
 		winner_num_steps = winnerSteps;
 		this_num_steps = thisSteps;
