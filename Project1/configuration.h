@@ -1,6 +1,9 @@
 #ifndef _CONFIGURATION_H_
 #define _CONFIGURATION_H_
 
+#include <fstream>
+#include "io_utils.h"
+
 class Configuration
 {
 	int MaxSteps;
@@ -30,6 +33,10 @@ public:
 
 	int getBatteryRachargeRate() { return BatteryRachargeRate; }
 	void setBatteryRachargeRate(int _BatteryRachargeRate) { BatteryRachargeRate = _BatteryRachargeRate; }
+
+	bool initConfiguration();
+	void initParameterValue(char* configParameter, int parameterValue);
+	bool checkConfigValidation();
 };
 
 #endif

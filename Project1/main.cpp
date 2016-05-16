@@ -9,7 +9,9 @@ int main()
 	simulator->setMenu(menu);
 	menu->setSimulator(simulator);
 
-	menu->firstMenuManager();
+	if (simulator->config.initConfiguration())
+		menu->firstMenuManager();
+
 
 	menu->freeMenusMemory();
 	delete menu;

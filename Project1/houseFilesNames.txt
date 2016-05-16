@@ -1,5 +1,2 @@
-001_trial1.house_saved
-001_trial2.house_saved
-002_trial1.house_saved
-009-test1.house_saved
-009-test2.house_saved
+001.house_solution
+002.house_solution

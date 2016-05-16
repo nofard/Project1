@@ -21,19 +21,19 @@ void Point::move(Direction dir)
 {
 	switch (dir)
 	{
-	case Direction::UP:
+	case Direction::North:
 		--y;
 		break;
-	case Direction::RIGHT:
+	case Direction::East:
 		++x;
 		break;
-	case Direction::DOWN:
+	case Direction::South:
 		++y;
 		break;
-	case Direction::LEFT:
+	case Direction::West:
 		--x;
 		break;
-	case Direction::STAY:
+	case Direction::Stay:
 		break;
 	}
 }

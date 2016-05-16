@@ -75,7 +75,7 @@ Direction KeyboardRobot::step()
 
 	currSensorInfo = sensor->sense();
 	if (currSensorInfo.isWall[(int)direction])
-		direction = Direction::STAY;
+		direction = Direction::Stay;
 
 	return (Direction)(direction);
 }
@@ -123,7 +123,7 @@ void KeyboardRobot::setBatteryLevel(int batteryNewLevel) {
 //resetData: gets the initial battery capacity and resets all data keyboard robot contains.
 void KeyboardRobot::resetData(int batteryCapacity)
 {
-	direction = Direction::STAY;
+	direction = Direction::Stay;
 	batteryLevel = batteryCapacity;
 	delete sensor;
 }

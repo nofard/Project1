@@ -79,6 +79,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractAlgorithm.h" />
+    <ClInclude Include="AbstractSensor.h" />
+    <ClInclude Include="AlgorithmRegistration.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="configuration.h" />
     <ClInclude Include="Direction.h" />
@@ -90,10 +93,12 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Sensor.h" />
+    <ClInclude Include="SensorInformation.h" />
     <ClInclude Include="Simulator.h" />
     <ClInclude Include="StepAndDirection.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="HouseFiles.cpp" />
     <ClCompile Include="io_utils.cpp" />
