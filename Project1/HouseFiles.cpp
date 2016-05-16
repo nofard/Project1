@@ -104,7 +104,7 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 		{
 			in.getline(buff, buff_size - 1);
 			colIndex = 0;
-			while (colIndex < strlen(buff) && colIndex < *cols)
+			while ((colIndex < strlen(buff)) && colIndex < *cols)
 			{
 				house_array[rowIndex][colIndex] = buff[colIndex];
 				colIndex++;
@@ -215,19 +215,19 @@ char HouseFiles::convertNumToDirLetter(int number)
 {
 	switch (number)
 	{
-	case (int)(Direction::UP):
+	case (int)(Direction::North):
 		return 'w';
 		break;
-	case (int)(Direction::RIGHT):
+	case (int)(Direction::East):
 		return 'd';
 		break;
-	case (int)(Direction::DOWN):
+	case (int)(Direction::South):
 		return 'x';
 		break;
-	case (int)(Direction::LEFT):
+	case (int)(Direction::West):
 		return 'a';
 		break;
-	case (int)(Direction::STAY):
+	case (int)(Direction::Stay):
 		return 's';
 		break;
 

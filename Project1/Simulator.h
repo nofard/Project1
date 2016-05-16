@@ -6,7 +6,7 @@
 #include "Score.h"
 
 #define ROBOT_LETTER '@'
-#define BUFF_SIZE 1024
+#define DEFAULT_DIR -1
 #define SIM_DATA_ROW 22
 
 struct savedForLater

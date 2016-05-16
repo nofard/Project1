@@ -12,6 +12,7 @@
 #include <list>
 
 using namespace std;
+#define BUFF_SIZE 1024
 
 void gotoxy(int x, int y);
 void hideCursor();

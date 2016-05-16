@@ -5,11 +5,12 @@
 
 #define NUM_OF_KEYS 5
 #define ESC_KEY 27
+#define DEFAULT_DIR -1
 
 class KeyboardRobot
 {
 	Point robotPosition;
-	Direction direction = Direction::STAY;
+	Direction direction = Direction::Stay;
 	char arrowKeys[NUM_OF_KEYS];
 	const Sensor* sensor;
 	int batteryLevel;

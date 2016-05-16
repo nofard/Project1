@@ -3,14 +3,14 @@
 //printFirstMenu: prints to the screen the initial menu.
 void Menus::printFirstMenu() {
 	system("cls");
-	cout << "(1) Start game (2) Start game from specific house (3) Continue from saved game (8) Show instructions (9) Quit game" << endl;
+	cout << "(1) Start game (2) Start game from specific house (3) Continue from saved game (5) Run simulation of all algorithms (8) Show instructions (9) Quit game" << endl;
 }
 
 //printMidMenu: prints to the screen the "middle" menu, when game is paused (esc pressed).
 void Menus::printMidMenu() {
 	//system("cls");
 	gotoxy(0, FIRST_ROW_MID_MENU);
-	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (8) Quit to main menu (9) Quit game" << endl;
+	cout << "(1) Continue game (2) Restart game (3) Save this game (4) Show solution (5) Show run of algorithm (8) Quit to main menu (9) Quit game" << endl;
 }
 
 //printSolutionMidMenu: prints to the screen the "middle" menu, when solution is paused (esc pressed).
@@ -54,6 +54,10 @@ void Menus::executeUserChoice() {
 			system("cls");
 			chooseSavedHouse(choice);
 		}
+		break;
+	case 5:
+
+		//run all simulations on all houses
 		break;
 	case 8:
 		showInstructions();
@@ -105,6 +109,11 @@ void Menus::executeUserChoiceMidMenu() {
 			sim->restartSimulation();
 			runGameSolution();
 		} while (repeatSolution);
+
+		break;
+	case 5:
+
+		//run all simulations on current house
 
 		break;
 	case 8:

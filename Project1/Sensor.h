@@ -2,18 +2,20 @@
 #define _SENSOR_H_
 
 #include "House.h"
+#include "AbstractSensor.h"
 
 #define DIR_AMOUNT 4
 
 class Simulator;
 
+/*
 struct SensorInformation 
 {
 	int dirtLevel;
 	bool isWall[4];
 };
-
-class Sensor
+*/
+class Sensor : public AbstractSensor
 {
 	Simulator* sim;
 	House *house;

@@ -1,24 +1,23 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Simulator.h"
 
+
 //init: gets house array, rows and columns, and init all variables to initial state.
 void Simulator::init(char** house_array, int rows, int cols)
 {
-	config.initDefaultConfiguration();
+		originalHouse.setHouse(house_array, rows, cols);
+		currHouse.setHouse(house_array, rows, cols);
 
-	originalHouse.setHouse(house_array, rows, cols);
-	currHouse.setHouse(house_array, rows, cols);
+		Sensor* theRobotSensor = new Sensor();
+		theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
+		robot.setSensor(*theRobotSensor);
+		robot.setBatteryLevel(config.getBatteryCapacity());
+		sensor = theRobotSensor;
 
-	Sensor* theRobotSensor = new Sensor();
-	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
-	robot.setSensor(*theRobotSensor);
-	robot.setBatteryLevel(config.getBatteryCapacity());
-	sensor = theRobotSensor;
+		robot.setPosition(originalHouse.getDockingPosition());
+		robot.setArrowKeys("wdxas");
 
-	robot.setPosition(originalHouse.getDockingPosition());
-	robot.setArrowKeys("wdxas");
-
-	endGameParameter = false;
+		endGameParameter = false;
 }
 //resetSimulatorData: resets simulation data, and frees all alloacted memory in the simulation.
 void Simulator::resetSimulatorData()
@@ -287,7 +286,7 @@ void Simulator::restartSimulation()
 	setCurrentHouseToOriginal();
 
 	robot.setPosition(originalHouse.getDockingPosition());
-	robot.setDirection(Direction::STAY);
+	robot.setDirection(Direction::Stay);
 	robot.setBatteryLevel(config.getBatteryCapacity());
 
 	delete sensor;
@@ -355,19 +354,19 @@ Direction Simulator::convertDirLetterToDir(char* letter)
 	switch (letter[0])
 	{
 	case 'w':
-		return Direction::UP;
+		return Direction::North;
 		break;
 	case 'd':
-		return Direction::RIGHT;
+		return Direction::East;
 		break;
 	case 'x':
-		return Direction::DOWN;
+		return Direction::South;
 		break;
 	case 'a':
-		return Direction::LEFT;
+		return Direction::West;
 		break;
 	case 's':
-		return Direction::STAY;
+		return Direction::Stay;
 		break;
 
 	}
@@ -436,7 +435,7 @@ void Simulator::saveHouse()
 void Simulator::saveRobot()
 {
 	savedParameters.robot.setPosition(robot.getPosition());
-	savedParameters.robot.setDirection(Direction::STAY);
+	savedParameters.robot.setDirection(Direction::Stay);
 	savedParameters.robot.setSensor(*sensor);
 	savedParameters.robot.setBatteryLevel(robot.getBatteryLevel());
 }
@@ -495,7 +494,7 @@ void Simulator::restoreHouse()
 void Simulator::restoreRobot()
 {
 	robot.setPosition(savedParameters.robot.getPosition());
-	robot.setDirection(Direction::STAY);
+	robot.setDirection(Direction::Stay);
 	robot.setBatteryLevel(savedParameters.robot.getBatteryLevel());
 	robot.wasEscPressed = false;
 }
