@@ -15,7 +15,7 @@ void Simulator::init(char** house_array, int rows, int cols)
 		sensor = theRobotSensor;
 
 		robot.setPosition(originalHouse.getDockingPosition());
-		robot.setArrowKeys("wdxas");
+		robot.setArrowKeys("daxws");
 
 		endGameParameter = false;
 }
@@ -520,3 +520,37 @@ void Simulator::resetSavedParameters()
 		for (int j = 0; j < MAX_COLS; j++)
 			savedParameters.printedHouse[i][j] = ' ';
 }
+
+void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
+{
+	Direction currDirection;
+
+	do
+	{
+		currDirection = algoritm->step(Direction::Stay);
+		stepNumber++;
+		addMoveToList(currDirection);
+		robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
+		robot.move();
+		robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
+		robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
+		chargeRobot(robot.getPosition());
+		updateDirtLevel(robot.getPosition());
+		sensor->updateSensorInfo(robot.getPosition());
+		sensor->revealArea();
+		printSimulationData();
+
+		Sleep(100);
+
+		updateEscPressedStatus();
+		if (robot.wasEscPressed)
+		{
+			robot.wasEscPressed = false;
+		//	menu->printAlgoritmMidMenu();
+			//solMenuUserChoice = menu->executeUserChoiceSolutionMenu();
+		}
+
+
+	} while (!endGame());
+}
+

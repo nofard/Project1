@@ -1,6 +1,7 @@
 #ifndef _ROBOT_H_
 #define _ROBOT_H_
 
+#include "AbstractSensor.h"
 #include "Sensor.h"
 
 #define NUM_OF_KEYS 5
@@ -12,7 +13,7 @@ class KeyboardRobot
 	Point robotPosition;
 	Direction direction = Direction::Stay;
 	char arrowKeys[NUM_OF_KEYS];
-	const Sensor* sensor;
+	const AbstractSensor* sensor;
 	int batteryLevel;
 
 public:

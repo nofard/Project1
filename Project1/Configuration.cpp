@@ -58,3 +58,14 @@ bool Configuration::checkConfigValidation()
 	else
 		return true;
 }
+map<string, int> Configuration::convertDataToMap()
+{
+	map<string, int> dataMap;
+
+	dataMap.insert(std::pair<string, int>("MaxStepsAfterWinner", MaxStepsAfterWinner));
+	dataMap.insert(std::pair<string, int>("BatteryCapacity", BatteryCapacity));
+	dataMap.insert(std::pair<string, int>("BatteryConsumptionRate", BatteryConsumptionRate));
+	dataMap.insert(std::pair<string, int>("BatteryRachargeRate", BatteryRachargeRate));
+	
+	return dataMap;
+}

@@ -112,8 +112,8 @@ void Menus::executeUserChoiceMidMenu() {
 
 		break;
 	case 5:
-
-		//run all simulations on current house
+	//	NaiveAlgorithm algo;
+	//	sim->runAlgorithm(&algo);
 
 		break;
 	case 8:

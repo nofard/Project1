@@ -1,6 +1,6 @@
 #include "HouseFiles.h"
 
-const int buff_size = 1024;
+//const int buff_size = 1024;
 
 //initHouseFiles: init each file type list with a suited command line.
 void HouseFiles::initHouseFiles()
@@ -14,13 +14,13 @@ void HouseFiles::initHouseFiles()
 //names from the result file to the given list.
 void HouseFiles::initList(list<string>&lst, char* command)
 {
-	char buff[buff_size];
+	char buff[BUFF_SIZE];
 	system(command);
 	ifstream houseFilesNames("houseFilesNames.txt");
 
 	lst.clear();
 	while (!houseFilesNames.eof()) {
-		houseFilesNames.getline(buff, buff_size - 1);
+		houseFilesNames.getline(buff, BUFF_SIZE - 1);
 		if (strcmp(buff, ""))
 			lst.push_back(buff);
 	}
@@ -74,18 +74,18 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	char** house_array;
 	int rowIndex = 0;
 	int colIndex = 0;
-	char buff[buff_size];
+	char buff[BUFF_SIZE];
 	ifstream in(house_name);
 
-	in.getline(buff, buff_size - 1);//title of the house
+	in.getline(buff, BUFF_SIZE - 1);//title of the house
 
-	in.getline(buff, buff_size - 1);
+	in.getline(buff, BUFF_SIZE - 1);
 	*maxStepsFromFile = atoi(buff);
 
-	in.getline(buff, buff_size - 1);
+	in.getline(buff, BUFF_SIZE - 1);
 	*rows = atoi(buff);
 
-	in.getline(buff, buff_size - 1);
+	in.getline(buff, BUFF_SIZE - 1);
 	*cols = atoi(buff);
 
 	if (checkRowsAndColsValidation(*rows, *cols))
@@ -102,7 +102,7 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 		}
 		while (!in.eof() && rowIndex < *rows)
 		{
-			in.getline(buff, buff_size - 1);
+			in.getline(buff, BUFF_SIZE - 1);
 			colIndex = 0;
 			while ((colIndex < strlen(buff)) && colIndex < *cols)
 			{
@@ -177,7 +177,7 @@ void HouseFiles::saveGameToFile(string userSelectionPartName, list<StepAndDirect
 //saves the moves and steps number to a file.
 void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
 {
-	char buff[buff_size];
+	char buff[BUFF_SIZE];
 	ofstream outputFile;
 	string solutionFileName = this->currHouseName.substr(START_INDEX_NAME, END_INDEX_NAME) + ".house_solution";
 	outputFile.open(solutionFileName, ios::_Noreplace);
@@ -185,7 +185,7 @@ void HouseFiles::saveSolutionToFile(list<StepAndDirection>&moves, int stepsNum)
 	if(!outputFile) //file exist
 	{
 		ifstream inFile(solutionFileName);
-		inFile.getline(buff, buff_size - 1);
+		inFile.getline(buff, BUFF_SIZE - 1);
 		if (stepsNum < atoi(buff) && stepsNum != 0)
 		{
 			outputFile.open(solutionFileName);

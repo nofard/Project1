@@ -24,6 +24,9 @@ public:
 	Point next(Direction direction);
 	bool isSame(Point& p) {return x == p.x && y == p.y;}
 	void drawToScreenWhenDockingOn(Point docking, char ch);
+	// prefix++ for Direction, skipping Stay
+	
 };
+
 
 #endif

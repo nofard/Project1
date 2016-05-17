@@ -4,6 +4,7 @@
 #include "KeyboardRobot.h"
 #include "Menus.h"
 #include "Score.h"
+#include "AbstractAlgorithm.h" //maybe temporary
 
 #define ROBOT_LETTER '@'
 #define DEFAULT_DIR -1
@@ -64,6 +65,7 @@ public:
 	void savePrintedCharToSavedArray(int row, int col, char ch);
 	void restoreSimulationParameters();
 	void resetSavedParameters();
+	void runAlgorithm(AbstractAlgorithm* algoritm);
 private:
 	void saveSimulationParameters();
 	void saveHouse();

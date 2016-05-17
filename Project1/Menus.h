@@ -3,6 +3,7 @@
 
 #include "Simulator.h"
 #include "HouseFiles.h"
+#include "NaiveAlgorithm.h"
 
 #define FIRST_ROW_MID_MENU 24
 #define FULL_ROW 80

@@ -3,7 +3,8 @@
 
 #include <fstream>
 #include "io_utils.h"
-
+#include <map>
+using namespace std;
 class Configuration
 {
 	int MaxSteps;
@@ -11,6 +12,8 @@ class Configuration
 	int BatteryCapacity;
 	int BatteryConsumptionRate;
 	int BatteryRachargeRate;
+
+	
 public:
 	//initDefaultConfiguration: initilize data members to default values.
 	void initDefaultConfiguration()
@@ -37,6 +40,7 @@ public:
 	bool initConfiguration();
 	void initParameterValue(char* configParameter, int parameterValue);
 	bool checkConfigValidation();
+	map<string,int> convertDataToMap();
 };
 
 #endif
