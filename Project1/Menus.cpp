@@ -76,6 +76,9 @@ void Menus::executeUserChoice() {
 void Menus::executeUserChoiceMidMenu() {
 	int choice;
 	string fileName;
+
+	AbstractAlgorithm* chosenAlgorithm;
+
 	cin >> choice;
 	switch (choice)
 	{
@@ -112,8 +115,10 @@ void Menus::executeUserChoiceMidMenu() {
 
 		break;
 	case 5:
-	//	NaiveAlgorithm algo;
-	//	sim->runAlgorithm(&algo);
+		system("cls");
+		sim->restartSimulation();
+		chooseAndRunAlgorithm();
+		
 
 		break;
 	case 8:
@@ -406,4 +411,70 @@ void Menus::runGameSolution()
 void Menus::freeMenusMemory()
 {
 	files.freeHouseFilesMemory();
+}
+
+void Menus::chooseAndRunAlgorithm()
+{
+	int chosenIndex;
+	int i = 0;
+	AbstractAlgorithm* chosenAlgorithm;
+	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
+
+
+	if (registrar.size() == 0) 
+	{
+		cout << "Sorry, There are no registred algorithms." << endl;
+		sim->endGameParameter = true;
+	}
+	else
+	{
+		auto algorithms = registrar.getAlgorithms();
+		auto& algorithmNames = registrar.getAlgorithmNames();
+
+		registrar.printAlgorithmsNames();
+		cin >> chosenIndex;
+
+		auto algo = algorithms.begin();
+		while (i < chosenIndex)
+		{
+			algo++;
+		}
+
+		chosenAlgorithm = (*algo).get();
+		chosenAlgorithm->setSensor(sim->getSensor());
+		system("cls");
+		sim->runAlgorithm(chosenAlgorithm);
+	}
+
+
+}
+
+void Menus::printAlgoritmMidMenu()
+{
+	gotoxy(0, FIRST_ROW_MID_MENU);
+	cout << "(1) Continue game (2) Continue algorithm run" << endl;
+
+}
+int Menus::executeUserChoiceAlgorithmMenu()
+{
+	int choice;
+
+	cin >> choice;
+	switch (choice)
+	{
+	case 1:
+		system("cls");
+			
+		sim->restoreSimulationParameters();
+		midMenuAlive = false;
+		break;
+	case 2:
+
+
+		break;
+
+
+
+	}
+	return choice;
 }

@@ -81,10 +81,12 @@
   <ItemGroup>
     <ClInclude Include="AbstractAlgorithm.h" />
     <ClInclude Include="AbstractSensor.h" />
+    <ClInclude Include="AlgorithmRegistrar.h" />
     <ClInclude Include="AlgorithmRegistration.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="configuration.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="DirectionExt.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="HouseFiles.h" />
     <ClInclude Include="io_utils.h" />
@@ -99,7 +101,10 @@
     <ClInclude Include="StepAndDirection.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AlgorithmRegistrar.cpp" />
+    <ClCompile Include="AlgorithmRegistration.cpp" />
     <ClCompile Include="Configuration.cpp" />
+    <ClCompile Include="DirectionExt.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="HouseFiles.cpp" />
     <ClCompile Include="io_utils.cpp" />

@@ -1,12 +1,17 @@
 #ifndef _MENUS_H_
 #define _MENUS_H_
 
+
 #include "Simulator.h"
 #include "HouseFiles.h"
-#include "NaiveAlgorithm.h"
+#include "AlgorithmRegistrar.h"
+//#include "AbstractAlgorithm.h"
+
 
 #define FIRST_ROW_MID_MENU 24
 #define FULL_ROW 80
+
+class AbstractAlgorithm;
 
 class Menus 
 {
@@ -34,6 +39,9 @@ public:
 	void firstMenuManager();
 	void runGameSolution();
 	void freeMenusMemory();
+	void chooseAndRunAlgorithm();
+	void printAlgoritmMidMenu();
+	int executeUserChoiceAlgorithmMenu();
 };
 
 #endif

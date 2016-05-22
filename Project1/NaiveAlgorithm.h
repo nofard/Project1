@@ -1,5 +1,8 @@
-#include "AbstractAlgorithm.h"
+#ifndef __NAIVE_ALGORITHM_H_
+#define __NAIVE_ALGORITHM_H_
 
+#include "DirectionExt.h"
+#include "AlgorithmRegistration.h"
 
 class NaiveAlgorithm : public AbstractAlgorithm {
 	const AbstractSensor* sensor;
@@ -18,3 +21,5 @@ public:
 	// parameter stepsTillFinishing == MaxStepsAfterWinner 
 	virtual void aboutToFinish(int stepsTillFinishing);
 };
+
+#endif

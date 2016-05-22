@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>
-#include "Direction.h"
+#include "DirectionExt.h"
 #include "StepAndDirection.h"
 #include "configuration.h"
 #include <list>
