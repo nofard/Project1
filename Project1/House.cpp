@@ -130,6 +130,8 @@ void House::copyHouseData(House houseToCopy)
 	dockingPosition = houseToCopy.dockingPosition;
 	overallDirtLevel = houseToCopy.overallDirtLevel;
 	validHouseFlag = houseToCopy.validHouseFlag;
+	maxSteps = houseToCopy.getMaxSteps();
+	note = houseToCopy.getNote();
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -139,6 +141,22 @@ void House::copyHouseData(House houseToCopy)
 		}
 	}
 }
+
+House House::createCopyHouse()
+{
+	House tempHouse;
+	char** houseArray = new char*[rows];
+	for (int i = 0; i < rows; i++)
+	{
+		houseArray[i] = new char[cols];
+		for (int j = 0; j < cols; j++)
+		{
+		}
+	}
+	tempHouse.copyHouseData(*this);
+	return tempHouse;
+}
+
 //getRows: get house rows.
 int House::getRows()
 {
@@ -164,8 +182,73 @@ void House::setHouseArray(char** arr)
 {
 	house = arr;
 }
+
+//getMaxSteps: return maxSteps
+int House::getMaxSteps()
+{
+	return maxSteps;
+}
+//setMaxSteps: set maxSteps.
+void House::setMaxSteps(int _maxSteps)
+{
+	maxSteps = _maxSteps;
+}
+
+string House::getNote()
+{
+	return note;
+}
 //getHouse: get house array.
 char ** House::getHouse()
 {
 	return house;
+}
+
+void House::checkRowsAndColsValidationAndUpdateNote(int _rows, int _cols)
+{
+	if (_rows < MIN_ROWS)
+	{
+		note = "less rows than minimum required";
+		validHouseFlag = false;
+		return;
+	}
+
+	if (_rows > MAX_ROWS)
+	{
+		note = "more rows than maximum required";
+		validHouseFlag = false;
+		return;
+	}
+
+	if (_cols < MIN_COLS)
+	{
+		note = "less cols than minimum required";
+		validHouseFlag = false;
+		return;
+	}
+	if (_cols > MAX_COLS)
+	{
+		note = "more cols than maximum required";
+		validHouseFlag = false;
+		return;
+	}
+	validHouseFlag = true;
+
+}
+
+void House::checkDockingValidationAndUpdateNote(int dockingCounter)
+{
+	if (dockingCounter == 0)
+	{
+		note = "missing docking station (no D in house)";
+		validHouseFlag = false;
+		return;
+	}
+	if (dockingCounter > 1)
+	{
+		note = "too many docking stations (more than one D in house)";
+		validHouseFlag = false;
+		return;
+	}
+	validHouseFlag = true;
 }

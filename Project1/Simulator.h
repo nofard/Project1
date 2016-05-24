@@ -67,6 +67,7 @@ public:
 	void resetSavedParameters();
 	void runAlgorithm(AbstractAlgorithm* algoritm);
 	AbstractSensor& getSensor();
+	void runAllAlgorithms();
 private:
 	void saveSimulationParameters();
 	void saveHouse();

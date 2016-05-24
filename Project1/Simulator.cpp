@@ -558,3 +558,8 @@ AbstractSensor& Simulator::getSensor()
 {
 	return *sensor;
 }
+
+void Simulator::runAllAlgorithms()
+{
+	
+}

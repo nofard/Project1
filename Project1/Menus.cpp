@@ -56,7 +56,7 @@ void Menus::executeUserChoice() {
 		}
 		break;
 	case 5:
-
+		sim->runAllAlgorithms();
 		//run all simulations on all houses
 		break;
 	case 8:
@@ -477,4 +477,47 @@ int Menus::executeUserChoiceAlgorithmMenu()
 
 	}
 	return choice;
+}
+
+void Menus::runAllAlgorithms()
+{
+	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
+	auto algorithms = registrar.getAlgorithms();
+	auto housesNamesList = files.getInitialHouseFilesList();
+	House currentHouse;
+	string errors;
+
+	for (int i = 0; i < files.getIntialFilesListLength(); i++)// run on all houses
+	{
+		vector<House> houseCopies(algorithms.size());
+		currentHouse = files.getHouseFromFile(files.getHouseNameByIndex(*housesNamesList, i));
+			
+		if (currentHouse.isValidHouse())
+			createHouseCopies(houseCopies, currentHouse, algorithms.size());
+		else
+			errors.append(currentHouse.getNote());
+
+		//loop algorithms by j
+		//{
+			//sim->makeAlgorithmMove(currAlgo,houseCopies[j] );
+	//	}
+	}
+	//printTable();
+	//printErrors();
+	
+}
+
+void Menus::createHouseCopies(vector<House> houseCopies, House currentHouse, int numOfCopies)
+{
+//	House currentHouse;
+	int rows, cols, maxSteps;
+
+
+	if (currentHouse.isValidHouse())
+	{
+		for (int i = 0; i < numOfCopies; i++)
+		{
+			houseCopies.push_back(currentHouse.createCopyHouse());
+		}
+	}
 }
