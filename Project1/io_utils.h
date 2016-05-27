@@ -6,10 +6,11 @@
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>
-#include "Direction.h"
+#include "DirectionExt.h"
 #include "StepAndDirection.h"
 #include "configuration.h"
 #include <list>
+#include <vector>
 
 using namespace std;
 #define BUFF_SIZE 1024

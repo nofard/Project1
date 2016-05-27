@@ -56,7 +56,7 @@ void Menus::executeUserChoice() {
 		}
 		break;
 	case 5:
-
+		sim->runAllAlgorithms();
 		//run all simulations on all houses
 		break;
 	case 8:
@@ -76,6 +76,9 @@ void Menus::executeUserChoice() {
 void Menus::executeUserChoiceMidMenu() {
 	int choice;
 	string fileName;
+
+	AbstractAlgorithm* chosenAlgorithm;
+
 	cin >> choice;
 	switch (choice)
 	{
@@ -112,8 +115,10 @@ void Menus::executeUserChoiceMidMenu() {
 
 		break;
 	case 5:
-	//	NaiveAlgorithm algo;
-	//	sim->runAlgorithm(&algo);
+		system("cls");
+		sim->restartSimulation();
+		chooseAndRunAlgorithm();
+		
 
 		break;
 	case 8:
@@ -406,4 +411,113 @@ void Menus::runGameSolution()
 void Menus::freeMenusMemory()
 {
 	files.freeHouseFilesMemory();
+}
+
+void Menus::chooseAndRunAlgorithm()
+{
+	int chosenIndex;
+	int i = 0;
+	AbstractAlgorithm* chosenAlgorithm;
+	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
+
+
+	if (registrar.size() == 0) 
+	{
+		cout << "Sorry, There are no registred algorithms." << endl;
+		sim->endGameParameter = true;
+	}
+	else
+	{
+		auto algorithms = registrar.getAlgorithms();
+		auto& algorithmNames = registrar.getAlgorithmNames();
+
+		registrar.printAlgorithmsNames();
+		cin >> chosenIndex;
+
+		auto algo = algorithms.begin();
+		while (i < chosenIndex)
+		{
+			algo++;
+		}
+
+		chosenAlgorithm = (*algo).get();
+		chosenAlgorithm->setSensor(sim->getSensor());
+		system("cls");
+		sim->runAlgorithm(chosenAlgorithm);
+	}
+
+
+}
+
+void Menus::printAlgoritmMidMenu()
+{
+	gotoxy(0, FIRST_ROW_MID_MENU);
+	cout << "(1) Continue game (2) Continue algorithm run" << endl;
+
+}
+int Menus::executeUserChoiceAlgorithmMenu()
+{
+	int choice;
+
+	cin >> choice;
+	switch (choice)
+	{
+	case 1:
+		system("cls");
+			
+		sim->restoreSimulationParameters();
+		midMenuAlive = false;
+		break;
+	case 2:
+
+
+		break;
+
+
+
+	}
+	return choice;
+}
+
+void Menus::runAllAlgorithms()
+{
+	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
+	auto algorithms = registrar.getAlgorithms();
+	auto housesNamesList = files.getInitialHouseFilesList();
+	House currentHouse;
+	string errors;
+
+	for (int i = 0; i < files.getIntialFilesListLength(); i++)// run on all houses
+	{
+		vector<House> houseCopies(algorithms.size());
+		currentHouse = files.getHouseFromFile(files.getHouseNameByIndex(*housesNamesList, i));
+			
+		if (currentHouse.isValidHouse())
+			createHouseCopies(houseCopies, currentHouse, algorithms.size());
+		else
+			errors.append(currentHouse.getNote());
+
+		//loop algorithms by j
+		//{
+			//sim->makeAlgorithmMove(currAlgo,houseCopies[j] );
+	//	}
+	}
+	//printTable();
+	//printErrors();
+	
+}
+
+void Menus::createHouseCopies(vector<House> houseCopies, House currentHouse, int numOfCopies)
+{
+//	House currentHouse;
+	int rows, cols, maxSteps;
+
+
+	if (currentHouse.isValidHouse())
+	{
+		for (int i = 0; i < numOfCopies; i++)
+		{
+			houseCopies.push_back(currentHouse.createCopyHouse());
+		}
+	}
 }

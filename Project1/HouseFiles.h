@@ -29,6 +29,7 @@ public:
 	void setHouseNumberChoice(int);
 	string getHouseNameByIndex(list<string>&lst, int index);
 	char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int *maxStepsFromFile);
+	House getHouseFromFile(string houseName);
 	int getIntialFilesListLength();
 	int convertHouseNameToNumber(string);
 	void setCurrHouseName(string);
@@ -45,6 +46,8 @@ public:
 	string getCurrHouseName();
 	void freeHouseFilesMemory();
 	bool checkRowsAndColsValidation(int _rows, int _cols);
+	//bool checkRowsAndColsValidationAndReturnNote(int _rows, int _cols, string * _note);
+	//bool checkDockingValidationAndReturnNote(int dockingCounter, string *_note);
 };
 
 #endif

@@ -1,17 +1,13 @@
 #include "NaiveAlgorithm.h"
 
 
-Direction operator++(Direction& d) {
-	d = (Direction)(((int)d + 1) % 4);
-	return d;
-}
-
-
+REGISTER_ALGORITHM(NaiveAlgorithm)
 
 	// setSensor is called once when the Algorithm is initialized 
 void NaiveAlgorithm::setSensor(const AbstractSensor& _sensor)  {
 		sensor = &_sensor;
 	}
+
 
 	// setConfiguration is called once when the Algorithm is initialized - see below 
 void NaiveAlgorithm::setConfiguration(map<string, int> config) {
@@ -37,3 +33,4 @@ Direction NaiveAlgorithm::step(Direction previousStep) {
 	void NaiveAlgorithm::aboutToFinish(int stepsTillFinishing) {
 		// ignore
 	}
+	

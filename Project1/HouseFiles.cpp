@@ -122,6 +122,72 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	}
 
 }
+
+House HouseFiles::getHouseFromFile(string houseName)
+{
+	House newHouse;
+	char buff[BUFF_SIZE];
+	ifstream in(houseName);
+	bool rowsColsValidationFlag;
+	string houseNote;
+	char** house_array;
+	int rowIndex = 0;
+	int colIndex = 0;
+	int dockingCounter = 0;
+
+
+	in.getline(buff, BUFF_SIZE - 1);//title of the house
+
+	in.getline(buff, BUFF_SIZE - 1);
+	newHouse.setMaxSteps(atoi(buff));
+
+	in.getline(buff, BUFF_SIZE - 1);
+	newHouse.setRows(atoi(buff));
+	
+	in.getline(buff, BUFF_SIZE - 1);
+	newHouse.setCols(atoi(buff));
+
+	newHouse.checkRowsAndColsValidationAndUpdateNote(newHouse.getRows(), newHouse.getCols());
+
+	if (newHouse.isValidHouse())
+	{
+		house_array = new char*[newHouse.getRows()];
+
+		for (int i = 0; i < newHouse.getRows(); i++)
+		{
+			house_array[i] = new char[newHouse.getCols()]; //memory allocation for a row
+			for (int j = 0; j < newHouse.getCols(); j++)
+			{
+				house_array[i][j] = ' ';
+			}
+		}
+		while (!in.eof() && rowIndex < newHouse.getRows())
+		{
+			in.getline(buff, BUFF_SIZE - 1);
+			colIndex = 0;
+			while ((colIndex < strlen(buff)) && colIndex < newHouse.getCols())
+			{
+				if (house_array[rowIndex][colIndex] == DOCK_LETTER)
+				{
+					newHouse.setDockingPosition(colIndex, rowIndex);
+					dockingCounter++;
+				}
+				house_array[rowIndex][colIndex] = buff[colIndex];
+				colIndex++;
+			}
+			rowIndex++;
+		}
+
+		newHouse.setHouseArray(house_array);
+		newHouse.checkDockingValidationAndUpdateNote(dockingCounter);
+		
+	}
+	
+	in.close();
+		
+	return newHouse;
+}
+
 //getIntialFilesListLength: returns the size of list that contains files names with .house suffix
 int HouseFiles::getIntialFilesListLength() 
 {
@@ -292,3 +358,47 @@ bool HouseFiles::checkRowsAndColsValidation(int _rows, int _cols)
 		return true;
 	}
 }
+/*
+bool HouseFiles::checkRowsAndColsValidationAndReturnNote(int _rows, int _cols, string * _note)
+{
+	if (_rows < MIN_ROWS)
+	{
+		*_note = "";
+		return false;
+	}
+		
+	if (_rows > MAX_ROWS)
+	{
+		*_note = "";
+		return false;
+	}
+		
+	if (_cols < MIN_COLS)
+	{
+		*_note = "";
+		return false;
+	}
+	if (_cols > MAX_COLS)
+	{
+		*_note = "";
+		return false;
+	}
+	return true;
+		
+}
+
+bool HouseFiles::checkDockingValidationAndReturnNote(int dockingCounter, string *_note)
+{
+	if (dockingCounter == 0)
+	{
+		*_note = "";
+		return false;
+	}
+	if (dockingCounter > 1)
+	{
+		*_note = "";
+		return false;
+	}
+	return true;
+}
+*/

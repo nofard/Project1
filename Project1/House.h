@@ -16,6 +16,8 @@ class House
 	int cols;
 	Point dockingPosition;
 	int overallDirtLevel = 0;
+	int maxSteps;
+	string note;
 	bool validHouseFlag = true;
 
 public:
@@ -38,7 +40,14 @@ public:
 	void setHouseArray(char** arr);
 	void setRows(int _rows);
 	void setCols(int _cols);
+	int getMaxSteps();
+	void setMaxSteps(int _maxSteps);
+	string getNote();
 	char ** getHouse();
+	void checkDockingValidationAndUpdateNote(int dockingCounter);
+	void checkRowsAndColsValidationAndUpdateNote(int _rows, int _cols);
+	House createCopyHouse();
+
 };
 
 #endif

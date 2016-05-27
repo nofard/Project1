@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Simulator.h"
 
-
 //init: gets house array, rows and columns, and init all variables to initial state.
 void Simulator::init(char** house_array, int rows, int cols)
 {
@@ -524,12 +523,13 @@ void Simulator::resetSavedParameters()
 void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
 {
 	Direction currDirection;
+	int midAlgoChoice = 0;
 
 	do
 	{
 		currDirection = algoritm->step(Direction::Stay);
+		robot.setDirection(currDirection);
 		stepNumber++;
-		addMoveToList(currDirection);
 		robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
 		robot.move();
 		robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
@@ -537,7 +537,7 @@ void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
 		chargeRobot(robot.getPosition());
 		updateDirtLevel(robot.getPosition());
 		sensor->updateSensorInfo(robot.getPosition());
-		sensor->revealArea();
+		sensor->revealArea(false);
 		printSimulationData();
 
 		Sleep(100);
@@ -546,11 +546,20 @@ void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
 		if (robot.wasEscPressed)
 		{
 			robot.wasEscPressed = false;
-		//	menu->printAlgoritmMidMenu();
-			//solMenuUserChoice = menu->executeUserChoiceSolutionMenu();
+			menu->printAlgoritmMidMenu();
+			midAlgoChoice = menu->executeUserChoiceAlgorithmMenu();
 		}
 
 
-	} while (!endGame());
+	} while ((!endGame()) && (midAlgoChoice != 1));
 }
 
+AbstractSensor& Simulator::getSensor()
+{
+	return *sensor;
+}
+
+void Simulator::runAllAlgorithms()
+{
+	
+}
