@@ -5,6 +5,7 @@
 #include "Menus.h"
 #include "Score.h"
 #include "AbstractAlgorithm.h"
+#include "_204032031_firstAlgorithm.h"
 
 #define ROBOT_LETTER '@'
 #define DEFAULT_DIR -1
@@ -32,7 +33,7 @@ class Simulator
 	list<StepAndDirection> moves;
 	Menus* menu;
 	savedForLater savedParameters;
-	
+	int batteryLevel;
 
 public:
 	Configuration config;
@@ -65,9 +66,11 @@ public:
 	void savePrintedCharToSavedArray(int row, int col, char ch);
 	void restoreSimulationParameters();
 	void resetSavedParameters();
-	void runAlgorithm(AbstractAlgorithm* algoritm);
+	void runAlgorithm(AbstractAlgorithm * algoritm);
 	AbstractSensor& getSensor();
-	void runAllAlgorithms();
+	void makeAlgorithmMove(AbstractAlgorithm*);
+	void updateBatteryLevel();
+	bool endGameAlgorithm();
 private:
 	void saveSimulationParameters();
 	void saveHouse();

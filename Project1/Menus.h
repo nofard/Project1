@@ -43,7 +43,7 @@ public:
 	void printAlgoritmMidMenu();
 	int executeUserChoiceAlgorithmMenu();
 	void runAllAlgorithms();
-	void createHouseCopies(vector<House> houseCopies, House currentHouse, int numOfCopies);
+	void createHouseCopies(House* houseCopies, House currentHouse, int numOfCopies);
 };
 
 #endif

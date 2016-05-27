@@ -167,7 +167,7 @@ House HouseFiles::getHouseFromFile(string houseName)
 			colIndex = 0;
 			while ((colIndex < strlen(buff)) && colIndex < newHouse.getCols())
 			{
-				if (house_array[rowIndex][colIndex] == DOCK_LETTER)
+				if (buff[colIndex] == DOCK_LETTER)
 				{
 					newHouse.setDockingPosition(colIndex, rowIndex);
 					dockingCounter++;

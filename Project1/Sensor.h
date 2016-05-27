@@ -24,12 +24,21 @@ class Sensor : public AbstractSensor
 
 public:
 	Sensor() {}
+	Sensor(Sensor & sensor) 
+	{
+		House *newHouse = new House();
+		newHouse = &(sensor.house->createCopyHouse());
+		sensor.sim = sim;
+		sensor.sensorInfo = sensorInfo;
+		sensor.robotPosition = robotPosition;
+	}
 	void initSensor(Simulator * _sim, House *_house, Point _robotPosition);
 	void setHouse(House *_house){house = _house;}
 	SensorInformation sense()const;
-	void Sensor::updateSensorInfo(Point currPosition);
+	void updateSensorInfo(Point currPosition);
+	void updateSensorInfo();
 	void setCurrPosition(Point currPosition);
-	Point getCurrPosition();
+	Point& getCurrPosition();
 	void updateWallsInfo();
 	void updateDirtLevel();
 	void revealArea();

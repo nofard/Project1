@@ -12,6 +12,7 @@ void Simulator::init(char** house_array, int rows, int cols)
 		robot.setSensor(*theRobotSensor);
 		robot.setBatteryLevel(config.getBatteryCapacity());
 		sensor = theRobotSensor;
+		batteryLevel = config.getBatteryCapacity();
 
 		robot.setPosition(originalHouse.getDockingPosition());
 		robot.setArrowKeys("daxws");
@@ -55,6 +56,28 @@ void Simulator::chargeRobot(Point p)
 	}
 }
 
+void Simulator::updateBatteryLevel()
+{
+	if (sensor->getCurrPosition().isSame(originalHouse.getDockingPosition()))
+	{
+		if (batteryLevel < 380)
+		{
+			batteryLevel += config.getBatteryRachargeRate();
+		}
+		else if (batteryLevel >= 380)
+		{
+			batteryLevel = 400;
+		}
+	}
+	else
+	{
+		if (batteryLevel <= config.getBatteryConsumptionRate())
+			batteryLevel = 0;
+		else
+			batteryLevel -= config.getBatteryConsumptionRate();
+	}
+}
+
 //printSimulationData: prints information about the simulation in the buttom of the screen
 void Simulator::printSimulationData()
 {
@@ -65,7 +88,7 @@ void Simulator::printSimulationData()
 	gotoxy(34, SIM_DATA_ROW);
 	cout << "Dust Collected:" << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel();
 	gotoxy(53, SIM_DATA_ROW);
-	cout << "Battery:" << robot.getBatteryLevel() << "  ";
+	cout << "Battery:" << batteryLevel << "  ";
 	gotoxy(66, SIM_DATA_ROW);
 	cout << "Max Steps:" << config.getMaxSteps() << "  ";
 	cout << endl;
@@ -520,7 +543,7 @@ void Simulator::resetSavedParameters()
 			savedParameters.printedHouse[i][j] = ' ';
 }
 
-void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
+void Simulator::runAlgorithm(AbstractAlgorithm * algoritm)
 {
 	Direction currDirection;
 	int midAlgoChoice = 0;
@@ -528,17 +551,18 @@ void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
 	do
 	{
 		currDirection = algoritm->step(Direction::Stay);
-		robot.setDirection(currDirection);
 		stepNumber++;
-		robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
-		robot.move();
-		robot.getPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
-		robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
-		chargeRobot(robot.getPosition());
-		updateDirtLevel(robot.getPosition());
-		sensor->updateSensorInfo(robot.getPosition());
+		sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
+		sensor->getCurrPosition().move(currDirection);
+		sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
+		updateBatteryLevel();
+		//algoritm->reduceBatteryLevel();
+	//	algoritm->chargeBattery(sensor->getCurrPosition(), currHouse.getDockingPosition());
+		updateDirtLevel(sensor->getCurrPosition());
+		sensor->updateSensorInfo();
 		sensor->revealArea(false);
 		printSimulationData();
+
 
 		Sleep(100);
 
@@ -551,7 +575,7 @@ void Simulator::runAlgorithm(AbstractAlgorithm* algoritm)
 		}
 
 
-	} while ((!endGame()) && (midAlgoChoice != 1));
+	} while ((!endGameAlgorithm()) && (midAlgoChoice != 1));
 }
 
 AbstractSensor& Simulator::getSensor()
@@ -559,7 +583,85 @@ AbstractSensor& Simulator::getSensor()
 	return *sensor;
 }
 
-void Simulator::runAllAlgorithms()
+void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 {
+	Direction currDirection;
+	currDirection = currentAlgorithm->step(Direction::Stay);
 	
+	//sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
+	sensor->getCurrPosition().move(currDirection);
+	sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
+	updateBatteryLevel();
+	//algoritm->reduceBatteryLevel();
+	//	algoritm->chargeBattery(sensor->getCurrPosition(), currHouse.getDockingPosition());
+	updateDirtLevel(sensor->getCurrPosition());
+	sensor->updateSensorInfo();
+	sensor->revealArea(false);
+
+
+
+
+	/*
+	Direction currDirection;
+
+	currDirection = currentAlgorithm->step(Direction::Stay);
+	
+	//currentAlgorithm->getSensor.getCurrentPosition().move(currDirection);
+	
+	robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
+	chargeRobot(robot.getPosition());
+	updateDirtLevel(robot.getPosition());
+	sensor->updateSensorInfo(robot.getPosition());
+	sensor->revealArea();
+	//printSimulationData();*/
+}
+bool Simulator::endGameAlgorithm()
+{
+	char hold_the_screen;
+	Score algoScore;
+
+	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()) && !endGameParameter)
+	{
+		algoScore = Score(1, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
+		system("cls");
+		cout << "Congratulations! You have cleared all dust in " << stepNumber << " steps!!!" << endl;
+		cout << "Your score is: " << algoScore.calculateScore() << endl;
+		endedSuccessfully = true;
+
+		cin >> hold_the_screen;
+		return true;
+	} 
+	if (batteryLevel == 0 && !(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()))
+	{
+		algoScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
+		cout << "Robot is ran out of battery power! Ending game." << endl;
+		cout << "Your score is: " << algoScore.calculateScore() << endl;
+		cin >> hold_the_screen;
+		endedSuccessfully = false;
+		menu->firstMenuAlive = false;
+		return true;
+	}
+	if (stepNumber >= config.getMaxSteps())
+	{
+		algoScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
+		system("cls");
+		cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
+		cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
+		cout << "Your score is: " << algoScore.calculateScore() << endl;
+		cin >> hold_the_screen;
+		endedSuccessfully = false;
+		menu->firstMenuAlive = false;
+		return true;
+	}
+
+	if (endGameParameter == true) //due to '9' choice (=Quit game) in menus etc.
+	{
+		endedSuccessfully = false;
+		return true;
+	}
+
+	return false;
 }

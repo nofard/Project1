@@ -56,7 +56,7 @@ void Menus::executeUserChoice() {
 		}
 		break;
 	case 5:
-		sim->runAllAlgorithms();
+		runAllAlgorithms();
 		//run all simulations on all houses
 		break;
 	case 8:
@@ -118,7 +118,8 @@ void Menus::executeUserChoiceMidMenu() {
 		system("cls");
 		sim->restartSimulation();
 		chooseAndRunAlgorithm();
-		
+		system("cls");
+		sim->restoreSimulationParameters();
 
 		break;
 	case 8:
@@ -441,6 +442,7 @@ void Menus::chooseAndRunAlgorithm()
 		}
 
 		chosenAlgorithm = (*algo).get();
+		
 		chosenAlgorithm->setSensor(sim->getSensor());
 		system("cls");
 		sim->runAlgorithm(chosenAlgorithm);
@@ -486,38 +488,60 @@ void Menus::runAllAlgorithms()
 	auto housesNamesList = files.getInitialHouseFilesList();
 	House currentHouse;
 	string errors;
+	House* houseCopies;
+	AbstractAlgorithm* currentAlgorithm;
+	//Simulator* simulators = new Simulator[algorithms.size()];
+
+	for (auto& algo : algorithms)
+	{
+		//algo->setSensor(Sensor(sim->getSensor()));
+	}
 
 	for (int i = 0; i < files.getIntialFilesListLength(); i++)// run on all houses
 	{
-		vector<House> houseCopies(algorithms.size());
 		currentHouse = files.getHouseFromFile(files.getHouseNameByIndex(*housesNamesList, i));
 			
 		if (currentHouse.isValidHouse())
+		{
+			houseCopies = new House[algorithms.size()];
 			createHouseCopies(houseCopies, currentHouse, algorithms.size());
+
+			{//loop of steps
+				auto algo = algorithms.begin();
+				while (algo != algorithms.end())
+				{
+
+					currentAlgorithm = (*algo).get();
+					//currentAlgorithm->setSensor(sim->getSensor());
+					sim->makeAlgorithmMove(currentAlgorithm);
+					algo++;
+
+				}
+			}//end loop of steps
+
+			//for (AbstractAlgorithm* currentAlgorithm : algorithms)
+			//loop algorithms by j
+			//{
+			//sim->makeAlgorithmMove(currAlgo,houseCopies[j] );
+			//	}
+			//free houseCopiesMemory
+		}		
 		else
 			errors.append(currentHouse.getNote());
 
-		//loop algorithms by j
-		//{
-			//sim->makeAlgorithmMove(currAlgo,houseCopies[j] );
-	//	}
+
 	}
 	//printTable();
 	//printErrors();
 	
 }
 
-void Menus::createHouseCopies(vector<House> houseCopies, House currentHouse, int numOfCopies)
+void Menus::createHouseCopies(House* houseCopies, House currentHouse, int numOfCopies)
 {
-//	House currentHouse;
 	int rows, cols, maxSteps;
 
-
-	if (currentHouse.isValidHouse())
+	for (int i = 0; i < numOfCopies; i++)
 	{
-		for (int i = 0; i < numOfCopies; i++)
-		{
-			houseCopies.push_back(currentHouse.createCopyHouse());
-		}
+		houseCopies[i] = (currentHouse.createCopyHouse());
 	}
 }

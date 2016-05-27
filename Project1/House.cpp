@@ -153,6 +153,7 @@ House House::createCopyHouse()
 		{
 		}
 	}
+	tempHouse.setHouseArray(houseArray);
 	tempHouse.copyHouseData(*this);
 	return tempHouse;
 }

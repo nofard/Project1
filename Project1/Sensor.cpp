@@ -23,6 +23,12 @@ void Sensor::updateSensorInfo(Point currPosition)
 	updateDirtLevel();
 }
 
+void Sensor::updateSensorInfo()
+{
+	updateWallsInfo();
+	updateDirtLevel();
+}
+
 //setCurrPosition: set new robotPosition.
 void Sensor::setCurrPosition(Point currPosition)
 {
@@ -30,7 +36,7 @@ void Sensor::setCurrPosition(Point currPosition)
 }
 
 //getCurrPosition: get robotPosition.
-Point Sensor::getCurrPosition()
+Point& Sensor::getCurrPosition()
 {
 	return robotPosition;
 }

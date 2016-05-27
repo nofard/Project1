@@ -1,12 +1,16 @@
-#ifndef __NAIVE_ALGORITHM_H_
-#define __NAIVE_ALGORITHM_H_
+#ifndef __FIRST_ALGORITHM_H_
+#define __FIRST_ALGORITHM_H_
 
 #include "DirectionExt.h"
+#include "Point.h"
 #include "AlgorithmRegistration.h"
 
-class NaiveAlgorithm : public AbstractAlgorithm {
+class _204032031_firstAlgorithm : public AbstractAlgorithm {
 	const AbstractSensor* sensor;
-	Direction currDir = Direction::East;
+	Direction direction = Direction::Stay;
+	map<string, int> configuration;
+	int batteryLevel;
+
 public:
 	// setSensor is called once when the Algorithm is initialized 
 	virtual void setSensor(const AbstractSensor& _sensor) override;
@@ -20,6 +24,10 @@ public:
 	// when steps == MaxSteps - MaxStepsAfterWinner 
 	// parameter stepsTillFinishing == MaxStepsAfterWinner 
 	virtual void aboutToFinish(int stepsTillFinishing);
+
+	void reduceBatteryLevel();
+	void chargeBattery(Point currPosition, Point dockingPosition);
+	int getBatteryLevel();
 };
 
 #endif
