@@ -112,6 +112,7 @@ void Simulator::run()
 			robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
 			chargeRobot(robot.getPosition());
 			updateDirtLevel(robot.getPosition());
+			currHouse.setCurrentPosition(robot.getPosition());
 			sensor->updateSensorInfo(robot.getPosition());
 			sensor->revealArea();
 			printSimulationData();
@@ -158,6 +159,7 @@ void Simulator::runSavedGame(ifstream & savedFile)
 				robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
 				chargeRobot(robot.getPosition());
 				updateDirtLevel(robot.getPosition());
+				currHouse.setCurrentPosition(robot.getPosition());
 				sensor->updateSensorInfo(robot.getPosition());
 				sensor->revealArea();
 				printSimulationData();
@@ -211,6 +213,7 @@ void Simulator::runSolution(ifstream& solutionFile)
 			robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
 			chargeRobot(robot.getPosition());
 			updateDirtLevel(robot.getPosition());
+			currHouse.setCurrentPosition(robot.getPosition());
 			sensor->updateSensorInfo(robot.getPosition());
 			sensor->revealArea(false);
 			printSimulationData();
@@ -552,6 +555,7 @@ void Simulator::runAlgorithm(AbstractAlgorithm * algoritm)
 	{
 		currDirection = algoritm->step(Direction::Stay);
 		stepNumber++;
+		
 		sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
 		sensor->getCurrPosition().move(currDirection);
 		sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
@@ -559,6 +563,7 @@ void Simulator::runAlgorithm(AbstractAlgorithm * algoritm)
 		//algoritm->reduceBatteryLevel();
 	//	algoritm->chargeBattery(sensor->getCurrPosition(), currHouse.getDockingPosition());
 		updateDirtLevel(sensor->getCurrPosition());
+		currHouse.setCurrentPosition(sensor->getCurrPosition());
 		sensor->updateSensorInfo();
 		sensor->revealArea(false);
 		printSimulationData();
@@ -594,6 +599,7 @@ void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 	updateBatteryLevel();
 	//algoritm->reduceBatteryLevel();
 	//	algoritm->chargeBattery(sensor->getCurrPosition(), currHouse.getDockingPosition());
+	currHouse.setCurrentPosition(robot.getPosition());
 	updateDirtLevel(sensor->getCurrPosition());
 	sensor->updateSensorInfo();
 	sensor->revealArea(false);
@@ -604,7 +610,8 @@ void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 	/*
 	Direction currDirection;
 
-	currDirection = currentAlgorithm->step(Direction::Stay);
+	currDirection = currentAlgorithm->
+	(Direction::Stay);
 	
 	//currentAlgorithm->getSensor.getCurrentPosition().move(currDirection);
 	

@@ -4,14 +4,38 @@
 #include "DirectionExt.h"
 #include "Point.h"
 #include "AlgorithmRegistration.h"
+#include <map>
+#include <list>
+#include <cctype>
+#include <algorithm>
 
-class _204032031_firstAlgorithm : public AbstractAlgorithm {
+using namespace std;
+
+#define GOING 0
+#define BACKING 1
+#define CHARGING 2
+
+struct CellInfo {
+	int dirt = -1; // -1 represents "unknown"
+	int stepsToDocking = -1; // -1 represents "unknown"
+	bool isWall;
+	CellInfo() {}
+	CellInfo(int dirt, int stepToDock = 0, bool isWall = false) : dirt(dirt), stepsToDocking(stepToDock), isWall(isWall) {}
+};
+
+class _204032031_firstAlgorithm : public AbstractAlgorithm 
+{
 	const AbstractSensor* sensor;
+	map<string, int> config;
 	Direction direction = Direction::East;
-	Point currPosition;
+	Point currPosition = { 0, 0 };
+	Point dockingPoint = Point(0, 0);
+	SensorInformation sensorInfo;
 	map<string, int> configuration;
 	int batteryLevel;
-	int mode; //trip - 0, back - 1
+	list<Direction>route;
+	map<Point, CellInfo> houseMapping;
+	int mode = GOING; //GOING/BACKING
 
 public:
 	// setSensor is called once when the Algorithm is initialized 
@@ -27,7 +51,12 @@ public:
 	// parameter stepsTillFinishing == MaxStepsAfterWinner 
 	virtual void aboutToFinish(int stepsTillFinishing);
 
-	void updateBattery(Point dockingPosition);
+private:
+	Direction getDirection();
+	Direction getDirectionFromRoute();
+	void updateAlgorithmInfo(Direction lastStep);
+	void determineMode();
+	void updateBattery();
 	int getBatteryLevel();
 };
 

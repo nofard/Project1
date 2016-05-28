@@ -25,50 +25,15 @@ public:
 	Point next(Direction direction);
 	bool isSame(Point& p) {return x == p.x && y == p.y;}
 	void drawToScreenWhenDockingOn(Point docking, char ch);
-	// prefix++ for Direction, skipping Stay
-	
+	Point neighbour(Direction d)const;
 	/*
-	struct NeighboursIterator {
-		Direction d;
-		const Point& p;
-		NeighboursIterator(Direction _d, const Point& _p) : d(_d), p(_p) {}
-		NeighboursIterator operator++() {
-			d = (Direction)((int)d + 1); // Stay represent end
-			return *this;
-		}
-		Point operator*()const {
-			Point neighbour = p;
-			neighbour.move(d);
-			return neighbour;
-		}
-		bool operator!=(NeighboursIterator other)const {
-			return !(other.p == p && other.d == d);
-		}
-	};
-	struct Neighbours {
-		NeighboursIterator begin() { return NeighboursIterator(directions[0], p); }
-		NeighboursIterator end() { return NeighboursIterator(Direction::Stay, p); }
-		const Point& p;
-		Neighbours(const Point& _p) : p(_p) {}
-	};
-
-	bool operator==(const Point& other)const {
+	bool operator==(const Point& other)const 
+	{
 		return (x == other.x && y == other.y);
 	}
-	Neighbours neighbours()const { return Neighbours(*this); }
-	Point neighbour(Direction d)const {
-		Point p = *this;
-		p.move(d);
-		return p;
-	}
-	friend ostream& operator<<(ostream& out, const Point& p) {
-		return out << "(" << p.x << "," << p.y << ")";
-	}
 	*/
+	
 };
-
-
-
 
 
 #endif

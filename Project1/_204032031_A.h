@@ -1,6 +1,6 @@
 #ifndef __204032031_A_H
 #define __204032031_A_H
-
+/*
 #include "DirectionExt.h"
 #include "Point.h"
 #include "AlgorithmRegistration.h"
@@ -54,12 +54,12 @@ private:
 
 	Direction handlePhase();
 	Direction handlePhase8();
-
+	
 	int calcStepsToDocking(int stepsFromDocking, const Point& position);
 
 	void updateStepsToDocking(int stepsToDocking, const Point& position);
-
+	
 };
 
-
+*/
 #endif

@@ -2,6 +2,7 @@
 #define _HOUSE_H_
 
 #include "Point.h"
+#include "SensorInformation.h"
 
 #define DOCK_LETTER 'D'
 #define WALL_LETTER 'W'
@@ -19,7 +20,7 @@ class House
 	int maxSteps;
 	string note;
 	bool validHouseFlag = true;
-
+	Point currentPosition;
 public:
 	void setHouse(char ** myHouse, int _rows, int _cols);
 	char getValueFromPoint(Point p);
@@ -47,7 +48,8 @@ public:
 	void checkDockingValidationAndUpdateNote(int dockingCounter);
 	void checkRowsAndColsValidationAndUpdateNote(int _rows, int _cols);
 	House createCopyHouse();
-
+	void setCurrentPosition(Point position);
+	SensorInformation getSensorInformation();
 };
 
 #endif

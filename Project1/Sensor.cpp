@@ -12,7 +12,8 @@ void Sensor::initSensor(Simulator * _sim, House *_house, Point _robotPosition)
 //sense: return SensorInformation.
 SensorInformation Sensor::sense()const //this function called from the algorithm, so the const make sure the values of the sensor won't be changed.
 {
-	return sensorInfo;
+	//return sensorInfo;
+	return house->getSensorInformation();
 }
 
 //updateSensorInfo: update SensorInformation, and robotPosition in accordance with the current house.

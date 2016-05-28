@@ -26,7 +26,7 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 		//house[i][cols] = '\0';
 	}
 	fillSurroundingWalls();
-	
+	currentPosition = dockingPosition;
 	if (dockingCounter != 1)
 	{
 		validHouseFlag = false;
@@ -132,6 +132,7 @@ void House::copyHouseData(House houseToCopy)
 	validHouseFlag = houseToCopy.validHouseFlag;
 	maxSteps = houseToCopy.getMaxSteps();
 	note = houseToCopy.getNote();
+	currentPosition = houseToCopy.currentPosition;
 
 	for (int i = 0; i < rows; i++)
 	{
@@ -252,4 +253,29 @@ void House::checkDockingValidationAndUpdateNote(int dockingCounter)
 		return;
 	}
 	validHouseFlag = true;
+}
+
+void House::setCurrentPosition(Point position)
+{
+	currentPosition = position;
+}
+
+SensorInformation House::getSensorInformation()
+{
+	SensorInformation sensorInfo;
+
+	char char_currDirtLevel;
+
+	char_currDirtLevel = getValueFromPoint(currentPosition);
+	if (char_currDirtLevel > (MIN_DIRT_LEVEL + '0') && char_currDirtLevel <= (MAX_DIRT_LEVEL + '0'))
+		sensorInfo.dirtLevel = (int)(char_currDirtLevel - '0');
+	else
+		sensorInfo.dirtLevel = 0;
+
+	sensorInfo.isWall[3] = (getValueFromPoint(currentPosition.getX(), currentPosition.getY() - 1) == WALL_LETTER); //UP
+	sensorInfo.isWall[0] = (getValueFromPoint(currentPosition.getX() + 1, currentPosition.getY()) == WALL_LETTER); //RIGHT
+	sensorInfo.isWall[2] = (getValueFromPoint(currentPosition.getX(), currentPosition.getY() + 1) == WALL_LETTER); //DOWN
+	sensorInfo.isWall[1] = (getValueFromPoint(currentPosition.getX() - 1, currentPosition.getY()) == WALL_LETTER); //LEFT
+
+	return sensorInfo;
 }
