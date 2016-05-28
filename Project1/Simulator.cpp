@@ -47,26 +47,27 @@ void Simulator::chargeRobot(Point p)
 {
 
 	if (p.isSame(originalHouse.getDockingPosition())) {
-		if (robot.getBatteryLevel() < 380) {
+		if (robot.getBatteryLevel() < config.getBatteryCapacity() - config.getBatteryRachargeRate()) {
 			robot.increaseBatteryLevel(config.getBatteryRachargeRate());
 		}
-		else if (robot.getBatteryLevel() >= 380) {
-			robot.setBatteryLevel(400);
+		else if (robot.getBatteryLevel() >= config.getBatteryCapacity() - config.getBatteryRachargeRate()) {
+			robot.setBatteryLevel(config.getBatteryCapacity());
 		}
 	}
+	batteryLevel = robot.getBatteryLevel();
 }
 
 void Simulator::updateBatteryLevel()
 {
 	if (sensor->getCurrPosition().isSame(originalHouse.getDockingPosition()))
 	{
-		if (batteryLevel < 380)
+		if (batteryLevel < config.getBatteryCapacity() - config.getBatteryRachargeRate())
 		{
 			batteryLevel += config.getBatteryRachargeRate();
 		}
-		else if (batteryLevel >= 380)
+		else if (batteryLevel >= config.getBatteryCapacity() - config.getBatteryRachargeRate())
 		{
-			batteryLevel = 400;
+			batteryLevel = config.getBatteryCapacity();
 		}
 	}
 	else
@@ -548,12 +549,12 @@ void Simulator::resetSavedParameters()
 
 void Simulator::runAlgorithm(AbstractAlgorithm * algoritm)
 {
-	Direction currDirection;
+	static Direction currDirection = Direction::Stay;
 	int midAlgoChoice = 0;
 
 	do
 	{
-		currDirection = algoritm->step(Direction::Stay);
+		currDirection = algoritm->step(currDirection);
 		stepNumber++;
 		
 		sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');

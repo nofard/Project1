@@ -32,7 +32,10 @@ public:
 		return (x == other.x && y == other.y);
 	}
 	*/
-	
+	// operator< required by map<Point, T>
+	bool operator<(const Point& other)const {
+		return (x < other.x || (x == other.x && y < other.y));
+	}
 };
 
 

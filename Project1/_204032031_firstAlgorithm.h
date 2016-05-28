@@ -4,8 +4,13 @@
 #include "DirectionExt.h"
 #include "Point.h"
 #include "AlgorithmRegistration.h"
-#include <map>
+
+
+
+#include <iostream>
 #include <list>
+#include <map>
+#include <cstring>
 #include <cctype>
 #include <algorithm>
 
@@ -20,18 +25,20 @@ struct CellInfo {
 	int stepsToDocking = -1; // -1 represents "unknown"
 	bool isWall;
 	CellInfo() {}
-	CellInfo(int dirt, int stepToDock = 0, bool isWall = false) : dirt(dirt), stepsToDocking(stepToDock), isWall(isWall) {}
+	CellInfo(int dirt, int stepsTodock, bool isWall = false) :
+		dirt(dirt),
+		stepsToDocking(stepsTodock),
+		isWall(isWall) {}
 };
 
 class _204032031_firstAlgorithm : public AbstractAlgorithm 
 {
 	const AbstractSensor* sensor;
-	map<string, int> config;
+	map<string, int> configuration;
 	Direction direction = Direction::East;
 	Point currPosition = { 0, 0 };
-	Point dockingPoint = Point(0, 0);
+	Point dockingPoint = { 0, 0 };
 	SensorInformation sensorInfo;
-	map<string, int> configuration;
 	int batteryLevel;
 	list<Direction>route;
 	map<Point, CellInfo> houseMapping;

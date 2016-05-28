@@ -444,6 +444,7 @@ void Menus::chooseAndRunAlgorithm()
 		chosenAlgorithm = (*algo).get();
 		
 		chosenAlgorithm->setSensor(sim->getSensor());
+		chosenAlgorithm->setConfiguration(sim->config.convertDataToMap());
 		system("cls");
 		sim->runAlgorithm(chosenAlgorithm);
 	}
@@ -512,7 +513,8 @@ void Menus::runAllAlgorithms()
 				{
 
 					currentAlgorithm = (*algo).get();
-					//currentAlgorithm->setSensor(sim->getSensor());
+				//	currentAlgorithm->setSensor(sim->getSensor());
+				//	currentAlgorithm->setConfiguration()
 					sim->makeAlgorithmMove(currentAlgorithm);
 					algo++;
 

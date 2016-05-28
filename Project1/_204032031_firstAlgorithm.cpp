@@ -11,7 +11,8 @@ void _204032031_firstAlgorithm::setSensor(const AbstractSensor& _sensor)  {
 
 	// setConfiguration is called once when the Algorithm is initialized - see below 
 void _204032031_firstAlgorithm::setConfiguration(map<string, int> config) {
-		// ignore
+	configuration = config;
+	batteryLevel = configuration["BatteryCapacity"];
 	}
 
 	// step is called by the simulation for each time unit 
@@ -86,13 +87,10 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 	//debug << "position: " << position << ", dirtLevel = " << s.dirtLevel << endl;
 	// update the map with the info on the dirt level
 	//stepsFromDocking = calcStepsToDocking(stepsFromDocking + 1, currPosition);
-	CellInfo c = CellInfo(1, 1, false);
-	//dataMap.insert(std::pair<string, int>("MaxStepsAfterWinner", MaxStepsAfterWinner));
-	//houseMapping.insert(pair<Point, CellInfo>(currPosition, c));
-//	houseMapping[{0, 0}] = c;
-	//houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 };
+
+	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 };
 	// update all 4 cells around me with Wall information and if possible also with stepsToDocking
-	/*for (Direction d : directions)
+	for (Direction d : directions)
 	{
 		Point p = currPosition.neighbour(d);
 		auto neighbour = houseMapping.find(p);
@@ -105,17 +103,18 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 			//	cellInfo.stepsToDocking = calcStepsToDocking(stepsFromDocking + 1, p);
 			//}
 		}
-	}*/
+	}
 	updateBattery();
 }
 
+
 void _204032031_firstAlgorithm::determineMode()
 {
-	if (batteryLevel < config["BatteryCapacity"] && currPosition.isSame(dockingPoint))
+	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
 		mode = CHARGING;
-	if (batteryLevel < config["BatteryCapacity"] / 2)
+	if (batteryLevel <= configuration["BatteryCapacity"] / 2 + 1)
 		mode = BACKING;
-	if (batteryLevel == config["BatteryCapacity"])
+	if (batteryLevel == configuration["BatteryCapacity"])
 		mode = GOING;
 }
 
@@ -123,13 +122,13 @@ void _204032031_firstAlgorithm::updateBattery()
 {
 	if (currPosition.isSame(dockingPoint)) 
 	{
-		if (batteryLevel < 380)
+		if (batteryLevel < configuration["BatteryCapacity"] - configuration["BatteryRechargeRate"])
 		{
 			batteryLevel += configuration["BatteryRachargeRate"];
 		}
-		else if (batteryLevel >= 380) 
+		else if (batteryLevel >= configuration["BatteryCapacity"] - configuration["BatteryRechargeRate"])
 		{
-			batteryLevel = 400;
+			batteryLevel = configuration["BatteryCapacity"];
 		}
 	}
 	else
