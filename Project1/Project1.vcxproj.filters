@@ -75,6 +75,9 @@
     <ClInclude Include="_204032031_firstAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="_204032031_A.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="_204032031_firstAlgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_204032031_A.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

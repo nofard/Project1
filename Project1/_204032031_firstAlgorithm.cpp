@@ -35,15 +35,8 @@ void _204032031_firstAlgorithm::aboutToFinish(int stepsTillFinishing) {
 	// ignore
 }
 
-void _204032031_firstAlgorithm::reduceBatteryLevel()
-{
-	if (batteryLevel <= configuration["batteryConsumptionRate"])
-		batteryLevel = 0;
-	else
-		batteryLevel -= configuration["batteryConsumptionRate"];
-}
 
-void _204032031_firstAlgorithm::chargeBattery(Point currPosition, Point dockingPosition)
+void _204032031_firstAlgorithm::updateBattery(Point dockingPosition)
 {
 	if (currPosition.isSame(dockingPosition)) {
 		if (batteryLevel < 380)
@@ -54,6 +47,13 @@ void _204032031_firstAlgorithm::chargeBattery(Point currPosition, Point dockingP
 		{
 			batteryLevel = 400;
 		}
+	}
+	else
+	{
+		if (batteryLevel <= configuration["batteryConsumptionRate"])
+			batteryLevel = 0;
+		else
+			batteryLevel -= configuration["batteryConsumptionRate"];
 	}
 }
 

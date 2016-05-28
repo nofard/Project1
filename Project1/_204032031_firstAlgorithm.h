@@ -7,9 +7,11 @@
 
 class _204032031_firstAlgorithm : public AbstractAlgorithm {
 	const AbstractSensor* sensor;
-	Direction direction = Direction::Stay;
+	Direction direction = Direction::East;
+	Point currPosition;
 	map<string, int> configuration;
 	int batteryLevel;
+	int mode; //trip - 0, back - 1
 
 public:
 	// setSensor is called once when the Algorithm is initialized 
@@ -25,8 +27,7 @@ public:
 	// parameter stepsTillFinishing == MaxStepsAfterWinner 
 	virtual void aboutToFinish(int stepsTillFinishing);
 
-	void reduceBatteryLevel();
-	void chargeBattery(Point currPosition, Point dockingPosition);
+	void updateBattery(Point dockingPosition);
 	int getBatteryLevel();
 };
 

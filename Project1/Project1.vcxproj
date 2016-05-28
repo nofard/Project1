@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -92,6 +92,7 @@
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="KeyboardRobot.h" />
     <ClInclude Include="Menus.h" />
+    <ClInclude Include="_204032031_A.h" />
     <ClInclude Include="_204032031_firstAlgorithm.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Score.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menus.cpp" />
+    <ClCompile Include="_204032031_A.cpp" />
     <ClCompile Include="_204032031_firstAlgorithm.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="keyboardRobot.cpp" />
