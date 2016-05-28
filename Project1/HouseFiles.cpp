@@ -5,9 +5,9 @@
 //initHouseFiles: init each file type list with a suited command line.
 void HouseFiles::initHouseFiles()
 {
-	initList(initialHousefilesNames, "dir /b /O:N |findstr \"[0-9][0-9][0-9].house$\" > houseFilesNames.txt");
+	initList(initialHousefilesNames, "dir /b /O:N |findstr \"^[0-9][0-9][0-9].house$\" > houseFilesNames.txt");
 	initList(savedHousefilesNames, "dir /b /O:N |findstr \".house_saved\" > houseFilesNames.txt");
-	initList(solutionHousefilesNames, "dir /b /O:N |findstr \"[0-9][0-9][0-9].house_solution\" > houseFilesNames.txt");
+	initList(solutionHousefilesNames, "dir /b /O:N |findstr \"^[0-9][0-9][0-9].house_solution\" > houseFilesNames.txt");
 
 }
 //initList: gets file type list and a command to run, runs the command that outputs to a file, and copy all the houses 

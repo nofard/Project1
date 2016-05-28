@@ -47,10 +47,10 @@ void Simulator::chargeRobot(Point p)
 {
 
 	if (p.isSame(originalHouse.getDockingPosition())) {
-		if (robot.getBatteryLevel() < config.getBatteryCapacity() - config.getBatteryRachargeRate()) {
-			robot.increaseBatteryLevel(config.getBatteryRachargeRate());
+		if (robot.getBatteryLevel() < config.getBatteryCapacity() - config.getBatteryRechargeRate()) {
+			robot.increaseBatteryLevel(config.getBatteryRechargeRate());
 		}
-		else if (robot.getBatteryLevel() >= config.getBatteryCapacity() - config.getBatteryRachargeRate()) {
+		else if (robot.getBatteryLevel() >= config.getBatteryCapacity() - config.getBatteryRechargeRate()) {
 			robot.setBatteryLevel(config.getBatteryCapacity());
 		}
 	}
@@ -61,11 +61,11 @@ void Simulator::updateBatteryLevel()
 {
 	if (sensor->getCurrPosition().isSame(originalHouse.getDockingPosition()))
 	{
-		if (batteryLevel < config.getBatteryCapacity() - config.getBatteryRachargeRate())
+		if (batteryLevel < config.getBatteryCapacity() - config.getBatteryRechargeRate())
 		{
-			batteryLevel += config.getBatteryRachargeRate();
+			batteryLevel += config.getBatteryRechargeRate();
 		}
-		else if (batteryLevel >= config.getBatteryCapacity() - config.getBatteryRachargeRate())
+		else if (batteryLevel >= config.getBatteryCapacity() - config.getBatteryRechargeRate())
 		{
 			batteryLevel = config.getBatteryCapacity();
 		}
@@ -320,6 +320,7 @@ void Simulator::restartSimulation()
 	theRobotSensor->initSensor(this, &currHouse, originalHouse.getDockingPosition());
 	robot.setSensor(*theRobotSensor);
 	sensor = theRobotSensor;
+	batteryLevel = config.getBatteryCapacity();
 
 	setStepNumber(0);
 	moves.clear();

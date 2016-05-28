@@ -11,7 +11,7 @@ class Configuration
 	int MaxStepsAfterWinner;
 	int BatteryCapacity;
 	int BatteryConsumptionRate;
-	int BatteryRachargeRate;
+	int BatteryRechargeRate;
 
 	
 public:
@@ -21,7 +21,7 @@ public:
 		MaxStepsAfterWinner = 200;
 		BatteryCapacity = 400;
 		BatteryConsumptionRate = 1;
-		BatteryRachargeRate = 20;
+		BatteryRechargeRate = 20;
 	}
 
 	//get and set functions:
@@ -34,8 +34,8 @@ public:
 	int getBatteryConsumptionRate() { return BatteryConsumptionRate; }
 	void setBatteryConsumptionRate(int _BatteryConsumptionRate) { BatteryConsumptionRate = _BatteryConsumptionRate; }
 
-	int getBatteryRachargeRate() { return BatteryRachargeRate; }
-	void setBatteryRachargeRate(int _BatteryRachargeRate) { BatteryRachargeRate = _BatteryRachargeRate; }
+	int getBatteryRechargeRate() { return BatteryRechargeRate; }
+	void setBatteryRechargeRate(int _BatteryRechargeRate) { BatteryRechargeRate = _BatteryRechargeRate; }
 
 	bool initConfiguration();
 	void initParameterValue(char* configParameter, int parameterValue);
