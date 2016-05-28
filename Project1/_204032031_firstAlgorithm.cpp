@@ -90,7 +90,7 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 	//dataMap.insert(std::pair<string, int>("MaxStepsAfterWinner", MaxStepsAfterWinner));
 	//houseMapping.insert(pair<Point, CellInfo>(currPosition, c));
 //	houseMapping[{0, 0}] = c;
-	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 };
+	//houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 };
 	// update all 4 cells around me with Wall information and if possible also with stepsToDocking
 	/*for (Direction d : directions)
 	{
