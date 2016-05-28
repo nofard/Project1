@@ -44,17 +44,41 @@ void Configuration::initParameterValue(char* configParameter, int parameterValue
 	if (!strcmp(configParameter, "BatteryConsumptionRate"))
 		BatteryConsumptionRate = parameterValue;
 
-	if (!strcmp(configParameter, "BatteryRachargeRate"))
-		BatteryRachargeRate = parameterValue;
+	if (!strcmp(configParameter, "BatteryRechargeRate"))
+		BatteryRechargeRate = parameterValue;
 }
 
 bool Configuration::checkConfigValidation()
 {
-	if (MaxStepsAfterWinner < 0 || BatteryCapacity < 0 || BatteryConsumptionRate < 0 || BatteryRachargeRate < 0)
+	string badParameters = "";
+	int cntBadParams = 0;
+
+	if (MaxStepsAfterWinner < 0)
 	{
-		cout << "config.ini have bad values" << endl;
+		badParameters += " MaxStepsAfterWinner";
+		cntBadParams++;
+	}
+	if (BatteryCapacity < 0)
+	{
+		badParameters += " BatteryCapacity";
+		cntBadParams++;
+	}
+	if (BatteryConsumptionRate < 0)
+	{
+		badParameters += " BatteryConsumptionRate";
+		cntBadParams++;
+	}
+	if (BatteryRechargeRate < 0)
+	{
+		badParameters += " BatteryRechargeRate";
+		cntBadParams++;
+	}
+	
+	
+	if (cntBadParams > 0) {
+		cout << "config.ini have bad values for " << cntBadParams << " parameter(s):" << badParameters << endl;
 		return false;
-	}	
+	}
 	else
 		return true;
 }
@@ -65,7 +89,7 @@ map<string, int> Configuration::convertDataToMap()
 	dataMap.insert(std::pair<string, int>("MaxStepsAfterWinner", MaxStepsAfterWinner));
 	dataMap.insert(std::pair<string, int>("BatteryCapacity", BatteryCapacity));
 	dataMap.insert(std::pair<string, int>("BatteryConsumptionRate", BatteryConsumptionRate));
-	dataMap.insert(std::pair<string, int>("BatteryRachargeRate", BatteryRachargeRate));
+	dataMap.insert(std::pair<string, int>("BatteryRechargeRate", BatteryRechargeRate));
 	
 	return dataMap;
 }

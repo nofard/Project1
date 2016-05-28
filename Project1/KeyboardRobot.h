@@ -30,7 +30,7 @@ public:
 	void reduceBatteryLevel(int batteryConsumptionRate);
 	bool isOnDirt();
 	int getBatteryLevel();
-	void increaseBatteryLevel(int batteryRachargeRate);
+	void increaseBatteryLevel(int batteryRechargeRate);
 	void setBatteryLevel(int);
 	void resetData(int batteryCapacity);
 };

@@ -109,10 +109,10 @@ int KeyboardRobot::getBatteryLevel() {
 	return batteryLevel;
 }
 
-//increaseBatteryLevel: increase battery level according to BatteryRachargeRate in the configuration file.
-void KeyboardRobot::increaseBatteryLevel(int batteryRachargeRate) {
-	//batteryLevel += (int)configuration::BatteryRachargeRate;
-	batteryLevel += batteryRachargeRate;
+//increaseBatteryLevel: increase battery level according to BatteryRechargeRate in the configuration file.
+void KeyboardRobot::increaseBatteryLevel(int batteryRechargeRate) {
+	//batteryLevel += (int)configuration::BatteryRechargeRate;
+	batteryLevel += batteryRechargeRate;
 }
 
 //setBatteryLevel: set batteryLevel.

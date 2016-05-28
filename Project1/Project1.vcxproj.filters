@@ -75,7 +75,7 @@
     <ClInclude Include="_204032031_firstAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_204032031_A.h">
+    <ClInclude Include="_204032031_B.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,7 +125,7 @@
     <ClCompile Include="_204032031_firstAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_204032031_A.cpp">
+    <ClCompile Include="_204032031_B.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

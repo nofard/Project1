@@ -92,7 +92,7 @@
     <ClInclude Include="io_utils.h" />
     <ClInclude Include="KeyboardRobot.h" />
     <ClInclude Include="Menus.h" />
-    <ClInclude Include="_204032031_A.h" />
+    <ClInclude Include="_204032031_B.h" />
     <ClInclude Include="_204032031_firstAlgorithm.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Score.h" />
@@ -111,7 +111,7 @@
     <ClCompile Include="io_utils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menus.cpp" />
-    <ClCompile Include="_204032031_A.cpp" />
+    <ClCompile Include="_204032031_B.cpp" />
     <ClCompile Include="_204032031_firstAlgorithm.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="keyboardRobot.cpp" />

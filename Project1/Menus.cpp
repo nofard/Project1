@@ -448,8 +448,6 @@ void Menus::chooseAndRunAlgorithm()
 		system("cls");
 		sim->runAlgorithm(chosenAlgorithm);
 	}
-
-
 }
 
 void Menus::printAlgoritmMidMenu()
@@ -473,11 +471,7 @@ int Menus::executeUserChoiceAlgorithmMenu()
 		break;
 	case 2:
 
-
 		break;
-
-
-
 	}
 	return choice;
 }
