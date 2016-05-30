@@ -522,8 +522,7 @@ void Menus::runAllAlgorithms()
 					if (simManager->simulatorNumber(j)->endGameSimulator())
 					{
 						simManager->setWinnerStepNumber();
-					
-					//	simManager->saveScore(j, registrar.getAlgorithmNameByIndex(j));
+						//simManager->saveScore(j, registrar.getAlgorithmNameByIndex(j));
 						//remove simulator and push left others
 						//remove algo from list
 					}
@@ -533,6 +532,7 @@ void Menus::runAllAlgorithms()
 				}
 				
 			}
+			//
 			//free houseCopiesMemory
 		}		
 		else

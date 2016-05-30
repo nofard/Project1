@@ -52,12 +52,13 @@ void SimulationManager::printSimulationResults()
 	char hold_the_screen;
 	system("cls");
 
-	for (int i = 0; i < numOfSimulators;)
-
+//	for (int i = 0; i < numOfSimulators;)
+	int i = 0;
 	while (!errors.empty())
-	{
-		cout << errors.back() << endl;
-		errors.pop_back();
+	{	
+		cout << i << endl;
+		cout << errors.front() << endl;
+		errors.pop_front();
 	}
 	cout << "Press any key to go back to main menu" << endl;
 	cin >> hold_the_screen;
