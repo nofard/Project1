@@ -682,3 +682,9 @@ bool Simulator::endGameAlgorithm()
 
 	return false;
 }
+int Simulator::calcScoreFromSim(int position, int winnerSteps) {
+	Score score = Score(position, winnerSteps, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+		(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
+
+	return score.calculateScore();
+}

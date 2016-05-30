@@ -481,6 +481,7 @@ void Menus::runAllAlgorithms()
 {
 	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
 	auto algorithms = registrar.getAlgorithms();
+	//registrar.getAlgorithmNames
 	int numOfAlgorithms = algorithms.size();
 	auto housesNamesList = files.getInitialHouseFilesList();
 	House currentHouse;
@@ -489,7 +490,7 @@ void Menus::runAllAlgorithms()
 	
 	SimulationManager* simManager = new SimulationManager(sim->config, numOfAlgorithms);
 	//Simulator* simulators = new Simulator[algorithms.size()];
-
+	simManager->saveAlgoNameToTable(registrar.getAlgorithmNames());
 
 	for (int i = 0; i < files.getIntialFilesListLength(); i++)// run on all houses
 	{
@@ -510,8 +511,10 @@ void Menus::runAllAlgorithms()
 			//-------------------------------------------------------------------------
 
 			//loop of steps
+			int position = 1;
 			while(!(simManager->endSimulation()))
 			{
+
 				simManager->increaseStepNumber();
 				auto algo = algorithms.begin();
 				j = 0;
@@ -522,7 +525,12 @@ void Menus::runAllAlgorithms()
 					if (simManager->simulatorNumber(j)->endGameSimulator())
 					{
 						simManager->setWinnerStepNumber();
-						//simManager->saveScore(j, registrar.getAlgorithmNameByIndex(j));
+					//	simManager->setPosition(registrar.getAlgorithmNameByIndex(j), position);
+						
+						simManager->saveScore(registrar.getAlgorithmNameByIndex(j), 
+						simManager->simulatorNumber(j)->calcScoreFromSim(position,simManager->getWinnerStepNumber()));
+						algorithms.remove(*algo);
+						simManager->deleteSimFromArray(j);
 						//remove simulator and push left others
 						//remove algo from list
 					}
@@ -530,7 +538,8 @@ void Menus::runAllAlgorithms()
 					j++;
 
 				}
-				
+				position += (numOfAlgorithms - algorithms.size());
+				numOfAlgorithms = algorithms.size();
 			}
 			//
 			//free houseCopiesMemory

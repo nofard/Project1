@@ -73,6 +73,7 @@ public:
 	void updateBatteryLevel();
 	bool endGameAlgorithm();
 	bool endGameSimulator();
+	int calcScoreFromSim(int position, int winnerSteps);
 private:
 	void saveSimulationParameters();
 	void saveHouse();

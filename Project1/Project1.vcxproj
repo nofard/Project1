@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -83,6 +83,7 @@
     <ClInclude Include="AbstractSensor.h" />
     <ClInclude Include="AlgorithmRegistrar.h" />
     <ClInclude Include="AlgorithmRegistration.h" />
+    <ClInclude Include="AlgorithmScore.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="configuration.h" />
     <ClInclude Include="Direction.h" />

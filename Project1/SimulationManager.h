@@ -1,7 +1,10 @@
 #ifndef _SIMULATION_MANAGER_H_
 #define _SIMULATION_MANAGER_H_
 
+
 #include "Simulator.h"
+#include "AlgorithmScore.h"
+
 
 class SimulationManager
 {
@@ -10,6 +13,7 @@ class SimulationManager
 	int stepNumber = 0;
 	int winnerStepsNumber = 0;
 	list<string> errors;
+	map<string, AlgorithmScore> scoreTableData;
 	
 public:
 	Configuration config;
@@ -22,6 +26,12 @@ public:
 	void setWinnerStepNumber();
 	void addNoteToErrorsList(string note);
 	void printSimulationResults();
+	void saveAlgoNameToTable(list<string>);
+	void saveScore(string algoName, int score);
+	map<string, AlgorithmScore> getAlgoScore();
+	void setPosition(string algoName, int position);
+	int getWinnerStepNumber();
+	void deleteSimFromArray(int indexOfSim);
 
 };
 

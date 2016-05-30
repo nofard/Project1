@@ -63,3 +63,26 @@ void SimulationManager::printSimulationResults()
 	cout << "Press any key to go back to main menu" << endl;
 	cin >> hold_the_screen;
 }
+void SimulationManager::saveScore(string algoName, int score)
+{
+	AlgorithmScore algoScore(score);
+	scoreTableData[algoName] = algoScore;
+
+}
+
+void SimulationManager::saveAlgoNameToTable(list<string> algoName)
+{
+	list<string>::iterator it;
+	it = algoName.begin();
+	for (int i = 0; i < algoName.size(); i++)
+	{
+		scoreTableData[it->data()];
+		it++;
+	}
+}
+int SimulationManager::getWinnerStepNumber() {
+	return winnerStepsNumber;
+}
+void SimulationManager::deleteSimFromArray(int indexOfSim) {
+	_memccpy(&simulators[indexOfSim], &simulators[indexOfSim + 1], numOfSimulators - indexOfSim, sizeof(Simulator));
+}
