@@ -19,6 +19,18 @@ void Simulator::init(char** house_array, int rows, int cols)
 
 		endGameParameter = false;
 }
+
+void Simulator::initForAlgorithm(House _currHouse, int _batteryLevel)
+{
+	currHouse = _currHouse.createCopyHouse();
+	Sensor* currSensor = new Sensor();
+	currSensor->initSensor(this, &currHouse, currHouse.getDockingPosition());
+	sensor = currSensor;
+	batteryLevel = _batteryLevel;
+
+}
+
+
 //resetSimulatorData: resets simulation data, and frees all alloacted memory in the simulation.
 void Simulator::resetSimulatorData()
 {
@@ -593,37 +605,15 @@ AbstractSensor& Simulator::getSensor()
 void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 {
 	Direction currDirection;
+	stepNumber++;
 	currDirection = currentAlgorithm->step(Direction::Stay);
 	
-	//sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ' ');
-	sensor->getCurrPosition().move(currDirection);
-	sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
+	currHouse.getCurrentPosition().move(currDirection);
 	updateBatteryLevel();
-	//algoritm->reduceBatteryLevel();
-	//	algoritm->chargeBattery(sensor->getCurrPosition(), currHouse.getDockingPosition());
-	currHouse.setCurrentPosition(robot.getPosition());
-	updateDirtLevel(sensor->getCurrPosition());
-	sensor->updateSensorInfo();
-	sensor->revealArea(false);
-
-
-
-
-	/*
-	Direction currDirection;
-
-	currDirection = currentAlgorithm->
-	(Direction::Stay);
-	
-	//currentAlgorithm->getSensor.getCurrentPosition().move(currDirection);
-	
-	robot.reduceBatteryLevel(config.getBatteryConsumptionRate());
-	chargeRobot(robot.getPosition());
-	updateDirtLevel(robot.getPosition());
-	sensor->updateSensorInfo(robot.getPosition());
-	sensor->revealArea();
-	//printSimulationData();*/
+	updateDirtLevel(currHouse.getCurrentPosition());
 }
+
+
 bool Simulator::endGameAlgorithm()
 {
 	char hold_the_screen;

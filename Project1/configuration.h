@@ -31,6 +31,10 @@ public:
 	int getBatteryCapacity() { return BatteryCapacity; }
 	void setBatteryCapacity(int _batteryCapacity) { BatteryCapacity = _batteryCapacity; }
 	
+	int getMaxStepsAfterWinner() { return MaxStepsAfterWinner; }
+	void setMaxSteps(int _maxStepsAfterWinner) { MaxStepsAfterWinner = _maxStepsAfterWinner; }
+	
+
 	int getBatteryConsumptionRate() { return BatteryConsumptionRate; }
 	void setBatteryConsumptionRate(int _BatteryConsumptionRate) { BatteryConsumptionRate = _BatteryConsumptionRate; }
 

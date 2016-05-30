@@ -134,7 +134,9 @@ House HouseFiles::getHouseFromFile(string houseName)
 	int rowIndex = 0;
 	int colIndex = 0;
 	int dockingCounter = 0;
+	int overallDirtLevel = 0;
 
+	newHouse.setHouseName(houseName);
 
 	in.getline(buff, BUFF_SIZE - 1);//title of the house
 
@@ -172,6 +174,12 @@ House HouseFiles::getHouseFromFile(string houseName)
 					newHouse.setDockingPosition(colIndex, rowIndex);
 					dockingCounter++;
 				}
+				if (buff[colIndex] > (MIN_DIRT_LEVEL + '0') && buff[colIndex] <= (MAX_DIRT_LEVEL + '0'))
+				{
+					overallDirtLevel += (int)(buff[colIndex] - '0');
+				}
+					
+
 				house_array[rowIndex][colIndex] = buff[colIndex];
 				colIndex++;
 			}
@@ -179,8 +187,10 @@ House HouseFiles::getHouseFromFile(string houseName)
 		}
 
 		newHouse.setHouseArray(house_array);
+		newHouse.setOverallDirtLevel(overallDirtLevel);
+		newHouse.fillSurroundingWalls();
 		newHouse.checkDockingValidationAndUpdateNote(dockingCounter);
-		
+		newHouse.setCurrentPosition(newHouse.getDockingPosition());
 	}
 	
 	in.close();

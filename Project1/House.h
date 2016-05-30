@@ -18,6 +18,7 @@ class House
 	Point dockingPosition;
 	int overallDirtLevel = 0;
 	int maxSteps;
+	string houseName;
 	string note;
 	bool validHouseFlag = true;
 	Point currentPosition;
@@ -43,6 +44,8 @@ public:
 	void setCols(int _cols);
 	int getMaxSteps();
 	void setMaxSteps(int _maxSteps);
+	void setHouseName(string name);
+	string getHouseName();
 	string getNote();
 	char ** getHouse();
 	void checkDockingValidationAndUpdateNote(int dockingCounter);
@@ -50,6 +53,7 @@ public:
 	House createCopyHouse();
 	void setCurrentPosition(Point position);
 	SensorInformation getSensorInformation();
+	Point& getCurrentPosition();
 };
 
 #endif

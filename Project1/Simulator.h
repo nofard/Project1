@@ -5,7 +5,7 @@
 #include "Menus.h"
 #include "Score.h"
 #include "AbstractAlgorithm.h"
-#include "_204032031_firstAlgorithm.h"
+//#include "_204032031_firstAlgorithm.h"
 
 #define ROBOT_LETTER '@'
 #define DEFAULT_DIR -1
@@ -40,6 +40,7 @@ public:
 	bool endedSuccessfully = true;
 	bool endGameParameter = false;
 	void init(char** house_array, int rows, int cols);
+	void initForAlgorithm(House _currHouse, int _batteryLevel);
 	void run();
 	void updateDirtLevel(Point p);
 	void printSimulationData();
@@ -51,7 +52,6 @@ public:
 	void setStepNumber(int);
 	void setCurrentHouseToOriginal();
 	void addMoveToList(Direction currDirection);
-	void printList();
 	list<StepAndDirection> getMoveList();
 	int getStepsNum();
 	void setMenu(Menus * _menu);

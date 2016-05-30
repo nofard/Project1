@@ -5,6 +5,7 @@
 #include "Simulator.h"
 #include "HouseFiles.h"
 #include "AlgorithmRegistrar.h"
+#include "SimulationManager.h"
 //#include "AbstractAlgorithm.h"
 
 

@@ -439,6 +439,7 @@ void Menus::chooseAndRunAlgorithm()
 		while (i < chosenIndex)
 		{
 			algo++;
+			i++;
 		}
 
 		chosenAlgorithm = (*algo).get();
@@ -480,17 +481,15 @@ void Menus::runAllAlgorithms()
 {
 	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
 	auto algorithms = registrar.getAlgorithms();
+	int numOfAlgorithms = algorithms.size();
 	auto housesNamesList = files.getInitialHouseFilesList();
 	House currentHouse;
-	string errors;
-	House* houseCopies;
 	AbstractAlgorithm* currentAlgorithm;
+	int j;
+	
+	SimulationManager* simManager = new SimulationManager(sim->config, numOfAlgorithms);
 	//Simulator* simulators = new Simulator[algorithms.size()];
 
-	for (auto& algo : algorithms)
-	{
-		//algo->setSensor(Sensor(sim->getSensor()));
-	}
 
 	for (int i = 0; i < files.getIntialFilesListLength(); i++)// run on all houses
 	{
@@ -498,36 +497,44 @@ void Menus::runAllAlgorithms()
 			
 		if (currentHouse.isValidHouse())
 		{
-			houseCopies = new House[algorithms.size()];
-			createHouseCopies(houseCopies, currentHouse, algorithms.size());
+			//init simulators, and connect eash algo to his sensor-->simulator-->house (copy for each algo)
+			simManager->initSimulators(currentHouse);
+			simManager->config.setMaxSteps(currentHouse.getMaxSteps()); //update maxSteps per house
 
-			{//loop of steps
+			int index = 0;
+			for (auto& algo : algorithms)
+			{
+				algo->setSensor(simManager->simulatorNumber(index)->getSensor());
+				algo->setConfiguration(sim->config.convertDataToMap());
+			}
+			//-------------------------------------------------------------------------
+
+			//loop of steps
+			while(!(simManager->endSimulation()))
+			{
+				simManager->increaseStepNumber();
 				auto algo = algorithms.begin();
-				while (algo != algorithms.end())
+				j = 0;
+				while (j < numOfAlgorithms) //loop on algorithms
 				{
-
 					currentAlgorithm = (*algo).get();
-				//	currentAlgorithm->setSensor(sim->getSensor());
-				//	currentAlgorithm->setConfiguration()
-					sim->makeAlgorithmMove(currentAlgorithm);
+					simManager->simulatorNumber(j)->makeAlgorithmMove(currentAlgorithm);
 					algo++;
+					j++;
 
 				}
-			}//end loop of steps
-
-			//for (AbstractAlgorithm* currentAlgorithm : algorithms)
-			//loop algorithms by j
-			//{
-			//sim->makeAlgorithmMove(currAlgo,houseCopies[j] );
-			//	}
+				
+			}
 			//free houseCopiesMemory
 		}		
 		else
-			errors.append(currentHouse.getNote());
-
+		{ 
+			simManager->addNoteToErrorsList(currentHouse.getHouseName() + ": " + currentHouse.getNote());
+		}
+	//	simManager->freeSimulatorsMemory();
 
 	}
-	//printTable();
+	simManager->printSimulationResults();
 	//printErrors();
 	
 }

@@ -196,6 +196,18 @@ void House::setMaxSteps(int _maxSteps)
 	maxSteps = _maxSteps;
 }
 
+//setHouseName: set houseName.
+void House::setHouseName(string name)
+{
+	houseName = name;
+}
+
+//getHouseName: return houseName.
+string House::getHouseName()
+{
+	return houseName;
+}
+
 string House::getNote()
 {
 	return note;
@@ -253,6 +265,11 @@ void House::checkDockingValidationAndUpdateNote(int dockingCounter)
 		return;
 	}
 	validHouseFlag = true;
+}
+
+Point& House::getCurrentPosition()
+{
+	return currentPosition;
 }
 
 void House::setCurrentPosition(Point position)

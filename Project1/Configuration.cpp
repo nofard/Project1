@@ -86,6 +86,7 @@ map<string, int> Configuration::convertDataToMap()
 {
 	map<string, int> dataMap;
 
+	dataMap.insert(std::pair<string, int>("MaxSteps", MaxSteps));
 	dataMap.insert(std::pair<string, int>("MaxStepsAfterWinner", MaxStepsAfterWinner));
 	dataMap.insert(std::pair<string, int>("BatteryCapacity", BatteryCapacity));
 	dataMap.insert(std::pair<string, int>("BatteryConsumptionRate", BatteryConsumptionRate));
