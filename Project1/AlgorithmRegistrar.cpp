@@ -42,3 +42,15 @@ void AlgorithmRegistrar::printAlgorithmsNames()
 		pName++;
 	}
 }
+
+string AlgorithmRegistrar::getAlgorithmNameByIndex(int index)
+{
+	int i = 0;
+	auto pName = algorithmNames.begin();
+	while (i < index)
+	{
+		i++;
+		pName++;
+	}
+	return *pName;
+}

@@ -34,6 +34,8 @@ public:
 		return instance;
 	}
 
+	string getAlgorithmNameByIndex(int index);
+
 };
 
 #endif

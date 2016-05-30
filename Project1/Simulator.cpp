@@ -611,6 +611,24 @@ void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 	currHouse.getCurrentPosition().move(currDirection);
 	updateBatteryLevel();
 	updateDirtLevel(currHouse.getCurrentPosition());
+
+}
+
+bool Simulator::endGameSimulator()
+{
+	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()) && !endGameParameter)
+	{
+		return true;
+	}
+	if (batteryLevel == 0 && !(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()))
+	{
+		return true;
+	}
+	if (stepNumber >= config.getMaxSteps())
+	{
+		return true;
+	}
+	return false;
 }
 
 

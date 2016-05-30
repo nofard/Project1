@@ -77,7 +77,7 @@ void Menus::executeUserChoiceMidMenu() {
 	int choice;
 	string fileName;
 
-	AbstractAlgorithm* chosenAlgorithm;
+//	AbstractAlgorithm* chosenAlgorithm;
 
 	cin >> choice;
 	switch (choice)
@@ -519,6 +519,14 @@ void Menus::runAllAlgorithms()
 				{
 					currentAlgorithm = (*algo).get();
 					simManager->simulatorNumber(j)->makeAlgorithmMove(currentAlgorithm);
+					if (simManager->simulatorNumber(j)->endGameSimulator())
+					{
+						simManager->setWinnerStepNumber();
+					
+					//	simManager->saveScore(j, registrar.getAlgorithmNameByIndex(j));
+						//remove simulator and push left others
+						//remove algo from list
+					}
 					algo++;
 					j++;
 

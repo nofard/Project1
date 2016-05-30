@@ -34,6 +34,7 @@ class Simulator
 	Menus* menu;
 	savedForLater savedParameters;
 	int batteryLevel;
+	Score simScore;
 
 public:
 	Configuration config;
@@ -71,6 +72,7 @@ public:
 	void makeAlgorithmMove(AbstractAlgorithm*);
 	void updateBatteryLevel();
 	bool endGameAlgorithm();
+	bool endGameSimulator();
 private:
 	void saveSimulationParameters();
 	void saveHouse();
