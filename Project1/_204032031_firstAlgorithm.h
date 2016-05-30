@@ -5,8 +5,6 @@
 #include "Point.h"
 #include "AlgorithmRegistration.h"
 
-
-
 #include <iostream>
 #include <list>
 #include <map>
@@ -24,6 +22,7 @@ struct CellInfo {
 	int dirt = -1; // -1 represents "unknown"
 	int stepsToDocking = -1; // -1 represents "unknown"
 	bool isWall;
+	bool visited = false;
 	CellInfo() {}
 	CellInfo(int dirt, int stepsTodock, bool isWall = false) :
 		dirt(dirt),

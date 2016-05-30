@@ -53,11 +53,26 @@ Direction _204032031_firstAlgorithm::getDirection()
 {
 	SensorInformation sensorInfo = sensor->sense();
 	Direction checkDir = direction;
+	Point possibleNextPoint;
 
 	if (sensorInfo.dirtLevel != 0)
 		return Direction::Stay;
 	else
 	{
+		do
+		{
+			if (!sensorInfo.isWall[(int)checkDir])
+			{
+				possibleNextPoint = currPosition;
+				possibleNextPoint.move(checkDir);
+				if (houseMapping[possibleNextPoint].visited == false)
+				{
+						direction = checkDir;
+						return direction;
+				}
+			}	
+		} while (++checkDir != direction);
+
 		do
 		{
 			if (!sensorInfo.isWall[(int)checkDir])
@@ -88,7 +103,7 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 	// update the map with the info on the dirt level
 	//stepsFromDocking = calcStepsToDocking(stepsFromDocking + 1, currPosition);
 
-	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 };
+	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 ,true};
 	// update all 4 cells around me with Wall information and if possible also with stepsToDocking
 	for (Direction d : directions)
 	{
@@ -98,6 +113,7 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 		{
 			CellInfo& cellInfo = houseMapping[p]; // create CellInfo
 			cellInfo.isWall = sensorInfo.isWall[(int)d];
+			cellInfo.visited = false;
 			//if (!sensorInfo.isWall[(int)d]) 
 			//{
 			//	cellInfo.stepsToDocking = calcStepsToDocking(stepsFromDocking + 1, p);
@@ -110,10 +126,17 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 
 void _204032031_firstAlgorithm::determineMode()
 {
-	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
+//	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
+	//	mode = CHARGING;
+
+	if (mode != BACKING)
+		if (batteryLevel <= configuration["BatteryCapacity"] / 2 + 1)
+			mode = BACKING;
+
+	if (currPosition.isSame(dockingPoint))
 		mode = CHARGING;
-	if (batteryLevel <= configuration["BatteryCapacity"] / 2 + 1)
-		mode = BACKING;
+
+
 	if (batteryLevel == configuration["BatteryCapacity"])
 		mode = GOING;
 }
