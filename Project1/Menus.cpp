@@ -504,6 +504,7 @@ void Menus::runAllAlgorithms()
 			
 
 			int index = 0;
+			
 			for (auto& algo : algorithms)
 			{
 				algo->setSensor(simManager->simulatorNumber(index)->getSensor());
@@ -528,7 +529,7 @@ void Menus::runAllAlgorithms()
 					{
 						currentAlgorithm = (algo).get();
 						simManager->simulatorNumber(j)->makeAlgorithmMove(currentAlgorithm);
-						simManager->simulatorNumber(j)->endGameSimulator();
+						simManager->simulatorNumber(j)->endGameSimulator(numOfWinners == 0 ? false:true );
 						if (simManager->simulatorNumber(j)->endGameParameter == true) //finished
 						{
 							if (simManager->simulatorNumber(j)->endedSuccessfully == true)// winner
@@ -572,8 +573,6 @@ void Menus::runAllAlgorithms()
 
 void Menus::createHouseCopies(House* houseCopies, House currentHouse, int numOfCopies)
 {
-	int rows, cols, maxSteps;
-
 	for (int i = 0; i < numOfCopies; i++)
 	{
 		houseCopies[i] = (currentHouse.createCopyHouse());

@@ -613,16 +613,18 @@ AbstractSensor& Simulator::getSensor()
 
 void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 {
-	static Direction currDirection = Direction::Stay;
+	//static Direction currDirection = Direction::Stay; NOT WORKING BECAUSE EACH ALGORITHM CHANGE IT DIFFRENTLY AND ITS NOT PRIORITY TO EACH SIMULATOR
+	Direction currDirection;
 	stepNumber++;
-	currDirection = currentAlgorithm->step(currDirection);
+	currDirection = currentAlgorithm->step(lastStep);
+	lastStep = currDirection;
 	currHouse.getCurrentPosition().move(currDirection);
 	updateBatteryLevel();
 	updateDirtLevel(currHouse.getCurrentPosition());
 
 }
 
-void Simulator::endGameSimulator()
+void Simulator::endGameSimulator(bool someoneWinAlready)
 {
 	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (currHouse.getCurrentPosition().isSame(currHouse.getDockingPosition())))
 	{
@@ -637,6 +639,13 @@ void Simulator::endGameSimulator()
 	{
 		endGameParameter = true;
 	}
+
+	if (someoneWinAlready)
+	{
+		if (stepNumber == config.getMaxSteps() - config.getMaxStepsAfterWinner())
+			endGameParameter = true;
+	}
+		
 }
 
 

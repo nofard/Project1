@@ -25,11 +25,11 @@ Simulator* SimulationManager::simulatorNumber(int num)
 
 bool SimulationManager::endSimulation()
 {
-	if (winnerStepsNumber != 0)
-	{
-		if (stepNumber == winnerStepsNumber + config.getMaxStepsAfterWinner())
-			return true;;
-	}
+//	if (winnerStepsNumber != 0)
+//	{
+//		if (stepNumber == winnerStepsNumber + config.getMaxStepsAfterWinner())
+//			return true;;
+//	}
 
 	bool allAlgorithmsFinished = true;
 	for (int i = 0; i < numOfSimulators; i++)

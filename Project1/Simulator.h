@@ -35,6 +35,7 @@ class Simulator
 	savedForLater savedParameters;
 	int batteryLevel;
 	Score simScore;
+	Direction lastStep = Direction::Stay;
 
 public:
 	Configuration config;
@@ -73,7 +74,7 @@ public:
 	void makeAlgorithmMove(AbstractAlgorithm*);
 	void updateBatteryLevel();
 	bool endGameAlgorithm();
-	void endGameSimulator();
+	void endGameSimulator(bool someoneWinAlready);
 	int calcScoreFromSim(int position, int winnerSteps);
 private:
 	void saveSimulationParameters();
