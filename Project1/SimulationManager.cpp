@@ -65,40 +65,10 @@ void SimulationManager::addNoteToErrorsList(string note)
 void SimulationManager::printSimulationResults(list<string>algorithmNames)
 {
 	system("cls");
-/*	auto minimumAvgAlgoScore = scoreTableData.cbegin();
-	for (auto element : scoreTableData)
-	{
-		if (element.second.getAverage() < (minimumAvgAlgoScore->second).getAverage())
-			minimumAvgAlgoScore = &element;
-	}
-*/
+
 	list<int> currScoresList;
 	int currScoresListSize;
 	
-	/*
-	for (auto currPair : scoreTableData)
-	{
-		auto currPair = getMinAlgorithmScore();
-		cout << "| " << currPair.first;
-		
-		currScoresList = currPair.second.getScoresList();
-		currScoresListSize = currScoresList.size();
-		for (int i = 0; i < currScoresListSize; i++)
-		{
-			cout << "| " << currScoresList.front();
-			currScoresList.pop_front();
-		}
-		cout << "| " << currPair.second.getAverage() << " | ";
-		
-		cout << endl;
-		for (int i = 0; i < currScoresList.size() + 2; i++)
-		{
-			cout << "---------------------------------";
-		}
-		cout << endl;
-	}
-	*/
-
 	while (!scoreTableData.empty())
 	{
 		auto minScoreAlgorithmName = getMinScoreAlgorithmName();
