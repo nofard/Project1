@@ -129,16 +129,18 @@ void _204032031_firstAlgorithm::determineMode()
 //	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
 	//	mode = CHARGING;
 
-	if (mode != BACKING)
+	if (batteryLevel == configuration["BatteryCapacity"])
+		mode = GOING;
+	else
+	{
 		if (batteryLevel <= configuration["BatteryCapacity"] / 2 + 1)
 			mode = BACKING;
 
-	if (currPosition.isSame(dockingPoint))
-		mode = CHARGING;
+		if (currPosition.isSame(dockingPoint))
+			mode = CHARGING;
+	}
 
 
-	if (batteryLevel == configuration["BatteryCapacity"])
-		mode = GOING;
 }
 
 void _204032031_firstAlgorithm::updateBattery()

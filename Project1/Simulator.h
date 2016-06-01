@@ -41,7 +41,8 @@ public:
 	bool endedSuccessfully = true;
 	bool endGameParameter = false;
 	void init(char** house_array, int rows, int cols);
-	void initForAlgorithm(House _currHouse, int _batteryLevel);
+	void initForAlgorithm(House _currHouse);
+	void freeForAlgorithm();
 	void run();
 	void updateDirtLevel(Point p);
 	void printSimulationData();
@@ -72,7 +73,7 @@ public:
 	void makeAlgorithmMove(AbstractAlgorithm*);
 	void updateBatteryLevel();
 	bool endGameAlgorithm();
-	bool endGameSimulator();
+	void endGameSimulator();
 	int calcScoreFromSim(int position, int winnerSteps);
 private:
 	void saveSimulationParameters();

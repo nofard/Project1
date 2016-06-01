@@ -31,7 +31,7 @@ struct CellInfo {
 		isWall(isWall) {}
 };
 
-class _204032031_B : public AbstractAlgorithm
+class _204032031_secondAlgorithm : public AbstractAlgorithm
 {
 	const AbstractSensor* sensor;
 	map<string, int> configuration;

@@ -5,10 +5,19 @@ void SimulationManager::initSimulators(House currHouse)
 	simulators = new Simulator[numOfSimulators];
 	for (int i = 0; i < numOfSimulators; i++)
 	{
-		simulators[i].initForAlgorithm(currHouse, config.getBatteryCapacity());
+		simulators[i].config = config;
+		simulators[i].initForAlgorithm(currHouse);
 	}
 }
 
+void SimulationManager::freeSimulators()
+{
+	for (int i = 0; i < numOfSimulators; i++)
+	{
+		
+		simulators[i].freeForAlgorithm();
+	}
+}
 Simulator* SimulationManager::simulatorNumber(int num)
 {
 	return &simulators[num];
@@ -16,16 +25,22 @@ Simulator* SimulationManager::simulatorNumber(int num)
 
 bool SimulationManager::endSimulation()
 {
-	if (stepNumber == config.getMaxSteps())
-		return true;
-
 	if (winnerStepsNumber != 0)
 	{
 		if (stepNumber == winnerStepsNumber + config.getMaxStepsAfterWinner())
 			return true;;
 	}
 
-	return false;
+	bool allAlgorithmsFinished = true;
+	for (int i = 0; i < numOfSimulators; i++)
+		if (simulators[i].endGameParameter == false)
+			allAlgorithmsFinished = false;
+
+	return allAlgorithmsFinished;
+
+	//if (stepNumber == config.getMaxSteps())
+	//	return true;
+
 }
 
 void SimulationManager::increaseStepNumber()
@@ -47,16 +62,50 @@ void SimulationManager::addNoteToErrorsList(string note)
 	errors.push_back(note);
 }
 
-void SimulationManager::printSimulationResults()
+void SimulationManager::printSimulationResults(list<string>algorithmNames)
+{
+	system("cls");
+/*	auto minimumAvgAlgoScore = scoreTableData.cbegin();
+	for (auto element : scoreTableData)
+	{
+		if (element.second.getAverage() < (minimumAvgAlgoScore->second).getAverage())
+			minimumAvgAlgoScore = &element;
+	}
+*/
+	list<int> currScoresList;
+	int currScoresListSize;
+	
+	for (auto currAlgoScore : scoreTableData)
+	{
+		cout << "| " << currAlgoScore.first;
+		
+		currScoresList = currAlgoScore.second.getScoresList();
+		currScoresListSize = currScoresList.size();
+		for (int i = 0; i < currScoresListSize; i++)
+		{
+			cout << "| " << currScoresList.front();
+			currScoresList.pop_front();
+		}
+		cout << "| " << currAlgoScore.second.getAverage() << " | ";
+		/*
+		cout << endl;
+		for (int i = 0; i < currScoresList.size() + 2; i++)
+		{
+			cout << "---------------------------------";
+		}*/
+		cout << endl;
+	}
+	cout << endl << endl;
+
+}
+
+void SimulationManager::printErrors()
 {
 	char hold_the_screen;
-	system("cls");
-
-//	for (int i = 0; i < numOfSimulators;)
-	int i = 0;
+	//int i = 0;
 	while (!errors.empty())
-	{	
-		cout << i << endl;
+	{
+		//cout << i << endl;
 		cout << errors.front() << endl;
 		errors.pop_front();
 	}
@@ -65,9 +114,15 @@ void SimulationManager::printSimulationResults()
 }
 void SimulationManager::saveScore(string algoName, int score)
 {
-	AlgorithmScore algoScore(score);
-	scoreTableData[algoName] = algoScore;
-
+	auto a = scoreTableData.find(algoName);
+	if (a == scoreTableData.end())
+	{
+		AlgorithmScore algoScore(score);
+		scoreTableData[algoName] = algoScore;
+	}
+	else
+		scoreTableData[algoName].addScore(score);
+		
 }
 
 void SimulationManager::saveAlgoNameToTable(list<string> algoName)
@@ -76,7 +131,7 @@ void SimulationManager::saveAlgoNameToTable(list<string> algoName)
 	it = algoName.begin();
 	for (int i = 0; i < algoName.size(); i++)
 	{
-		scoreTableData[it->data()];
+		scoreTableData[it->data()] = AlgorithmScore();
 		it++;
 	}
 }
@@ -85,4 +140,19 @@ int SimulationManager::getWinnerStepNumber() {
 }
 void SimulationManager::deleteSimFromArray(int indexOfSim) {
 	_memccpy(&simulators[indexOfSim], &simulators[indexOfSim + 1], numOfSimulators - indexOfSim, sizeof(Simulator));
+}
+
+void SimulationManager::calcScoreTableDataAvgs()
+{
+	for (auto& element : scoreTableData)
+	{
+		element.second.calculateAvg();
+	}
+}
+
+void SimulationManager::resetParametersForNextHouse()
+{
+	freeSimulators();
+	stepNumber = 0;
+	winnerStepsNumber = 0;
 }

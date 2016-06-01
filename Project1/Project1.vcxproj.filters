@@ -75,13 +75,13 @@
     <ClInclude Include="_204032031_firstAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_204032031_B.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SimulationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlgorithmScore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_204032031_secondAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,10 +131,10 @@
     <ClCompile Include="_204032031_firstAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_204032031_B.cpp">
+    <ClCompile Include="SimulationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimulationManager.cpp">
+    <ClCompile Include="_204032031_secondAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

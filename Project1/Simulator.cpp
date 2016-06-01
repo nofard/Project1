@@ -20,14 +20,23 @@ void Simulator::init(char** house_array, int rows, int cols)
 		endGameParameter = false;
 }
 
-void Simulator::initForAlgorithm(House _currHouse, int _batteryLevel)
+void Simulator::initForAlgorithm(House _currHouse)
 {
 	currHouse = _currHouse.createCopyHouse();
+	originalHouse = _currHouse.createCopyHouse();
 	Sensor* currSensor = new Sensor();
 	currSensor->initSensor(this, &currHouse, currHouse.getDockingPosition());
 	sensor = currSensor;
-	batteryLevel = _batteryLevel;
+	batteryLevel = config.getBatteryCapacity();
+	endedSuccessfully = false;
 
+}
+
+void Simulator::freeForAlgorithm()
+{
+	currHouse.freeHouseMemory();
+	originalHouse.freeHouseMemory();
+	free(sensor);
 }
 
 
@@ -71,7 +80,7 @@ void Simulator::chargeRobot(Point p)
 
 void Simulator::updateBatteryLevel()
 {
-	if (sensor->getCurrPosition().isSame(originalHouse.getDockingPosition()))
+	if (currHouse.getCurrentPosition().isSame(originalHouse.getDockingPosition()))
 	{
 		if (batteryLevel < config.getBatteryCapacity() - config.getBatteryRechargeRate())
 		{
@@ -604,31 +613,30 @@ AbstractSensor& Simulator::getSensor()
 
 void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 {
-	Direction currDirection;
+	static Direction currDirection = Direction::Stay;
 	stepNumber++;
-	currDirection = currentAlgorithm->step(Direction::Stay);
-	
+	currDirection = currentAlgorithm->step(currDirection);
 	currHouse.getCurrentPosition().move(currDirection);
 	updateBatteryLevel();
 	updateDirtLevel(currHouse.getCurrentPosition());
 
 }
 
-bool Simulator::endGameSimulator()
+void Simulator::endGameSimulator()
 {
-	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()) && !endGameParameter)
+	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (currHouse.getCurrentPosition().isSame(currHouse.getDockingPosition())))
 	{
-		return true;
+		endedSuccessfully = true;
+		endGameParameter = true;
 	}
-	if (batteryLevel == 0 && !(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()))
+	if (batteryLevel == 0 && !(currHouse.getCurrentPosition().isSame(currHouse.getDockingPosition())))
 	{
-		return true;
+		endGameParameter = true;
 	}
 	if (stepNumber >= config.getMaxSteps())
 	{
-		return true;
+		endGameParameter = true;
 	}
-	return false;
 }
 
 
@@ -684,7 +692,7 @@ bool Simulator::endGameAlgorithm()
 }
 int Simulator::calcScoreFromSim(int position, int winnerSteps) {
 	Score score = Score(position, winnerSteps, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
-		(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
+		(currHouse.getCurrentPosition()).isSame(currHouse.getDockingPosition()));
 
 	return score.calculateScore();
 }

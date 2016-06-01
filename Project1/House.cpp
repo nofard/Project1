@@ -130,9 +130,10 @@ void House::copyHouseData(House houseToCopy)
 	dockingPosition = houseToCopy.dockingPosition;
 	overallDirtLevel = houseToCopy.overallDirtLevel;
 	validHouseFlag = houseToCopy.validHouseFlag;
-	maxSteps = houseToCopy.getMaxSteps();
-	note = houseToCopy.getNote();
+	maxSteps = houseToCopy.maxSteps;
+	note = houseToCopy.note;
 	currentPosition = houseToCopy.currentPosition;
+	houseName = houseToCopy.houseName;
 
 	for (int i = 0; i < rows; i++)
 	{

@@ -20,18 +20,22 @@ public:
 	SimulationManager(Configuration _config, int _numOfSimulators) : config(_config), numOfSimulators(_numOfSimulators) {}
 	
 	void initSimulators(House currHouse);
+	void freeSimulators();
 	Simulator* simulatorNumber(int num);
 	bool endSimulation();
 	void increaseStepNumber();
 	void setWinnerStepNumber();
 	void addNoteToErrorsList(string note);
-	void printSimulationResults();
 	void saveAlgoNameToTable(list<string>);
 	void saveScore(string algoName, int score);
 	map<string, AlgorithmScore> getAlgoScore();
 	void setPosition(string algoName, int position);
 	int getWinnerStepNumber();
 	void deleteSimFromArray(int indexOfSim);
+	void printSimulationResults(list<string> algorithmNames);
+	void printErrors();
+	void calcScoreTableDataAvgs();
+	void resetParametersForNextHouse();
 
 };
 
