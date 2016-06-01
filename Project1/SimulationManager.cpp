@@ -75,25 +75,45 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 	list<int> currScoresList;
 	int currScoresListSize;
 	
-	for (auto currAlgoScore : scoreTableData)
+	/*
+	for (auto currPair : scoreTableData)
 	{
-		cout << "| " << currAlgoScore.first;
+		auto currPair = getMinAlgorithmScore();
+		cout << "| " << currPair.first;
 		
-		currScoresList = currAlgoScore.second.getScoresList();
+		currScoresList = currPair.second.getScoresList();
 		currScoresListSize = currScoresList.size();
 		for (int i = 0; i < currScoresListSize; i++)
 		{
 			cout << "| " << currScoresList.front();
 			currScoresList.pop_front();
 		}
-		cout << "| " << currAlgoScore.second.getAverage() << " | ";
-		/*
+		cout << "| " << currPair.second.getAverage() << " | ";
+		
 		cout << endl;
 		for (int i = 0; i < currScoresList.size() + 2; i++)
 		{
 			cout << "---------------------------------";
-		}*/
+		}
 		cout << endl;
+	}
+	*/
+
+	while (!scoreTableData.empty())
+	{
+		auto minScoreAlgorithmName = getMinScoreAlgorithmName();
+		cout << "| " << minScoreAlgorithmName;
+
+		currScoresList = scoreTableData[minScoreAlgorithmName].getScoresList();
+		currScoresListSize = currScoresList.size();
+		for (int i = 0; i < currScoresListSize; i++)
+		{
+			cout << "| " << currScoresList.front();
+			currScoresList.pop_front();
+		}
+		cout << "| " << scoreTableData[minScoreAlgorithmName].getAverage() << " | ";
+		scoreTableData.erase(minScoreAlgorithmName);
+		cout << endl << endl;
 	}
 	cout << endl << endl;
 
@@ -155,4 +175,16 @@ void SimulationManager::resetParametersForNextHouse()
 	freeSimulators();
 	stepNumber = 0;
 	winnerStepsNumber = 0;
+}
+
+string SimulationManager::getMinScoreAlgorithmName()
+{
+	string MinScoreAlgorithmName = (*scoreTableData.begin()).first;
+
+	for (auto currPair : scoreTableData)
+	{
+		if (currPair.second.getAverage() < scoreTableData[MinScoreAlgorithmName].getAverage())
+			MinScoreAlgorithmName = currPair.first;
+	}
+	return MinScoreAlgorithmName;
 }

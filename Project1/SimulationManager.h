@@ -36,6 +36,7 @@ public:
 	void printErrors();
 	void calcScoreTableDataAvgs();
 	void resetParametersForNextHouse();
+	string getMinScoreAlgorithmName();
 
 };
 
