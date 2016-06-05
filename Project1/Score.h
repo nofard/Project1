@@ -1,6 +1,9 @@
 #ifndef _SCORE_H_
 #define _SCORE_H_
 
+#define UNFINISHED_POSITION 10
+#define FINISHER_MAX_POSITION 4
+
 class Score
 {
 	int position_in_copmetition;

@@ -498,6 +498,7 @@ void Menus::runAllAlgorithms()
 			
 		if (currentHouse.isValidHouse())
 		{
+			simManager->addHouseNumber(currentHouse.getHouseName().substr(START_INDEX_NAME, END_INDEX_NAME));
 			simManager->config.setMaxSteps(currentHouse.getMaxSteps()); //update maxSteps per house
 			//init simulators, and connect eash algo to his sensor-->simulator-->house (copy for each algo)
 			simManager->initSimulators(currentHouse);
@@ -516,20 +517,22 @@ void Menus::runAllAlgorithms()
 			//loop of steps
 			int position = 1;
 			int numOfWinners = 0;
+			bool someoneWonThisRound;
 			while(!(simManager->endSimulation()))
 			{
-
+				someoneWonThisRound = false;
 				simManager->increaseStepNumber();
 				//auto algo = algorithms.begin();
 				j = 0;
 				//while (j < algorithms.size()) //loop on algorithms
 				for(auto& algo : algorithms)
 				{
+					
 					if (simManager->simulatorNumber(j)->endGameParameter == false) //if currentSimulator didn't finish already
 					{
 						currentAlgorithm = (algo).get();
 						simManager->simulatorNumber(j)->makeAlgorithmMove(currentAlgorithm);
-						simManager->simulatorNumber(j)->endGameSimulator(numOfWinners == 0 ? false:true );
+						simManager->simulatorNumber(j)->endGameSimulator(numOfWinners == 0 ? false:true, simManager->getWinnerStepNumber());
 						if (simManager->simulatorNumber(j)->endGameParameter == true) //finished
 						{
 							if (simManager->simulatorNumber(j)->endedSuccessfully == true)// winner
@@ -537,6 +540,7 @@ void Menus::runAllAlgorithms()
 								if(numOfWinners == 0) //first winner
 									simManager->setWinnerStepNumber();
 								numOfWinners++;
+								someoneWonThisRound = true;
 							}
 
 							simManager->saveScore(registrar.getAlgorithmNameByIndex(j),
@@ -550,7 +554,8 @@ void Menus::runAllAlgorithms()
 					//algo++;
 					j++;
 				}
-				position += numOfWinners;
+				if(someoneWonThisRound)
+					position += numOfWinners;
 				//numOfAlgorithms = algorithms.size();
 			}
 			//
@@ -567,7 +572,6 @@ void Menus::runAllAlgorithms()
 	auto& algorithmNames = registrar.getAlgorithmNames();
 	simManager->calcScoreTableDataAvgs();
 	simManager->printSimulationResults(algorithmNames);
-	simManager->printErrors();
 	
 }
 

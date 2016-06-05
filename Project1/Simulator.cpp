@@ -287,7 +287,7 @@ bool Simulator::endGame() {
 	}
 	if (robot.getBatteryLevel() == 0 && !(robot.getPosition()).isSame(originalHouse.getDockingPosition()))
 	{
-		robotScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+		robotScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		cout << "Robot is ran out of battery power! Ending game." << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
@@ -298,7 +298,7 @@ bool Simulator::endGame() {
 	}
 	if (stepNumber >= config.getMaxSteps())
 	{
-		robotScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+		robotScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
 		cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
@@ -624,7 +624,7 @@ void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 
 }
 
-void Simulator::endGameSimulator(bool someoneWinAlready)
+void Simulator::endGameSimulator(bool someoneWinAlready, int winnerStepNumber)
 {
 	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (currHouse.getCurrentPosition().isSame(currHouse.getDockingPosition())))
 	{
@@ -642,7 +642,8 @@ void Simulator::endGameSimulator(bool someoneWinAlready)
 
 	if (someoneWinAlready)
 	{
-		if (stepNumber == config.getMaxSteps() - config.getMaxStepsAfterWinner())
+		//if (stepNumber == config.getMaxSteps() - config.getMaxStepsAfterWinner())
+		if (stepNumber == winnerStepNumber + config.getMaxStepsAfterWinner())
 			endGameParameter = true;
 	}
 		
@@ -668,7 +669,7 @@ bool Simulator::endGameAlgorithm()
 	} 
 	if (batteryLevel == 0 && !(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()))
 	{
-		algoScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+		algoScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
 		cout << "Robot is ran out of battery power! Ending game." << endl;
 		cout << "Your score is: " << algoScore.calculateScore() << endl;
@@ -679,7 +680,7 @@ bool Simulator::endGameAlgorithm()
 	}
 	if (stepNumber >= config.getMaxSteps())
 	{
-		algoScore = Score(10, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+		algoScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
 		cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
@@ -699,9 +700,21 @@ bool Simulator::endGameAlgorithm()
 
 	return false;
 }
-int Simulator::calcScoreFromSim(int position, int winnerSteps) {
-	Score score = Score(position, winnerSteps, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
-		(currHouse.getCurrentPosition()).isSame(currHouse.getDockingPosition()));
+int Simulator::calcScoreFromSim(int position, int winnerSteps)
+{
+	Score score;
+	if (endedSuccessfully)
+	{
+		score = Score(min(position, FINISHER_MAX_POSITION), winnerSteps, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+			(currHouse.getCurrentPosition()).isSame(currHouse.getDockingPosition()));
+	}
+		
+	else
+	{
+		score = Score(UNFINISHED_POSITION, winnerSteps, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+			(currHouse.getCurrentPosition()).isSame(currHouse.getDockingPosition()));
+	}
+		
 
 	return score.calculateScore();
 }

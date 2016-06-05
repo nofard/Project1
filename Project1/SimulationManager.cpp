@@ -1,5 +1,7 @@
 #include "SimulationManager.h"
 
+using namespace std;
+
 void SimulationManager::initSimulators(House currHouse)
 {
 	simulators = new Simulator[numOfSimulators];
@@ -57,6 +59,11 @@ void SimulationManager::setWinnerStepNumber()
 		
 }
 
+void SimulationManager::addHouseNumber(string houseNumber)
+{
+	housesNumbers.push_back(houseNumber);
+}
+
 void SimulationManager::addNoteToErrorsList(string note)
 {
 	errors.push_back(note);
@@ -69,24 +76,42 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 	list<int> currScoresList;
 	int currScoresListSize;
 	
+	printHousesNumbers();
+
 	while (!scoreTableData.empty())
 	{
-		auto minScoreAlgorithmName = getMinScoreAlgorithmName();
-		cout << "| " << minScoreAlgorithmName;
+		auto maxScoreAlgorithmName = getMaxScoreAlgorithmName();
+		cout << "| " << maxScoreAlgorithmName;
 
-		currScoresList = scoreTableData[minScoreAlgorithmName].getScoresList();
+		currScoresList = scoreTableData[maxScoreAlgorithmName].getScoresList();
 		currScoresListSize = currScoresList.size();
 		for (int i = 0; i < currScoresListSize; i++)
 		{
 			cout << "| " << currScoresList.front();
 			currScoresList.pop_front();
 		}
-		cout << "| " << scoreTableData[minScoreAlgorithmName].getAverage() << " | ";
-		scoreTableData.erase(minScoreAlgorithmName);
-		cout << endl << endl;
+		cout << "| " << scoreTableData[maxScoreAlgorithmName].getAverage() << " | " << endl;
+		for (int i = 0; i < currScoresListSize; i++)
+		{
+			cout << "---------------------";
+		}
+		scoreTableData.erase(maxScoreAlgorithmName);
+		cout << endl;
 	}
 	cout << endl << endl;
 
+	printErrors();
+}
+
+void SimulationManager::printHousesNumbers()
+{	
+	cout <<  "                           | "; //setw
+	while (!housesNumbers.empty())
+	{
+		cout << housesNumbers.front() << " | ";
+		housesNumbers.pop_front();
+	}
+	cout << "AVG |" << endl;
 }
 
 void SimulationManager::printErrors()
@@ -104,8 +129,8 @@ void SimulationManager::printErrors()
 }
 void SimulationManager::saveScore(string algoName, int score)
 {
-	auto a = scoreTableData.find(algoName);
-	if (a == scoreTableData.end())
+	auto currAlgoScore = scoreTableData.find(algoName);
+	if (currAlgoScore == scoreTableData.end())
 	{
 		AlgorithmScore algoScore(score);
 		scoreTableData[algoName] = algoScore;
@@ -147,14 +172,14 @@ void SimulationManager::resetParametersForNextHouse()
 	winnerStepsNumber = 0;
 }
 
-string SimulationManager::getMinScoreAlgorithmName()
+string SimulationManager::getMaxScoreAlgorithmName()
 {
-	string MinScoreAlgorithmName = (*scoreTableData.begin()).first;
+	string MaxScoreAlgorithmName = (*scoreTableData.begin()).first;
 
 	for (auto currPair : scoreTableData)
 	{
-		if (currPair.second.getAverage() < scoreTableData[MinScoreAlgorithmName].getAverage())
-			MinScoreAlgorithmName = currPair.first;
+		if (currPair.second.getAverage() > scoreTableData[MaxScoreAlgorithmName].getAverage())
+			MaxScoreAlgorithmName = currPair.first;
 	}
-	return MinScoreAlgorithmName;
+	return MaxScoreAlgorithmName;
 }

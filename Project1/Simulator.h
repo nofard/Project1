@@ -74,7 +74,7 @@ public:
 	void makeAlgorithmMove(AbstractAlgorithm*);
 	void updateBatteryLevel();
 	bool endGameAlgorithm();
-	void endGameSimulator(bool someoneWinAlready);
+	void endGameSimulator(bool someoneWinAlready, int winnerStepNumber);
 	int calcScoreFromSim(int position, int winnerSteps);
 private:
 	void saveSimulationParameters();
