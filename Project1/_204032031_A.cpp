@@ -133,7 +133,7 @@ void _204032031_A::determineMode()
 		mode = GOING;
 	else
 	{
-		if (batteryLevel <= configuration["BatteryCapacity"] / 2 + 1)
+		if (batteryLevel <= configuration["BatteryCapacity"]*50/100 + 1) //battery 50%
 			mode = BACKING;
 
 		if (currPosition.isSame(dockingPoint))
