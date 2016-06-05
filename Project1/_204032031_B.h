@@ -1,9 +1,11 @@
-#ifndef __FIRST_ALGORITHM_H_
-#define __FIRST_ALGORITHM_H_
+#ifndef __SECOND_ALGORITHM_H_
+#define __SECOND_ALGORITHM_H_
 
 #include "DirectionExt.h"
 #include "Point.h"
 #include "AlgorithmRegistration.h"
+
+
 
 #include <iostream>
 #include <list>
@@ -22,7 +24,6 @@ struct CellInfo {
 	int dirt = -1; // -1 represents "unknown"
 	int stepsToDocking = -1; // -1 represents "unknown"
 	bool isWall;
-	bool visited = false;
 	CellInfo() {}
 	CellInfo(int dirt, int stepsTodock, bool isWall = false) :
 		dirt(dirt),
@@ -30,7 +31,7 @@ struct CellInfo {
 		isWall(isWall) {}
 };
 
-class _204032031_firstAlgorithm : public AbstractAlgorithm 
+class _204032031_B : public AbstractAlgorithm
 {
 	const AbstractSensor* sensor;
 	map<string, int> configuration;
@@ -51,11 +52,15 @@ public:
 	virtual void setConfiguration(map<string, int> config);
 	// step is called by the simulation for each time unit 
 	virtual Direction step(Direction previousStep);
+	
 
 	// this method is called by the simulation either when there is a winner or 
 	// when steps == MaxSteps - MaxStepsAfterWinner 
 	// parameter stepsTillFinishing == MaxStepsAfterWinner 
 	virtual void aboutToFinish(int stepsTillFinishing);
+
+	int calcStepsToDocking(int stepsFromDocking, const Point& position);
+	void updateStepsToDocking(int stepsToDocking, const Point& position);
 
 private:
 	Direction getDirection();

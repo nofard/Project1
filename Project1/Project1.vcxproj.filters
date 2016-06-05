@@ -72,16 +72,16 @@
     <ClInclude Include="DirectionExt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_204032031_firstAlgorithm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SimulationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AlgorithmScore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_204032031_secondAlgorithm.h">
+    <ClInclude Include="_204032031_A.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_204032031_B.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,13 +128,13 @@
     <ClCompile Include="AlgorithmRegistration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_204032031_firstAlgorithm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SimulationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_204032031_secondAlgorithm.cpp">
+    <ClCompile Include="_204032031_A.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_204032031_B.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

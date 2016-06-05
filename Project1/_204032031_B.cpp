@@ -1,22 +1,22 @@
-#include "_204032031_secondAlgorithm.h"
+#include "_204032031_B.h"
 
 
-REGISTER_ALGORITHM(_204032031_secondAlgorithm)
+REGISTER_ALGORITHM(_204032031_B)
 
 // setSensor is called once when the Algorithm is initialized 
-void _204032031_secondAlgorithm::setSensor(const AbstractSensor& _sensor)  {
+void _204032031_B::setSensor(const AbstractSensor& _sensor)  {
 	sensor = &_sensor;
 }
 
 
 // setConfiguration is called once when the Algorithm is initialized - see below 
-void _204032031_secondAlgorithm::setConfiguration(map<string, int> config) {
+void _204032031_B::setConfiguration(map<string, int> config) {
 	configuration = config;
 	batteryLevel = configuration["BatteryCapacity"];
 }
 
 // step is called by the simulation for each time unit 
-Direction _204032031_secondAlgorithm::step(Direction lastStep)
+Direction _204032031_B::step(Direction lastStep)
 {
 	Direction chosenDirection;
 	updateAlgorithmInfo(lastStep);
@@ -45,11 +45,11 @@ Direction _204032031_secondAlgorithm::step(Direction lastStep)
 // this method is called by the simulation either when there is a winner or 
 // when steps == MaxSteps - MaxStepsAfterWinner 
 // parameter stepsTillFinishing == MaxStepsAfterWinner 
-void _204032031_secondAlgorithm::aboutToFinish(int stepsTillFinishing) {
+void _204032031_B::aboutToFinish(int stepsTillFinishing) {
 	// ignore
 }
 
-Direction _204032031_secondAlgorithm::getDirection()
+Direction _204032031_B::getDirection()
 {
 	SensorInformation sensorInfo = sensor->sense();
 	Direction checkDir = direction;
@@ -71,7 +71,7 @@ Direction _204032031_secondAlgorithm::getDirection()
 	return Direction::Stay;
 }
 
-Direction _204032031_secondAlgorithm::getDirectionFromRoute()
+Direction _204032031_B::getDirectionFromRoute()
 {
 	Direction chosenDirection = opposite(route.back());
 	route.pop_back();
@@ -79,7 +79,7 @@ Direction _204032031_secondAlgorithm::getDirectionFromRoute()
 	return chosenDirection;
 }
 
-void _204032031_secondAlgorithm::updateAlgorithmInfo(Direction lastStep)
+void _204032031_B::updateAlgorithmInfo(Direction lastStep)
 {
 	int stepsFromDocking = -1;
 	currPosition.move(lastStep); // update the robot position, as managed by the algorithm, to the new position
@@ -108,7 +108,7 @@ void _204032031_secondAlgorithm::updateAlgorithmInfo(Direction lastStep)
 }
 
 
-void _204032031_secondAlgorithm::determineMode()
+void _204032031_B::determineMode()
 {
 	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
 		mode = CHARGING;
@@ -118,7 +118,7 @@ void _204032031_secondAlgorithm::determineMode()
 		mode = GOING;
 }
 
-void _204032031_secondAlgorithm::updateBattery()
+void _204032031_B::updateBattery()
 {
 	if (currPosition.isSame(dockingPoint))
 	{
@@ -140,12 +140,12 @@ void _204032031_secondAlgorithm::updateBattery()
 	}
 }
 
-int _204032031_secondAlgorithm::getBatteryLevel()
+int _204032031_B::getBatteryLevel()
 {
 	return batteryLevel;
 }
 
-int _204032031_secondAlgorithm::calcStepsToDocking(int stepsFromDocking, const Point& position) {
+int _204032031_B::calcStepsToDocking(int stepsFromDocking, const Point& position) {
 	// if this cell already has a better route - keep it!
 	auto thisCellInfo = houseMapping.find(position);
 	if (thisCellInfo != houseMapping.end() && thisCellInfo->second.stepsToDocking != -1 &&
@@ -167,7 +167,7 @@ int _204032031_secondAlgorithm::calcStepsToDocking(int stepsFromDocking, const P
 	return bestRouteSteps;
 }
 
-void _204032031_secondAlgorithm::updateStepsToDocking(int stepsToDocking, const Point& position) {
+void _204032031_B::updateStepsToDocking(int stepsToDocking, const Point& position) {
 	if (houseMapping[position].stepsToDocking > stepsToDocking || houseMapping[position].stepsToDocking == -1) {
 		houseMapping[position].stepsToDocking = stepsToDocking;
 		for (Point p : position.neighbours()) {

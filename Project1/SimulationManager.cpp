@@ -1,4 +1,6 @@
 #include "SimulationManager.h"
+#include <iomanip>
+
 
 using namespace std;
 
@@ -76,6 +78,18 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 	list<int> currScoresList;
 	int currScoresListSize;
 	
+	auto maxScoreAlgorithmName = getMaxScoreAlgorithmName();
+	if (!scoreTableData.empty()) 
+	{
+		currScoresList = scoreTableData[maxScoreAlgorithmName].getScoresList();
+		currScoresListSize = currScoresList.size();
+		cout << " ";
+		for (int i = 0; i < currScoresListSize; i++)
+		{
+			cout << "----------------------";
+		}
+		cout << endl;
+	}
 	printHousesNumbers();
 
 	while (!scoreTableData.empty())
@@ -87,13 +101,15 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 		currScoresListSize = currScoresList.size();
 		for (int i = 0; i < currScoresListSize; i++)
 		{
-			cout << "| " << currScoresList.front();
+			cout << " | "  << setw(10) << currScoresList.front();
 			currScoresList.pop_front();
 		}
-		cout << "| " << scoreTableData[maxScoreAlgorithmName].getAverage() << " | " << endl;
-		for (int i = 0; i < currScoresListSize; i++)
+
+		cout << " | " << setw(10) << scoreTableData[maxScoreAlgorithmName].getAverage() << " | " << endl;
+		cout << " ";
+		for (int i = 0; i < currScoresListSize ; i++)
 		{
-			cout << "---------------------";
+			cout << "----------------------";
 		}
 		scoreTableData.erase(maxScoreAlgorithmName);
 		cout << endl;
@@ -105,19 +121,24 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 
 void SimulationManager::printHousesNumbers()
 {	
-	cout <<  "                           | "; //setw
+	cout << "|";
+	cout << setw(16);
+	cout <<  "| "; //setw
+	//cout << setw(10);
 	while (!housesNumbers.empty())
-	{
-		cout << housesNumbers.front() << " | ";
+	{	
+		cout << housesNumbers.front() << setw(10) << "| ";
 		housesNumbers.pop_front();
 	}
-	cout << "AVG |" << endl;
+	
+	cout << "AVG" << setw(10) << "| " << endl;
 }
 
 void SimulationManager::printErrors()
 {
 	char hold_the_screen;
 	//int i = 0;
+	cout << "Errors:"<<endl;
 	while (!errors.empty())
 	{
 		//cout << i << endl;

@@ -1,22 +1,22 @@
-#include "_204032031_firstAlgorithm.h"
+#include "_204032031_A.h"
 
 
-REGISTER_ALGORITHM(_204032031_firstAlgorithm)
+REGISTER_ALGORITHM(_204032031_A)
 
 	// setSensor is called once when the Algorithm is initialized 
-void _204032031_firstAlgorithm::setSensor(const AbstractSensor& _sensor)  {
+void _204032031_A::setSensor(const AbstractSensor& _sensor)  {
 		sensor = &_sensor;
 	}
 
 
 	// setConfiguration is called once when the Algorithm is initialized - see below 
-void _204032031_firstAlgorithm::setConfiguration(map<string, int> config) {
+void _204032031_A::setConfiguration(map<string, int> config) {
 	configuration = config;
 	batteryLevel = configuration["BatteryCapacity"];
 }
 
 	// step is called by the simulation for each time unit 
-Direction _204032031_firstAlgorithm::step(Direction lastStep)
+Direction _204032031_A::step(Direction lastStep)
 {
 	Direction chosenDirection;
 	updateAlgorithmInfo(lastStep);
@@ -45,11 +45,11 @@ Direction _204032031_firstAlgorithm::step(Direction lastStep)
 	// this method is called by the simulation either when there is a winner or 
 	// when steps == MaxSteps - MaxStepsAfterWinner 
 	// parameter stepsTillFinishing == MaxStepsAfterWinner 
-void _204032031_firstAlgorithm::aboutToFinish(int stepsTillFinishing) {
+void _204032031_A::aboutToFinish(int stepsTillFinishing) {
 	// ignore
 }
 
-Direction _204032031_firstAlgorithm::getDirection()
+Direction _204032031_A::getDirection()
 {
 	SensorInformation sensorInfo = sensor->sense();
 	Direction checkDir = direction;
@@ -86,7 +86,7 @@ Direction _204032031_firstAlgorithm::getDirection()
 	return Direction::Stay;
 }
 
-Direction _204032031_firstAlgorithm::getDirectionFromRoute()
+Direction _204032031_A::getDirectionFromRoute()
 {
 	Direction chosenDirection = opposite(route.back());
 	route.pop_back();
@@ -94,7 +94,7 @@ Direction _204032031_firstAlgorithm::getDirectionFromRoute()
 	return chosenDirection;
 }
 
-void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
+void _204032031_A::updateAlgorithmInfo(Direction lastStep)
 {
 	int stepsFromDocking = -1;
 	currPosition.move(lastStep); // update the robot position, as managed by the algorithm, to the new position
@@ -124,7 +124,7 @@ void _204032031_firstAlgorithm::updateAlgorithmInfo(Direction lastStep)
 }
 
 
-void _204032031_firstAlgorithm::determineMode()
+void _204032031_A::determineMode()
 {
 //	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
 	//	mode = CHARGING;
@@ -143,7 +143,7 @@ void _204032031_firstAlgorithm::determineMode()
 
 }
 
-void _204032031_firstAlgorithm::updateBattery()
+void _204032031_A::updateBattery()
 {
 	if (currPosition.isSame(dockingPoint)) 
 	{
@@ -165,7 +165,7 @@ void _204032031_firstAlgorithm::updateBattery()
 	}
 }
 
-int _204032031_firstAlgorithm::getBatteryLevel()
+int _204032031_A::getBatteryLevel()
 {
 	return batteryLevel;
 }

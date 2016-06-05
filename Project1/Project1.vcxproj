@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -94,8 +94,8 @@
     <ClInclude Include="KeyboardRobot.h" />
     <ClInclude Include="Menus.h" />
     <ClInclude Include="SimulationManager.h" />
-    <ClInclude Include="_204032031_secondAlgorithm.h" />
-    <ClInclude Include="_204032031_firstAlgorithm.h" />
+    <ClInclude Include="_204032031_B.h" />
+    <ClInclude Include="_204032031_A.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Sensor.h" />
@@ -114,8 +114,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menus.cpp" />
     <ClCompile Include="SimulationManager.cpp" />
-    <ClCompile Include="_204032031_secondAlgorithm.cpp" />
-    <ClCompile Include="_204032031_firstAlgorithm.cpp" />
+    <ClCompile Include="_204032031_B.cpp" />
+    <ClCompile Include="_204032031_A.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="keyboardRobot.cpp" />
     <ClCompile Include="Score.cpp" />
