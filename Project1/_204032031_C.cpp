@@ -65,6 +65,20 @@ Direction _204032031_C::getDirection()
 			{
 				possibleNextPoint = currPosition;
 				possibleNextPoint.move(checkDir);
+				if (houseMapping[possibleNextPoint].dirt > 0)
+				{
+					direction = checkDir;
+					return direction;
+				}
+			}
+		} while (++checkDir != direction);
+
+		do
+		{
+			if (!sensorInfo.isWall[(int)checkDir])
+			{
+				possibleNextPoint = currPosition;
+				possibleNextPoint.move(checkDir);
 				if (houseMapping[possibleNextPoint].visited == false)
 				{
 					direction = checkDir;
@@ -113,9 +127,15 @@ void _204032031_C::updateAlgorithmInfo(Direction lastStep)
 			CellInfo& cellInfo = houseMapping[p]; // create CellInfo
 			cellInfo.isWall = sensorInfo.isWall[(int)d];
 			cellInfo.visited = false;
+
 			if (!sensorInfo.isWall[(int)d]) 
 			{
 				cellInfo.stepsToDocking = calcStepsToDocking(stepsFromDocking + 1, p);
+
+				currPosition.move(d);
+				sensorInfo = sensor->sense();
+				cellInfo.dirt = sensorInfo.dirtLevel;
+				currPosition.move(opposite(d));
 			}
 		}
 	}

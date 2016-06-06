@@ -75,6 +75,7 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	int rowIndex = 0;
 	int colIndex = 0;
 	char buff[BUFF_SIZE];
+	int dockingCounter = 0;
 	ifstream in(house_name);
 
 	in.getline(buff, BUFF_SIZE - 1);//title of the house
@@ -106,6 +107,10 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 			colIndex = 0;
 			while ((colIndex < strlen(buff)) && colIndex < *cols)
 			{
+				if (buff[colIndex] == DOCK_LETTER)
+				{
+					dockingCounter++;
+				}
 				house_array[rowIndex][colIndex] = buff[colIndex];
 				colIndex++;
 			}
@@ -113,7 +118,11 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 		}
 
 		in.close();
-		return house_array;
+
+		if (checkDockingValidation(dockingCounter))
+			return house_array;
+		else
+			return nullptr;
 	}
 	else //house size is invalid
 	{
@@ -368,47 +377,30 @@ bool HouseFiles::checkRowsAndColsValidation(int _rows, int _cols)
 		return true;
 	}
 }
-/*
-bool HouseFiles::checkRowsAndColsValidationAndReturnNote(int _rows, int _cols, string * _note)
-{
-	if (_rows < MIN_ROWS)
-	{
-		*_note = "";
-		return false;
-	}
-		
-	if (_rows > MAX_ROWS)
-	{
-		*_note = "";
-		return false;
-	}
-		
-	if (_cols < MIN_COLS)
-	{
-		*_note = "";
-		return false;
-	}
-	if (_cols > MAX_COLS)
-	{
-		*_note = "";
-		return false;
-	}
-	return true;
-		
-}
 
-bool HouseFiles::checkDockingValidationAndReturnNote(int dockingCounter, string *_note)
+
+bool HouseFiles::checkDockingValidation(int dockingCounter)
 {
+	char hold_the_screen;
 	if (dockingCounter == 0)
 	{
-		*_note = "";
+		system("cls");
+		cout << "Invalid house:" << endl;
+		cout << "Reason: No docking station." << endl;
+		cout << "Press any key to continue to the next house" << endl;
+		cin >> hold_the_screen;
+		system("cls");
 		return false;
 	}
 	if (dockingCounter > 1)
 	{
-		*_note = "";
+		system("cls");
+		cout << "Invalid house:" << endl;
+		cout << "Reason: Too many docking station." << endl;
+		cout << "Press any key to continue to the next house" << endl;
+		cin >> hold_the_screen;
+		system("cls");
 		return false;
 	}
 	return true;
 }
-*/
