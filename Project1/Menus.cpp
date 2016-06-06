@@ -503,7 +503,7 @@ void Menus::runAllAlgorithms()
 			int index = 0;
 			for (auto& algo : algorithms)
 			{
-				algo->setSensor(simManager->simulatorNumber(index)->getSensor());
+				algo->setSensor(simManager->getSimulatorByInd(index)->getSensor());
 				algo->setConfiguration(sim->config.convertDataToMap());
 				index++;
 			}
@@ -521,14 +521,14 @@ void Menus::runAllAlgorithms()
 				for(auto& algo : algorithms)
 				{
 					
-					if (simManager->simulatorNumber(j)->endGameParameter == false) //if currentSimulator didn't finish already
+					if (simManager->getSimulatorByInd(j)->endGameParameter == false) //if currentSimulator didn't finish already
 					{
 						currentAlgorithm = (algo).get();
-						simManager->simulatorNumber(j)->makeAlgorithmMove(currentAlgorithm);
-						simManager->simulatorNumber(j)->endGameSimulator(numOfWinners == 0 ? false:true, simManager->getWinnerStepNumber());
-						if (simManager->simulatorNumber(j)->endGameParameter == true) //finished
+						simManager->getSimulatorByInd(j)->makeAlgorithmMove(currentAlgorithm);
+						simManager->getSimulatorByInd(j)->endGameSimulator(numOfWinners == 0 ? false : true, simManager->getWinnerStepNumber());
+						if (simManager->getSimulatorByInd(j)->endGameParameter == true) //finished
 						{
-							if (simManager->simulatorNumber(j)->endedSuccessfully == true)//winner
+							if (simManager->getSimulatorByInd(j)->endedSuccessfully == true)//winner
 							{
 								if(numOfWinners == 0) //first winner
 									simManager->setWinnerStepNumber();
@@ -537,7 +537,7 @@ void Menus::runAllAlgorithms()
 							}
 
 							simManager->saveScore(registrar.getAlgorithmNameByIndex(j),
-							simManager->simulatorNumber(j)->calcScoreFromSim(position, simManager->getWinnerStepNumber()));
+								simManager->getSimulatorByInd(j)->calcScoreFromSim(position, simManager->getWinnerStepNumber()));
 						}
 					}
 					j++;

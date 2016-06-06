@@ -66,7 +66,7 @@ void _204032031_Point::drawToScreenWhenDockingOn(_204032031_Point docking, char 
 	cout.flush();
 }
 
-Point Point::neighbour(Direction d)const
+_204032031_Point _204032031_Point::neighbour(Direction d)const
 {
 	_204032031_Point p = *this;
 	p.move(d);
