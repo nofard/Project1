@@ -6,8 +6,6 @@
 #include "HouseFiles.h"
 #include "AlgorithmRegistrar.h"
 #include "SimulationManager.h"
-//#include "AbstractAlgorithm.h"
-
 
 #define FIRST_ROW_MID_MENU 24
 #define FULL_ROW 80

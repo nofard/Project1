@@ -32,7 +32,6 @@ public:
 	void saveAlgoNameToTable(list<string>);
 	void saveScore(string algoName, int score);
 	map<string, AlgorithmScore> getAlgoScore();
-	void setPosition(string algoName, int position);
 	int getWinnerStepNumber();
 	void deleteSimFromArray(int indexOfSim);
 	void printSimulationResults(list<string> algorithmNames);

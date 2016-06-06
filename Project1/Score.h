@@ -23,7 +23,6 @@ public:
 		sum_dirt_in_house = overallDirt;
 		dirt_collected = dirtCollected;
 		is_back_in_docking = backInDock;
-	
 	}
 	int calculateScore();
 	void printScoreTable();

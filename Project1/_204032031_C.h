@@ -2,7 +2,7 @@
 #define __THIRD_ALGORITHM_H_
 
 #include "DirectionExt.h"
-#include "Point.h"
+#include "_204032031_Point.h"
 #include "AlgorithmRegistration.h"
 
 #include <iostream>
@@ -37,13 +37,12 @@ class _204032031_C : public AbstractAlgorithm
 	const AbstractSensor* sensor;
 	map<string, int> configuration;
 	Direction direction = Direction::East;
-	Point currPosition = { 0, 0 };
-	Point dockingPoint = { 0, 0 };
+	_204032031_Point currPosition = { 0, 0 };
+	_204032031_Point dockingPoint = { 0, 0 };
 	SensorInformation sensorInfo;
 	int stepsFromDocking = -1;
 	int batteryLevel;
-	list<Direction>route;
-	map<Point, CellInfo> houseMapping;
+	map<_204032031_Point, CellInfo> houseMapping;
 	int mode = GOING; //GOING/BACKING
 
 public:
@@ -62,15 +61,14 @@ public:
 
 private:
 	Direction getDirection();
-	Direction getDirectionFromRoute();
 	Direction getDirectionToDocking();
 	void updateAlgorithmInfo(Direction lastStep);
 	void determineMode();
 	void updateBattery();
 	int getBatteryLevel();
-	int calcStepsToDocking(int stepsFromDocking, const Point& position);
-	void updateStepsToDocking(int stepsToDocking, const Point& position);
-	Direction getNeighborDirection(Point neighbor);
+	int calcStepsToDocking(int stepsFromDocking, const _204032031_Point& position);
+	void updateStepsToDocking(int stepsToDocking, const _204032031_Point& position);
+	Direction getNeighborDirection(_204032031_Point neighbor);
 
 };
 

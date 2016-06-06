@@ -96,7 +96,7 @@
     <ClInclude Include="SimulationManager.h" />
     <ClInclude Include="_204032031_B.h" />
     <ClInclude Include="_204032031_A.h" />
-    <ClInclude Include="Point.h" />
+    <ClInclude Include="_204032031_Point.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Sensor.h" />
     <ClInclude Include="SensorInformation.h" />
@@ -107,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="AlgorithmRegistrar.cpp" />
     <ClCompile Include="AlgorithmRegistration.cpp" />
+    <ClCompile Include="AlgorithmScore.cpp" />
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="DirectionExt.cpp" />
     <ClCompile Include="House.cpp" />
@@ -117,7 +118,7 @@
     <ClCompile Include="SimulationManager.cpp" />
     <ClCompile Include="_204032031_B.cpp" />
     <ClCompile Include="_204032031_A.cpp" />
-    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="_204032031_Point.cpp" />
     <ClCompile Include="keyboardRobot.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sensor.cpp" />

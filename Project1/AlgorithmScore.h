@@ -17,37 +17,11 @@ public:
 		scores.push_back(score);
 		average = _average;
 	}
-	void addScore(int score)
-	{
-		scores.push_back(score);
-	}
 
-	void calculateAvg()
-	{
-		//list<StepAndDirection>::iterator it;
-		//for (it = moves.begin(); it != moves.end(); ++it)
-		int numOfScores = scores.size();
-		int sum = 0;
-		list<int>::iterator it = scores.begin();
-
-		while (it != scores.end())
-		{
-			sum += *it;
-			it++;
-		}
-
-		average = sum / numOfScores;
-	}
-
-	int& getAverage()
-	{
-		return average;
-	}
-
-	list<int>& getScoresList()
-	{
-		return scores;
-	}
+	void addScore(int score);
+	void calculateAvg();
+	int& getAverage();
+	list<int>& getScoresList();
 };
 
 #endif

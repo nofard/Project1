@@ -16,7 +16,7 @@ struct savedForLater
 	char printedHouse[MAX_ROWS][MAX_COLS];
 	House house;
 	KeyboardRobot robot;
-	Point sensorPosition;
+	_204032031_Point sensorPosition;
 	int stepNumber;
 	list<StepAndDirection> moves;
 };
@@ -45,10 +45,10 @@ public:
 	void initForAlgorithm(House _currHouse);
 	void freeForAlgorithm();
 	void run();
-	void updateDirtLevel(Point p);
+	void updateDirtLevel(_204032031_Point p);
 	void printSimulationData();
 	void resetSimulatorData();
-	void chargeRobot(Point p);
+	void chargeRobot(_204032031_Point p);
 	bool endGame();
 	void freeSimulationMemory();
 	void restartSimulation();
@@ -65,7 +65,7 @@ public:
 	void runSolution(ifstream& solutionFile);
 	void updateEscPressedStatus();
 	void setSavedPrintedHouse();
-	void savePointToPrintedHouse(Point p, char ch);
+	void savePointToPrintedHouse(_204032031_Point p, char ch);
 	void savePrintedCharToSavedArray(int row, int col, char ch);
 	void restoreSimulationParameters();
 	void resetSavedParameters();

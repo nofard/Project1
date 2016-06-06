@@ -53,7 +53,7 @@ Direction _204032031_A::getDirection()
 {
 	SensorInformation sensorInfo = sensor->sense();
 	Direction checkDir = direction;
-	Point possibleNextPoint;
+	_204032031_Point possibleNextPoint;
 
 	if (sensorInfo.dirtLevel != 0)
 		return Direction::Stay;
@@ -101,23 +101,17 @@ void _204032031_A::updateAlgorithmInfo(Direction lastStep)
 	sensorInfo = sensor->sense();
 	//debug << "position: " << position << ", dirtLevel = " << s.dirtLevel << endl;
 	// update the map with the info on the dirt level
-	//stepsFromDocking = calcStepsToDocking(stepsFromDocking + 1, currPosition);
-
-	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, 0 ,true};
+	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0,false, true};
 	// update all 4 cells around me with Wall information and if possible also with stepsToDocking
 	for (Direction d : directions)
 	{
-		Point p = currPosition.neighbour(d);
+		_204032031_Point p = currPosition.neighbour(d);
 		auto neighbour = houseMapping.find(p);
 		if (neighbour == houseMapping.end()) //maybe if neighbour not exist in map
 		{
 			CellInfo& cellInfo = houseMapping[p]; // create CellInfo
 			cellInfo.isWall = sensorInfo.isWall[(int)d];
 			cellInfo.visited = false;
-			//if (!sensorInfo.isWall[(int)d]) 
-			//{
-			//	cellInfo.stepsToDocking = calcStepsToDocking(stepsFromDocking + 1, p);
-			//}
 		}
 	}
 	updateBattery();

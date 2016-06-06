@@ -26,8 +26,6 @@ Direction _204032031_C::step(Direction lastStep)
 	{
 	case GOING:
 		chosenDirection = getDirection();
-		if (chosenDirection != Direction::Stay)
-			route.push_back(chosenDirection);
 		break;
 	case BACKING:
 		chosenDirection = getDirectionToDocking();
@@ -53,7 +51,7 @@ Direction _204032031_C::getDirection()
 {
 	SensorInformation sensorInfo = sensor->sense();
 	Direction checkDir = direction;
-	Point possibleNextPoint;
+	_204032031_Point possibleNextPoint;
 
 	if (sensorInfo.dirtLevel != 0)
 		return Direction::Stay;
@@ -100,27 +98,17 @@ Direction _204032031_C::getDirection()
 	return Direction::Stay;
 }
 
-Direction _204032031_C::getDirectionFromRoute()
-{
-	Direction chosenDirection = opposite(route.back());
-	route.pop_back();
-
-	return chosenDirection;
-}
-
 void _204032031_C::updateAlgorithmInfo(Direction lastStep)
 {
 	currPosition.move(lastStep); // update the robot position, as managed by the algorithm, to the new position
 	sensorInfo = sensor->sense();
-	//debug << "position: " << position << ", dirtLevel = " << s.dirtLevel << endl;
-	// update the map with the info on the dirt level
 	stepsFromDocking = calcStepsToDocking(stepsFromDocking + 1, currPosition);
 
 	houseMapping[currPosition] = { (sensorInfo.dirtLevel != 0) ? sensorInfo.dirtLevel - 1 : 0, stepsFromDocking ,false, true };
 	// update all 4 cells around me with Wall information and if possible also with stepsToDocking
 	for (Direction d : directions)
 	{
-		Point p = currPosition.neighbour(d);
+		_204032031_Point p = currPosition.neighbour(d);
 		auto neighbour = houseMapping.find(p);
 		if (neighbour == houseMapping.end()) //maybe if neighbour not exist in map
 		{
@@ -144,9 +132,6 @@ void _204032031_C::updateAlgorithmInfo(Direction lastStep)
 
 void _204032031_C::determineMode()
 {
-	//	if (batteryLevel < configuration["BatteryCapacity"] && currPosition.isSame(dockingPoint))
-	//	mode = CHARGING;
-
 	if (batteryLevel == configuration["BatteryCapacity"])
 		mode = GOING;
 	else
@@ -157,8 +142,6 @@ void _204032031_C::determineMode()
 		if (currPosition.isSame(dockingPoint))
 			mode = CHARGING;
 	}
-
-
 }
 
 void _204032031_C::updateBattery()
@@ -188,7 +171,7 @@ int _204032031_C::getBatteryLevel()
 	return batteryLevel;
 }
 
-int _204032031_C::calcStepsToDocking(int stepsFromDocking, const Point& position) 
+int _204032031_C::calcStepsToDocking(int stepsFromDocking, const _204032031_Point& position) 
 {
 	// if this cell already has a better route - keep it!
 	auto thisCellInfo = houseMapping.find(position);
@@ -198,7 +181,7 @@ int _204032031_C::calcStepsToDocking(int stepsFromDocking, const Point& position
 	}
 	// check if there is a better route via neighbours that we visited already
 	int bestRouteSteps = stepsFromDocking;
-	for (Point p : position.neighbours()) {
+	for (_204032031_Point p : position.neighbours()) {
 		auto neighbour = houseMapping.find(p);
 		if (neighbour != houseMapping.end() && neighbour->second.stepsToDocking != -1 && neighbour->second.stepsToDocking < bestRouteSteps - 1)
 		{
@@ -212,11 +195,11 @@ int _204032031_C::calcStepsToDocking(int stepsFromDocking, const Point& position
 	return bestRouteSteps;
 }
 
-void _204032031_C::updateStepsToDocking(int stepsToDocking, const Point& position) 
+void _204032031_C::updateStepsToDocking(int stepsToDocking, const _204032031_Point& position) 
 {
 	if (houseMapping[position].stepsToDocking > stepsToDocking || houseMapping[position].stepsToDocking == -1) {
 		houseMapping[position].stepsToDocking = stepsToDocking;
-		for (Point p : position.neighbours()) {
+		for (_204032031_Point p : position.neighbours()) {
 			auto neighbour = houseMapping.find(p);
 			if (neighbour != houseMapping.end()) {
 				CellInfo cell = neighbour->second;
@@ -232,8 +215,8 @@ Direction _204032031_C::getDirectionToDocking()
 {
 	int minStepsToDocking = MAX_STEPS_TO_DOCK;
 
-	Point chosenNeighbor = currPosition.neighbour(direction);
-	for (Point currNeighbor : currPosition.neighbours())
+	_204032031_Point chosenNeighbor = currPosition.neighbour(direction);
+	for (_204032031_Point currNeighbor : currPosition.neighbours())
 	{
 		if (houseMapping[currNeighbor].stepsToDocking < minStepsToDocking && houseMapping[currNeighbor].isWall == false)
 		{
@@ -242,22 +225,13 @@ Direction _204032031_C::getDirectionToDocking()
 		}	
 	}
 
-	Direction checkDir = getNeighborDirection(chosenNeighbor);
-	do
-	{
-		if (!sensorInfo.isWall[(int)checkDir])
-		{
-			direction = checkDir;
-			return direction;
-		}
-	} while (++checkDir != direction);
-
-	
+	direction = getNeighborDirection(chosenNeighbor);
+	return direction;	
 }
 
-Direction _204032031_C::getNeighborDirection(Point neighbor)
+Direction _204032031_C::getNeighborDirection(_204032031_Point neighbor)
 {
-	Point currNeighbor;
+	_204032031_Point currNeighbor;
 	for (Direction checkDir : directions)
 	{
 		if (neighbor == currPosition.neighbour(checkDir))
