@@ -10,7 +10,7 @@
 
 class KeyboardRobot
 {
-	Point robotPosition;
+	_204032031_Point robotPosition;
 	Direction direction = Direction::Stay;
 	char arrowKeys[NUM_OF_KEYS];
 	const AbstractSensor* sensor;
@@ -20,9 +20,9 @@ public:
 	bool wasEscPressed = false;
 	void setSensor(const Sensor& _sensor);
 	Direction step();
-	void setPosition(Point p);
+	void setPosition(_204032031_Point p);
 	void setPosition(int x, int y);
-	Point getPosition();
+	_204032031_Point getPosition();
 	void setArrowKeys(const char* keys);
 	void move();
 	int getDirection(char key);

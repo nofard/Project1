@@ -2,7 +2,7 @@
 #define __FIRST_ALGORITHM_H_
 
 #include "DirectionExt.h"
-#include "Point.h"
+#include "_204032031_Point.h"
 #include "AlgorithmRegistration.h"
 
 #include <iostream>
@@ -20,13 +20,12 @@ using namespace std;
 
 struct CellInfo {
 	int dirt = -1; // -1 represents "unknown"
-	int stepsToDocking = -1; // -1 represents "unknown"
 	bool isWall;
-	bool visited = false;
+	bool visited;
 	CellInfo() {}
-	CellInfo(int dirt, int stepsTodock, bool isWall = false) :
+	CellInfo(int dirt, bool isWall = false, bool visited = false) :
 		dirt(dirt),
-		stepsToDocking(stepsTodock),
+		visited(visited),
 		isWall(isWall) {}
 };
 
@@ -35,12 +34,12 @@ class _204032031_A : public AbstractAlgorithm
 	const AbstractSensor* sensor;
 	map<string, int> configuration;
 	Direction direction = Direction::East;
-	Point currPosition = { 0, 0 };
-	Point dockingPoint = { 0, 0 };
+	_204032031_Point currPosition = { 0, 0 };
+	_204032031_Point dockingPoint = { 0, 0 };
 	SensorInformation sensorInfo;
 	int batteryLevel;
 	list<Direction>route;
-	map<Point, CellInfo> houseMapping;
+	map<_204032031_Point, CellInfo> houseMapping;
 	int mode = GOING; //GOING/BACKING
 
 public:

@@ -7,7 +7,7 @@ void KeyboardRobot::setSensor(const Sensor& _sensor)
 }
 
 //setPosition: set robotPosition with a specifiec point.
-void KeyboardRobot::setPosition(Point p)
+void KeyboardRobot::setPosition(_204032031_Point p)
 {
 	robotPosition = p;
 }
@@ -18,7 +18,7 @@ void KeyboardRobot::setPosition(int x, int y)
 }
 
 //getPosition: return robotPosition.
-Point KeyboardRobot::getPosition()
+_204032031_Point KeyboardRobot::getPosition()
 {
 	return robotPosition;
 }

@@ -31,29 +31,19 @@ Simulator* SimulationManager::getSimulatorByInd(int index)
 //endSimulation: checks if all algorithms were finished, if so, returns true
 bool SimulationManager::endSimulation()
 {
-//	if (winnerStepsNumber != 0)
-//	{
-//		if (stepNumber == winnerStepsNumber + config.getMaxStepsAfterWinner())
-//			return true;;
-//	}
-
 	bool allAlgorithmsFinished = true;
 	for (int i = 0; i < numOfSimulators; i++)
 		if (simulators[i].endGameParameter == false)
 			allAlgorithmsFinished = false;
 
 	return allAlgorithmsFinished;
-
-	//if (stepNumber == config.getMaxSteps())
-	//	return true;
-
 }
 //increaseStepNumber: increase step number variable
 void SimulationManager::increaseStepNumber()
 {
 	stepNumber++;
 }
-//setWinnerStepNumber: called only when some1 wins, and set only if didnt set already.
+//setWinnerStepNumber: called only when someone wins, and set only if didnt set already.
 void SimulationManager::setWinnerStepNumber()
 {
 	if (winnerStepsNumber == 0)
@@ -125,8 +115,8 @@ void SimulationManager::printHousesNumbers()
 {	
 	cout << "|";
 	cout << setw(16);
-	cout <<  "| "; 
-
+	cout <<  "| "; //setw
+	//cout << setw(10);
 	while (!housesNumbers.empty())
 	{	
 		cout << housesNumbers.front() << setw(10) << "| ";
@@ -139,11 +129,9 @@ void SimulationManager::printHousesNumbers()
 void SimulationManager::printErrors()
 {
 	char hold_the_screen;
-	//int i = 0;
 	cout << "Errors:"<<endl;
 	while (!errors.empty())
 	{
-		//cout << i << endl;
 		cout << errors.front() << endl;
 		errors.pop_front();
 	}

@@ -35,7 +35,7 @@ void House::setHouse(char ** myHouse, int _rows, int _cols)
 }
 
 //getValueFromPoint: return the character in a specifiec point.
-char House::getValueFromPoint(Point p)
+char House::getValueFromPoint(_204032031_Point p)
 {
 	return house[p.getY()][p.getX()];
 }
@@ -47,7 +47,7 @@ char House::getValueFromPoint(int x, int y)
 }
 
 //reduceValueAtPoint: reduce value by 1 to a specific point.
-void House::reduceValueAtPoint(Point p)
+void House::reduceValueAtPoint(_204032031_Point p)
 {
 	int value = (int)(house[p.getY()][p.getX()] - '0');
 	if (value == 1)
@@ -63,7 +63,7 @@ void House::setDockingPosition(int x, int y)
 }
 
 //getDockingPosition: return dockingPosition.
-Point House::getDockingPosition()
+_204032031_Point House::getDockingPosition()
 {
 	return dockingPosition;
 }
@@ -269,12 +269,12 @@ void House::checkDockingValidationAndUpdateNote(int dockingCounter)
 	validHouseFlag = true;
 }
 //getCurrentPosition: returns the current position of the robot in the house.
-Point& House::getCurrentPosition()
+_204032031_Point& House::getCurrentPosition()
 {
 	return currentPosition;
 }
 //setCurrentPosition: gets position and sets the current position to be the given position
-void House::setCurrentPosition(Point position)
+void House::setCurrentPosition(_204032031_Point position)
 {
 	currentPosition = position;
 }

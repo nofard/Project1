@@ -20,7 +20,7 @@ class Sensor : public AbstractSensor
 	Simulator* sim;
 	House *house;
 	SensorInformation sensorInfo;
-	Point robotPosition;
+	_204032031_Point robotPosition;
 
 public:
 	Sensor() {}
@@ -32,13 +32,13 @@ public:
 		sensor.sensorInfo = sensorInfo;
 		sensor.robotPosition = robotPosition;
 	}
-	void initSensor(Simulator * _sim, House *_house, Point _robotPosition);
+	void initSensor(Simulator * _sim, House *_house, _204032031_Point _robotPosition);
 	void setHouse(House *_house){house = _house;}
 	SensorInformation sense()const;
-	void updateSensorInfo(Point currPosition);
+	void updateSensorInfo(_204032031_Point currPosition);
 	void updateSensorInfo();
-	void setCurrPosition(Point currPosition);
-	Point& getCurrPosition();
+	void setCurrPosition(_204032031_Point currPosition);
+	_204032031_Point& getCurrPosition();
 	void updateWallsInfo();
 	void updateDirtLevel();
 	void revealArea();

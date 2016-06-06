@@ -2,7 +2,7 @@
 #include "Simulator.h"
 
 //initSensor: set sensor data members.
-void Sensor::initSensor(Simulator * _sim, House *_house, Point _robotPosition)
+void Sensor::initSensor(Simulator * _sim, House *_house, _204032031_Point _robotPosition)
 {
 	sim = _sim;
 	house = _house;
@@ -17,7 +17,7 @@ SensorInformation Sensor::sense()const //this function called from the algorithm
 }
 
 //updateSensorInfo: update SensorInformation, and robotPosition in accordance with the current house.
-void Sensor::updateSensorInfo(Point currPosition)
+void Sensor::updateSensorInfo(_204032031_Point currPosition)
 {
 	robotPosition = currPosition;
 	updateWallsInfo();
@@ -31,13 +31,13 @@ void Sensor::updateSensorInfo()
 }
 
 //setCurrPosition: set new robotPosition.
-void Sensor::setCurrPosition(Point currPosition)
+void Sensor::setCurrPosition(_204032031_Point currPosition)
 {
 	robotPosition = currPosition;
 }
 
 //getCurrPosition: get robotPosition.
-Point& Sensor::getCurrPosition()
+_204032031_Point& Sensor::getCurrPosition()
 {
 	return robotPosition;
 }
@@ -66,7 +66,7 @@ void Sensor::updateDirtLevel()
 //revealArea: reveal to the screen the area(= 4 directions) near the robot position.
 void Sensor::revealArea()
 {
-	Point neighbor;
+	_204032031_Point neighbor;
 	char charToDraw;
 
 	for (int dir = 0; dir < DIR_AMOUNT; dir++)
@@ -82,7 +82,7 @@ void Sensor::revealArea()
 //revealArea: reveal to the screen the area(= 4 directions) near the robot position.
 void Sensor::revealArea(bool saveToArray)
 {
-	Point neighbor;
+	_204032031_Point neighbor;
 	char charToDraw;
 
 	for (int dir = 0; dir < DIR_AMOUNT; dir++)

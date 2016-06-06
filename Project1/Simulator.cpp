@@ -53,7 +53,7 @@ void Simulator::resetSimulatorData()
 }
 
 //updateDirtLevel: Update dirtLevel at a specifiec point, and reduce overall dirt level in the house
-void Simulator::updateDirtLevel(Point p)
+void Simulator::updateDirtLevel(_204032031_Point p)
 {
 	int dirtLevel = (int)(currHouse.getValueFromPoint(p) - '0');
 	if (dirtLevel >= MIN_DIRT_LEVEL && dirtLevel <= MAX_DIRT_LEVEL)
@@ -64,7 +64,7 @@ void Simulator::updateDirtLevel(Point p)
 }
 
 //chargeRobot: Check if the robot is in the docking station and charge it respectively to configuration data.
-void Simulator::chargeRobot(Point p)
+void Simulator::chargeRobot(_204032031_Point p)
 {
 
 	if (p.isSame(originalHouse.getDockingPosition())) {
@@ -290,6 +290,10 @@ bool Simulator::endGame() {
 		robotScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
 		cout << "Robot is ran out of battery power! Ending game." << endl;
+		if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL)
+			cout << "You have cleaned all dust in the house, unfortunately you didn't get back to the docking station" << endl;
+		else
+			cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
 		cout << "Your score is: " << robotScore.calculateScore() << endl;
 		cin >> hold_the_screen;
 		endedSuccessfully = false;
@@ -298,16 +302,19 @@ bool Simulator::endGame() {
 	}
 	if (stepNumber >= config.getMaxSteps())
 	{
-		robotScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
-			(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
-		system("cls");
-		cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
-		cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
-		cout << "Your score is: " << robotScore.calculateScore() << endl;
-		cin >> hold_the_screen;
-		endedSuccessfully = false;
-		menu->firstMenuAlive = false;
-		return true;
+			robotScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
+				(robot.getPosition()).isSame(originalHouse.getDockingPosition()));
+			system("cls");
+			cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
+			if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL)
+				cout << "You have cleaned all dust in the house, unfortunately you didn't get back to the docking station" << endl;
+			else
+				cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;	
+			cout << "Your score is: " << robotScore.calculateScore() << endl;
+			cin >> hold_the_screen;
+			endedSuccessfully = false;
+			menu->firstMenuAlive = false;
+			return true;
 	}
 
 	if (endGameParameter == true) //due to '9' choice (=Quit game) in menus etc.
@@ -446,7 +453,7 @@ void Simulator::setSavedPrintedHouse()
 	}
 }
 //savePointToPrintedHouse: gets point and char, and saves to the suited place in the saved for later array the char given
-void Simulator::savePointToPrintedHouse(Point p, char ch)
+void Simulator::savePointToPrintedHouse(_204032031_Point p, char ch)
 {
 	savedParameters.printedHouse[p.getY()][p.getX()] = ch;
 }
@@ -511,7 +518,7 @@ void Simulator::restoreSimulationParameters()
 //printSavedHouseToScreen: prints the saved for later array to the screen
 void Simulator::printSavedHouseToScreen()
 {
-	Point currPoint;
+	_204032031_Point currPoint;
 	system("cls");
 	gotoxy(0, 0);
 
@@ -583,8 +590,6 @@ void Simulator::runAlgorithm(AbstractAlgorithm * algoritm)
 		sensor->getCurrPosition().move(currDirection);
 		sensor->getCurrPosition().drawToScreenWhenDockingOn(currHouse.getDockingPosition(), ROBOT_LETTER);
 		updateBatteryLevel();
-		//algoritm->reduceBatteryLevel();
-	//	algoritm->chargeBattery(sensor->getCurrPosition(), currHouse.getDockingPosition());
 		updateDirtLevel(sensor->getCurrPosition());
 		currHouse.setCurrentPosition(sensor->getCurrPosition());
 		sensor->updateSensorInfo();
@@ -642,7 +647,6 @@ void Simulator::endGameSimulator(bool someoneWonAlready, int winnerStepNumber)
 
 	if (someoneWonAlready)
 	{
-		//if (stepNumber == config.getMaxSteps() - config.getMaxStepsAfterWinner())
 		if (stepNumber == winnerStepNumber + config.getMaxStepsAfterWinner())
 			endGameParameter = true;
 	}
@@ -672,6 +676,10 @@ bool Simulator::endGameAlgorithm()
 		algoScore = Score(UNFINISHED_POSITION, stepNumber, stepNumber, originalHouse.getOverallDirtLevel(), originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel(),
 			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
 		cout << "Robot is ran out of battery power! Ending game." << endl;
+		if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL)
+			cout << "Robot cleaned all dust in the house, unfortunately it didn't get back to the docking station" << endl;
+		else
+			cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
 		cout << "Your score is: " << algoScore.calculateScore() << endl;
 		cin >> hold_the_screen;
 		endedSuccessfully = false;
@@ -684,7 +692,10 @@ bool Simulator::endGameAlgorithm()
 			(sensor->getCurrPosition()).isSame(originalHouse.getDockingPosition()));
 		system("cls");
 		cout << "You have reached the maximum steps allowed in this house: " << config.getMaxSteps() << endl;
-		cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
+		if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL)
+			cout << "You have cleaned all dust in the house, unfortunately you didn't get back to the docking station" << endl;
+		else
+			cout << "Dust collected: " << originalHouse.getOverallDirtLevel() - currHouse.getOverallDirtLevel() << endl;
 		cout << "Your score is: " << algoScore.calculateScore() << endl;
 		cin >> hold_the_screen;
 		endedSuccessfully = false;

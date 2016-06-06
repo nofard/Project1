@@ -8,12 +8,18 @@
 #define _DIRECTION_EXT_H_
 
 #include "Direction.h"
-
+#include <math.h>
 
 // prefix++ for Direction, skipping Stay
 inline Direction operator++(Direction& d) {
     d = (Direction)(((int)d + 1)%4);
     return d;
+}
+
+// prefix-- for Direction, skipping Stay
+inline Direction operator--(Direction& d) {
+	d = (Direction)(((int)d + 3)%4);
+	return d;
 }
 
 // returns the opposite direction

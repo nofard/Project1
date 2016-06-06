@@ -199,8 +199,6 @@ void Menus::showInstructions() {
 	{
 	case 0:
 		system("cls");
-		//printFirstMenu();
-		//executeUserChoice();
 		break;
 	case 9:
 		firstMenuAlive = false;
@@ -433,6 +431,7 @@ void Menus::chooseAndRunAlgorithm()
 		auto algorithms = registrar.getAlgorithms();
 		auto& algorithmNames = registrar.getAlgorithmNames();
 
+		cout << "Please select one of the following algorithms:" << endl;
 		registrar.printAlgorithmsNames();
 		cin >> chosenIndex;
 
@@ -483,7 +482,6 @@ void Menus::runAllAlgorithms()
 {
 	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
 	auto algorithms = registrar.getAlgorithms();
-	//registrar.getAlgorithmNames
 	int numOfAlgorithms = algorithms.size();
 	auto housesNamesList = files.getInitialHouseFilesList();
 	House currentHouse;
@@ -491,8 +489,6 @@ void Menus::runAllAlgorithms()
 	int j;
 	
 	SimulationManager* simManager = new SimulationManager(sim->config, numOfAlgorithms);
-	//Simulator* simulators = new Simulator[algorithms.size()];
-	//simManager->saveAlgoNameToTable(registrar.getAlgorithmNames());
 
 	for (int i = 0; i < files.getIntialFilesListLength(); i++)// run on all houses
 	{
@@ -502,12 +498,9 @@ void Menus::runAllAlgorithms()
 		{
 			simManager->addHouseNumber(currentHouse.getHouseName().substr(START_INDEX_NAME, END_INDEX_NAME));
 			simManager->config.setMaxSteps(currentHouse.getMaxSteps()); //update maxSteps per house
-			//init simulators, and connect eash algo to his sensor-->simulator-->house (copy for each algo)
-			simManager->initSimulators(currentHouse);
+			simManager->initSimulators(currentHouse);//init simulators, and connect eash algo to his sensor-->simulator-->house (copy for each algo)
 			
-
 			int index = 0;
-			
 			for (auto& algo : algorithms)
 			{
 				algo->setSensor(simManager->simulatorNumber(index)->getSensor());
@@ -524,9 +517,7 @@ void Menus::runAllAlgorithms()
 			{
 				someoneWonThisRound = false;
 				simManager->increaseStepNumber();
-				//auto algo = algorithms.begin();
 				j = 0;
-				//while (j < algorithms.size()) //loop on algorithms
 				for(auto& algo : algorithms)
 				{
 					
@@ -537,7 +528,7 @@ void Menus::runAllAlgorithms()
 						simManager->simulatorNumber(j)->endGameSimulator(numOfWinners == 0 ? false:true, simManager->getWinnerStepNumber());
 						if (simManager->simulatorNumber(j)->endGameParameter == true) //finished
 						{
-							if (simManager->simulatorNumber(j)->endedSuccessfully == true)// winner
+							if (simManager->simulatorNumber(j)->endedSuccessfully == true)//winner
 							{
 								if(numOfWinners == 0) //first winner
 									simManager->setWinnerStepNumber();
@@ -547,20 +538,13 @@ void Menus::runAllAlgorithms()
 
 							simManager->saveScore(registrar.getAlgorithmNameByIndex(j),
 							simManager->simulatorNumber(j)->calcScoreFromSim(position, simManager->getWinnerStepNumber()));
-							//	algorithms.remove(*algo);
-							//	simManager->deleteSimFromArray(j);
-							//remove simulator and push left others
-							//remove algo from list
 						}
 					}
-					//algo++;
 					j++;
 				}
 				if(someoneWonThisRound)
 					position += numOfWinners;
-				//numOfAlgorithms = algorithms.size();
 			}
-			//
 			simManager->resetParametersForNextHouse();
 			algorithms = registrar.getAlgorithms();
 		}		
@@ -568,8 +552,6 @@ void Menus::runAllAlgorithms()
 		{ 
 			simManager->addNoteToErrorsList(currentHouse.getHouseName() + ": " + currentHouse.getNote());
 		}
-	//	simManager->freeSimulatorsMemory();
-
 	}
 	auto& algorithmNames = registrar.getAlgorithmNames();
 	simManager->calcScoreTableDataAvgs();

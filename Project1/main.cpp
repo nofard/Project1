@@ -1,6 +1,8 @@
 #include "Simulator.h"
 #include "Menus.h"
 
+#include "DirectionExt.h"
+
 int main()
 {
 	Simulator* simulator = new Simulator();

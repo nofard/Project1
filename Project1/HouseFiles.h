@@ -46,8 +46,7 @@ public:
 	string getCurrHouseName();
 	void freeHouseFilesMemory();
 	bool checkRowsAndColsValidation(int _rows, int _cols);
-	//bool checkRowsAndColsValidationAndReturnNote(int _rows, int _cols, string * _note);
-	//bool checkDockingValidationAndReturnNote(int dockingCounter, string *_note);
+	bool checkDockingValidation(int dockingCounter);
 };
 
 #endif

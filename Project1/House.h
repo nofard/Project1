@@ -1,7 +1,7 @@
 #ifndef _HOUSE_H_
 #define _HOUSE_H_
 
-#include "Point.h"
+#include "_204032031_Point.h"
 #include "SensorInformation.h"
 
 #define DOCK_LETTER 'D'
@@ -15,20 +15,20 @@ class House
 	char** house;
 	int rows;
 	int cols;
-	Point dockingPosition;
+	_204032031_Point dockingPosition;
 	int overallDirtLevel = 0;
 	int maxSteps;
 	string houseName;
 	string note = "";
 	bool validHouseFlag = true;
-	Point currentPosition;
+	_204032031_Point currentPosition;
 public:
 	void setHouse(char ** myHouse, int _rows, int _cols);
-	char getValueFromPoint(Point p);
+	char getValueFromPoint(_204032031_Point p);
 	char getValueFromPoint(int x, int y);
-	void reduceValueAtPoint(Point p);
+	void reduceValueAtPoint(_204032031_Point p);
 	void setDockingPosition(int x, int y);
-	Point getDockingPosition();
+	_204032031_Point getDockingPosition();
 	void reduceOverallDirtLevel();
 	int getOverallDirtLevel();
 	void setOverallDirtLevel(int);
@@ -51,9 +51,9 @@ public:
 	void checkDockingValidationAndUpdateNote(int dockingCounter);
 	void checkRowsAndColsValidationAndUpdateNote(int _rows, int _cols);
 	House createCopyHouse();
-	void setCurrentPosition(Point position);
+	void setCurrentPosition(_204032031_Point position);
 	SensorInformation getSensorInformation();
-	Point& getCurrentPosition();
+	_204032031_Point& getCurrentPosition();
 };
 
 #endif

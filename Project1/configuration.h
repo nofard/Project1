@@ -34,12 +34,12 @@ public:
 	int getMaxStepsAfterWinner() { return MaxStepsAfterWinner; }
 	void setMaxStepsAfterWinner(int _maxStepsAfterWinner) { MaxStepsAfterWinner = _maxStepsAfterWinner; }
 	
-
 	int getBatteryConsumptionRate() { return BatteryConsumptionRate; }
 	void setBatteryConsumptionRate(int _BatteryConsumptionRate) { BatteryConsumptionRate = _BatteryConsumptionRate; }
 
 	int getBatteryRechargeRate() { return BatteryRechargeRate; }
 	void setBatteryRechargeRate(int _BatteryRechargeRate) { BatteryRechargeRate = _BatteryRechargeRate; }
+	//--------------------------
 
 	bool initConfiguration();
 	void initParameterValue(char* configParameter, int parameterValue);
