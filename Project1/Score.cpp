@@ -11,7 +11,3 @@ int Score::calculateScore() {
 
 	return (0 > tempScore ? 0 : tempScore);
 }
-
-void Score::printScoreTable() {
-
-}

@@ -26,7 +26,6 @@ public:
 	
 	}
 	int calculateScore();
-	void printScoreTable();
 };
 
 #endif

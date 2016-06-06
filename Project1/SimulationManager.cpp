@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//initSimulators: gets the current house and initialize the simulators array with house and configuration
 void SimulationManager::initSimulators(House currHouse)
 {
 	simulators = new Simulator[numOfSimulators];
@@ -13,7 +14,7 @@ void SimulationManager::initSimulators(House currHouse)
 		simulators[i].initForAlgorithm(currHouse);
 	}
 }
-
+//freeSimulators: frees all simulators from simulators array
 void SimulationManager::freeSimulators()
 {
 	for (int i = 0; i < numOfSimulators; i++)
@@ -22,11 +23,12 @@ void SimulationManager::freeSimulators()
 		simulators[i].freeForAlgorithm();
 	}
 }
-Simulator* SimulationManager::simulatorNumber(int num)
+//getSimulatorByInd: gets index and returns simulator by index
+Simulator* SimulationManager::getSimulatorByInd(int index)
 {
-	return &simulators[num];
+	return &simulators[index];
 }
-
+//endSimulation: checks if all algorithms were finished, if so, returns true
 bool SimulationManager::endSimulation()
 {
 //	if (winnerStepsNumber != 0)
@@ -46,7 +48,7 @@ bool SimulationManager::endSimulation()
 	//	return true;
 
 }
-
+//increaseStepNumber: increase step number variable
 void SimulationManager::increaseStepNumber()
 {
 	stepNumber++;
@@ -60,17 +62,17 @@ void SimulationManager::setWinnerStepNumber()
 	}
 		
 }
-
+//addHouseNumber: gets house number and adds it to list of house numbers
 void SimulationManager::addHouseNumber(string houseNumber)
 {
 	housesNumbers.push_back(houseNumber);
 }
-
+//addNoteToErrorsList: gets note and adds it to nodes list
 void SimulationManager::addNoteToErrorsList(string note)
 {
 	errors.push_back(note);
 }
-
+//printSimulationResults: gets list of algorithms names and prints algorithms results table
 void SimulationManager::printSimulationResults(list<string>algorithmNames)
 {
 	system("cls");
@@ -118,13 +120,13 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 
 	printErrors();
 }
-
+//printHousesNumbers: prints houses numbers in a table format
 void SimulationManager::printHousesNumbers()
 {	
 	cout << "|";
 	cout << setw(16);
-	cout <<  "| "; //setw
-	//cout << setw(10);
+	cout <<  "| "; 
+
 	while (!housesNumbers.empty())
 	{	
 		cout << housesNumbers.front() << setw(10) << "| ";
@@ -133,7 +135,7 @@ void SimulationManager::printHousesNumbers()
 	
 	cout << "AVG" << setw(10) << "| " << endl;
 }
-
+//printErrors: prints the errors from the errors list
 void SimulationManager::printErrors()
 {
 	char hold_the_screen;
@@ -148,6 +150,7 @@ void SimulationManager::printErrors()
 	cout << "Press any key to go back to main menu" << endl;
 	cin >> hold_the_screen;
 }
+//saveScore: gets algorithm name and its score and saves it to the map of algorithms names and scores
 void SimulationManager::saveScore(string algoName, int score)
 {
 	auto currAlgoScore = scoreTableData.find(algoName);
@@ -160,7 +163,7 @@ void SimulationManager::saveScore(string algoName, int score)
 		scoreTableData[algoName].addScore(score);
 		
 }
-
+//saveAlgoNameToTable: gets list of algorithms names and initialize the map of names and scores with the names
 void SimulationManager::saveAlgoNameToTable(list<string> algoName)
 {
 	list<string>::iterator it;
@@ -171,13 +174,15 @@ void SimulationManager::saveAlgoNameToTable(list<string> algoName)
 		it++;
 	}
 }
+//getWinnerStepNumber: return the winner steps number
 int SimulationManager::getWinnerStepNumber() {
 	return winnerStepsNumber;
 }
+//deleteSimFromArray: gets index of a simulator to delete and move all the simulators that comes afterwards to override this simulator's place
 void SimulationManager::deleteSimFromArray(int indexOfSim) {
 	_memccpy(&simulators[indexOfSim], &simulators[indexOfSim + 1], numOfSimulators - indexOfSim, sizeof(Simulator));
 }
-
+//calcScoreTableDataAvgs: goes over scores of all algorithm and calculate it averages
 void SimulationManager::calcScoreTableDataAvgs()
 {
 	for (auto& element : scoreTableData)
@@ -185,14 +190,14 @@ void SimulationManager::calcScoreTableDataAvgs()
 		element.second.calculateAvg();
 	}
 }
-
+//resetParametersForNextHouse: resets parameters to prepare for the run of the next house - frees simulation data, and reset steps number and winner steps number
 void SimulationManager::resetParametersForNextHouse()
 {
 	freeSimulators();
 	stepNumber = 0;
 	winnerStepsNumber = 0;
 }
-
+//getMaxScoreAlgorithmName: goes over map of algorithm names and scores and return the algorithm's name with the max result
 string SimulationManager::getMaxScoreAlgorithmName()
 {
 	string MaxScoreAlgorithmName = (*scoreTableData.begin()).first;

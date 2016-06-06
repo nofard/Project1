@@ -19,7 +19,7 @@ void Simulator::init(char** house_array, int rows, int cols)
 
 		endGameParameter = false;
 }
-
+//initForAlgorithm: gets current house and initialize all parameters for algorithm run
 void Simulator::initForAlgorithm(House _currHouse)
 {
 	currHouse = _currHouse.createCopyHouse();
@@ -31,7 +31,7 @@ void Simulator::initForAlgorithm(House _currHouse)
 	endedSuccessfully = false;
 
 }
-
+//freeForAlgorithm: free memory for algorithm run
 void Simulator::freeForAlgorithm()
 {
 	currHouse.freeHouseMemory();
@@ -77,7 +77,7 @@ void Simulator::chargeRobot(Point p)
 	}
 	batteryLevel = robot.getBatteryLevel();
 }
-
+//updateBatteryLevel: update battery level based on current position in the house
 void Simulator::updateBatteryLevel()
 {
 	if (currHouse.getCurrentPosition().isSame(originalHouse.getDockingPosition()))
@@ -568,7 +568,7 @@ void Simulator::resetSavedParameters()
 		for (int j = 0; j < MAX_COLS; j++)
 			savedParameters.printedHouse[i][j] = ' ';
 }
-
+//runAlgorithm: gets abstract algorithm and runs the simulation based on the given algorithm
 void Simulator::runAlgorithm(AbstractAlgorithm * algoritm)
 {
 	static Direction currDirection = Direction::Stay;
@@ -610,7 +610,7 @@ AbstractSensor& Simulator::getSensor()
 {
 	return *sensor;
 }
-
+//makeAlgorithmMove: gets abstract algorithm and performs the move, updates the battery level and dirt level
 void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 {
 	//static Direction currDirection = Direction::Stay; NOT WORKING BECAUSE EACH ALGORITHM CHANGE IT DIFFRENTLY AND ITS NOT PRIORITY TO EACH SIMULATOR
@@ -623,8 +623,8 @@ void Simulator::makeAlgorithmMove(AbstractAlgorithm* currentAlgorithm)
 	updateDirtLevel(currHouse.getCurrentPosition());
 
 }
-
-void Simulator::endGameSimulator(bool someoneWinAlready, int winnerStepNumber)
+//endGameSimulator: gets a boolean that indicated whether someone already won and winner steps number and checks if simulation was over according to all conditions.
+void Simulator::endGameSimulator(bool someoneWonAlready, int winnerStepNumber)
 {
 	if (currHouse.getOverallDirtLevel() == MIN_DIRT_LEVEL && (currHouse.getCurrentPosition().isSame(currHouse.getDockingPosition())))
 	{
@@ -640,7 +640,7 @@ void Simulator::endGameSimulator(bool someoneWinAlready, int winnerStepNumber)
 		endGameParameter = true;
 	}
 
-	if (someoneWinAlready)
+	if (someoneWonAlready)
 	{
 		//if (stepNumber == config.getMaxSteps() - config.getMaxStepsAfterWinner())
 		if (stepNumber == winnerStepNumber + config.getMaxStepsAfterWinner())
@@ -649,7 +649,7 @@ void Simulator::endGameSimulator(bool someoneWinAlready, int winnerStepNumber)
 		
 }
 
-
+//endGameAlgorithm: checks if the simulation needs to be over
 bool Simulator::endGameAlgorithm()
 {
 	char hold_the_screen;
@@ -700,6 +700,7 @@ bool Simulator::endGameAlgorithm()
 
 	return false;
 }
+//calcScoreFromSim: gets simulation position in competition and winner's steps number and calculate the score
 int Simulator::calcScoreFromSim(int position, int winnerSteps)
 {
 	Score score;

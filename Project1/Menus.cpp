@@ -414,6 +414,7 @@ void Menus::freeMenusMemory()
 	files.freeHouseFilesMemory();
 }
 
+//chooseAndRunAlgorithm: prints all registered algorithms names, gets user's choice and runs the chosen algorithm.
 void Menus::chooseAndRunAlgorithm()
 {
 	int chosenIndex;
@@ -450,13 +451,14 @@ void Menus::chooseAndRunAlgorithm()
 		sim->runAlgorithm(chosenAlgorithm);
 	}
 }
-
+//printAlgoritmMidMenu: prints ESC menu while running chosen algorithm
 void Menus::printAlgoritmMidMenu()
 {
 	gotoxy(0, FIRST_ROW_MID_MENU);
 	cout << "(1) Continue game (2) Continue algorithm run" << endl;
 
 }
+//executeUserChoiceAlgorithmMenu: execute user's choice in algorithm's ESC menu: to return to game or continue the algorithm's run
 int Menus::executeUserChoiceAlgorithmMenu()
 {
 	int choice;
@@ -476,7 +478,7 @@ int Menus::executeUserChoiceAlgorithmMenu()
 	}
 	return choice;
 }
-
+//runAllAlgorithms: creates an array of simulation manager as the number of registered algorithms, runs on all houses-> steps -> all algorithms and at the end prints results
 void Menus::runAllAlgorithms()
 {
 	AlgorithmRegistrar& registrar = AlgorithmRegistrar::getInstance();
@@ -574,7 +576,7 @@ void Menus::runAllAlgorithms()
 	simManager->printSimulationResults(algorithmNames);
 	
 }
-
+//createHouseCopies: gets array of houses, the current house and number that represents the number of copies to duplicate, and duplicates the given house to the given array.
 void Menus::createHouseCopies(House* houseCopies, House currentHouse, int numOfCopies)
 {
 	for (int i = 0; i < numOfCopies; i++)

@@ -23,7 +23,7 @@ public:
 	
 	void initSimulators(House currHouse);
 	void freeSimulators();
-	Simulator* simulatorNumber(int num);
+	Simulator* getSimulatorByInd(int index);
 	bool endSimulation();
 	void increaseStepNumber();
 	void setWinnerStepNumber();

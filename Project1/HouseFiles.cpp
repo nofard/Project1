@@ -1,6 +1,5 @@
 #include "HouseFiles.h"
 
-//const int buff_size = 1024;
 
 //initHouseFiles: init each file type list with a suited command line.
 void HouseFiles::initHouseFiles()
@@ -122,7 +121,7 @@ char** HouseFiles::getHouseFromFile(string house_name, int *rows, int *cols, int
 	}
 
 }
-
+//getHouseFromFile: gets house file name, reads it content and creates a new house and updates the values from the file, and returns the new house
 House HouseFiles::getHouseFromFile(string houseName)
 {
 	House newHouse;
@@ -218,6 +217,7 @@ int HouseFiles::convertHouseNameToNumber(string houseName)
 {
 	return ((houseName[0] - '0') * 100 + (houseName[1] - '0') * 10 + (houseName[2] - '0'));
 }
+//setCurrHouseName: sets the current house name
 void HouseFiles::setCurrHouseName(string houseName) 
 {
 	currHouseName = houseName;
@@ -337,6 +337,7 @@ string HouseFiles::getSolutionFromList(int houseNumber)
 	}
 	return "";
 }
+//getCurrHouseName: returns current house name
 string HouseFiles::getCurrHouseName()
 {
 	return currHouseName;

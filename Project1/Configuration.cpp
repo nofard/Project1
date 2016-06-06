@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "configuration.h"
 
+//initConfiguration: checks if config.ini file exists and can be reached, if not, prints the appropriate the message, and if can be init configuration object and returns if it was successful or not.
 bool Configuration::initConfiguration() 
 {
 	ifstream configFile("config.ini");
@@ -32,7 +33,7 @@ bool Configuration::initConfiguration()
 	else
 		return true;
 }
-
+//initParameterValue: gets name of config parameter to update and its value and updates the value within the parameter
 void Configuration::initParameterValue(char* configParameter, int parameterValue)
 {
 	if (!strcmp(configParameter, "MaxStepsAfterWinner"))
@@ -47,7 +48,7 @@ void Configuration::initParameterValue(char* configParameter, int parameterValue
 	if (!strcmp(configParameter, "BatteryRechargeRate"))
 		BatteryRechargeRate = parameterValue;
 }
-
+//checkConfigValidation: check if config parameters are positive values, prints the problematic ones and returns false if at least one of them is negative.
 bool Configuration::checkConfigValidation()
 {
 	string badParameters = "";
@@ -82,6 +83,7 @@ bool Configuration::checkConfigValidation()
 	else
 		return true;
 }
+//convertDataToMap: insert config data members into map with parameter name and its value
 map<string, int> Configuration::convertDataToMap()
 {
 	map<string, int> dataMap;

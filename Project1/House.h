@@ -19,7 +19,7 @@ class House
 	int overallDirtLevel = 0;
 	int maxSteps;
 	string houseName;
-	string note;
+	string note = "";
 	bool validHouseFlag = true;
 	Point currentPosition;
 public:

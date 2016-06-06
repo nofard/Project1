@@ -143,7 +143,7 @@ void House::copyHouseData(House houseToCopy)
 		}
 	}
 }
-
+//createCopyHouse: create a new house which is a copy of the current house
 House House::createCopyHouse()
 {
 	House tempHouse;
@@ -218,7 +218,8 @@ char ** House::getHouse()
 {
 	return house;
 }
-
+//checkRowsAndColsValidationAndUpdateNote: gets rows and cols values, validates if it in the wanted range, if it doesn't the function saves to a note variable that the value is not acceptable
+//and updates the valid house flag
 void House::checkRowsAndColsValidationAndUpdateNote(int _rows, int _cols)
 {
 	if (_rows < MIN_ROWS)
@@ -230,54 +231,54 @@ void House::checkRowsAndColsValidationAndUpdateNote(int _rows, int _cols)
 
 	if (_rows > MAX_ROWS)
 	{
-		note = "more rows than maximum required";
+		note += "more rows than maximum required\n";
 		validHouseFlag = false;
 		return;
 	}
 
 	if (_cols < MIN_COLS)
 	{
-		note = "less cols than minimum required";
+		note += "less cols than minimum required\n";
 		validHouseFlag = false;
 		return;
 	}
 	if (_cols > MAX_COLS)
 	{
-		note = "more cols than maximum required";
+		note += "more cols than maximum required\n";
 		validHouseFlag = false;
 		return;
 	}
 	validHouseFlag = true;
 
 }
-
+//checkDockingValidationAndUpdateNote: gets counter of dockings, checks if it exceed 1 or if it equals to 0, if so, it updates the house's note with an error message and update the validation house flag.
 void House::checkDockingValidationAndUpdateNote(int dockingCounter)
 {
 	if (dockingCounter == 0)
 	{
-		note = "missing docking station (no D in house)";
+		note += "missing docking station (no D in house)\n";
 		validHouseFlag = false;
 		return;
 	}
 	if (dockingCounter > 1)
 	{
-		note = "too many docking stations (more than one D in house)";
+		note += "too many docking stations (more than one D in house)\n";
 		validHouseFlag = false;
 		return;
 	}
 	validHouseFlag = true;
 }
-
+//getCurrentPosition: returns the current position of the robot in the house.
 Point& House::getCurrentPosition()
 {
 	return currentPosition;
 }
-
+//setCurrentPosition: gets position and sets the current position to be the given position
 void House::setCurrentPosition(Point position)
 {
 	currentPosition = position;
 }
-
+//getSensorInformation: creates and updates sensor information object with current information and then returns it.
 SensorInformation House::getSensorInformation()
 {
 	SensorInformation sensorInfo;

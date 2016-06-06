@@ -66,6 +66,7 @@ void Point::drawToScreenWhenDockingOn(Point docking, char ch)
 	cout.flush();
 }
 
+//neighbour: gets the direction to move, moves and returns the new point in which it was moved to
 Point Point::neighbour(Direction d)const
 {
 	Point p = *this;
