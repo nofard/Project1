@@ -92,7 +92,7 @@ Direction _204032031_B::getDirection()
 				direction = checkDir;
 				return direction;
 			}
-		} while (--checkDir != direction);
+		} while (++checkDir != direction);
 	}
 
 	return Direction::Stay;

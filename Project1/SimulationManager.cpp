@@ -62,6 +62,8 @@ void SimulationManager::addNoteToErrorsList(string note)
 {
 	errors.push_back(note);
 }
+
+
 //printSimulationResults: gets list of algorithms names and prints algorithms results table
 void SimulationManager::printSimulationResults(list<string>algorithmNames)
 {
@@ -69,39 +71,27 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 
 	list<int> currScoresList;
 	int currScoresListSize;
-	
-	auto maxScoreAlgorithmName = getMaxScoreAlgorithmName();
-	if (!scoreTableData.empty()) 
-	{
-		currScoresList = scoreTableData[maxScoreAlgorithmName].getScoresList();
-		currScoresListSize = currScoresList.size();
-		cout << " ";
-		for (int i = 0; i < currScoresListSize; i++)
-		{
-			cout << "----------------------";
-		}
-		cout << endl;
-	}
+
 	printHousesNumbers();
 
 	while (!scoreTableData.empty())
 	{
 		auto maxScoreAlgorithmName = getMaxScoreAlgorithmName();
-		cout << "| " << maxScoreAlgorithmName;
+		cout << "|" << setw(12) << maxScoreAlgorithmName;
 
 		currScoresList = scoreTableData[maxScoreAlgorithmName].getScoresList();
 		currScoresListSize = currScoresList.size();
 		for (int i = 0; i < currScoresListSize; i++)
 		{
-			cout << " | "  << setw(10) << currScoresList.front();
+			cout  << "|" << setw(12) << currScoresList.front();
 			currScoresList.pop_front();
 		}
 
-		cout << " | " << setw(10) << scoreTableData[maxScoreAlgorithmName].getAverage() << " | " << endl;
-		cout << " ";
-		for (int i = 0; i < currScoresListSize ; i++)
+		cout << "|" << setw(12) << scoreTableData[maxScoreAlgorithmName].getAverage() << "|" << endl;
+		//cout << " ";
+		for (int i = 0; i < currScoresListSize + 2; i++)
 		{
-			cout << "----------------------";
+			cout << "-------------";
 		}
 		scoreTableData.erase(maxScoreAlgorithmName);
 		cout << endl;
@@ -110,21 +100,31 @@ void SimulationManager::printSimulationResults(list<string>algorithmNames)
 
 	printErrors();
 }
+
 //printHousesNumbers: prints houses numbers in a table format
 void SimulationManager::printHousesNumbers()
-{	
-	cout << "|";
-	cout << setw(16);
-	cout <<  "| "; //setw
-	//cout << setw(10);
+{
+	int numOfCols = housesNumbers.size() + 2;
+
+	for (int i = 0; i < numOfCols; i++)
+		cout << "-------------";
+	cout << endl;
+
+	cout << "|            |";
+
 	while (!housesNumbers.empty())
-	{	
-		cout << housesNumbers.front() << setw(10) << "| ";
+	{
+		cout << setw(12) << housesNumbers.front() << "|";
 		housesNumbers.pop_front();
 	}
-	
-	cout << "AVG" << setw(10) << "| " << endl;
+
+	cout << setw(12) << "AVG" << "|" << endl;
+
+	for (int i = 0; i < numOfCols; i++)
+		cout << "-------------";
+	cout << endl;
 }
+
 //printErrors: prints the errors from the errors list
 void SimulationManager::printErrors()
 {
